@@ -1,0 +1,56 @@
+package com.team9.carshop.entity;
+
+import com.team9.carshop.entity.BaseEntity;
+import com.team9.carshop.enums.OrderStatus;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE orders SET isDeleted = true WHERE id = ?")
+@Where(clause = "isDeleted = false")
+@Table(name = "orders")
+public class Order extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status = OrderStatus.ORDER;
+
+    @Column(unique = true, length = 11, nullable = false)
+    private String orderNumber;
+
+    @Column(unique = true, length = 50, nullable = false)
+    private String receiverName;
+
+    @Column(unique = true, length = 20, nullable = false)
+    private String receiverPhone;
+
+    @Column(length = 500)
+    private String requestMessage;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal totalPrice;
+
+}
