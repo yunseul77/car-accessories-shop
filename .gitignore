@@ -37,7 +37,6 @@ out/
 .vscode/
 
 
-### Ignore application.properties except in src/main/resources ###
+### Ignore application.properties file ###
 application.properties
-!src/main/resources/application.properties
 

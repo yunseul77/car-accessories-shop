@@ -1,5 +1,7 @@
 package com.team9.carshop.entity;
 
+import static jakarta.persistence.FetchType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,11 +24,11 @@ public class SaleItem extends BaseEntity{
     @Column(name = "saleitem_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "orderitem_id")
     private OrderItem orderItem;
 
