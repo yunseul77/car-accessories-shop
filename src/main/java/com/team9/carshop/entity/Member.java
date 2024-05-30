@@ -17,7 +17,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE member SET idDeleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE member SET isDeleted = true WHERE id = ?")
 @Where(clause = "isDeleted = false")
 public class Member extends BaseEntity {
 
@@ -47,6 +47,6 @@ public class Member extends BaseEntity {
     private String address;
 
     @Enumerated(EnumType.STRING)
-    private MemberRole role;
+    private MemberRole role = MemberRole.USER;
 
 }

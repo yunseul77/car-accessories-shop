@@ -18,7 +18,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE orders SET idDeleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE orders SET isDeleted = true WHERE id = ?")
 @Where(clause = "isDeleted = false")
 @Table(name = "orders")
 public class Order extends BaseEntity {
@@ -36,7 +36,7 @@ public class Order extends BaseEntity {
     private Member member;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.ORDER;
 
     @Column(unique = true, length = 11, nullable = false)
     private String orderNumber;

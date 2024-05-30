@@ -11,7 +11,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE Category SET idDeleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE Category SET isDeleted = true WHERE id = ?")
 @Where(clause = "isDeleted = false")
 public class Category extends BaseEntity {
 

@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE order_item SET idDeleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE order_item SET isDeleted = true WHERE id = ?")
 @Where(clause = "isDeleted = false")
 
 public class OrderItem extends BaseEntity {
