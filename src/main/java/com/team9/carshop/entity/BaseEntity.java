@@ -22,4 +22,7 @@ public class BaseEntity {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
 }
