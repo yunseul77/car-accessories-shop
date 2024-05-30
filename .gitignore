@@ -39,5 +39,4 @@ out/
 
 ### Ignore application.properties except in src/main/resources ###
 application.properties
-!src/main/resources/application.properties
 
