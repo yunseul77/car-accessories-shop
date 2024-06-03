@@ -2,7 +2,9 @@ package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.SaleListDto;
 import com.team9.carshop.service.SellerService;
-import java.awt.print.Pageable;
+
+//import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +34,7 @@ public class SellerController {
 
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Direction.DESC, sort);
 
-        SaleListDto myOrderList = sellerService.getMyOrderList(sellerId, pageable);
+        Page<SaleListDto> myOrderList = sellerService.getMyOrderList(sellerId, pageable);
         return ResponseEntity.ok(myOrderList);
 
 
