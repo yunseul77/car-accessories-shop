@@ -1,7 +1,9 @@
 package com.team9.carshop.entity;
 
-import com.team9.carshop.entity.BaseEntity;
 import com.team9.carshop.enums.OrderStatus;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,8 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -52,5 +52,4 @@ public class Order extends BaseEntity {
 
     @Column(precision = 12, scale = 2)
     private BigDecimal totalPrice;
-
 }
