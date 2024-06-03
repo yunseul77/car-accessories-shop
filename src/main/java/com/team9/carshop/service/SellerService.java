@@ -30,13 +30,14 @@ public class SellerService {
             .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 ID 입니다"));
 
         SaleListDto saleListDto = new SaleListDto();
-        saleListDto.setCategoryName();
+        saleListDto.setCategoryName("카테고리명");
 
-        }
+        return null;
+    }
     /**
      * 고객 주문상세 조회
      */
-    .
+
     /**
      * 고객 배송상태 수정
      */
@@ -52,7 +53,4 @@ public class SellerService {
     /**
      * 판매완료 목록 조회
      */
-}
-
-
 }

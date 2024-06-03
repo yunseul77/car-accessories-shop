@@ -1,14 +1,16 @@
 package com.team9.carshop.dto;
 
-import com.team9.carshop.enums.DeliveryStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @NoArgsConstructor
+@Getter @Setter
 public class SaleListDto {
 
 
