@@ -16,6 +16,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE Item SET isDeleted = true WHERE id = ?")
 @Where(clause = "isDeleted = false")
+@Builder
 public class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +25,6 @@ public class Item extends BaseEntity {
 
     @OneToMany(mappedBy = "item")
     private List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "item")
-    private List<CategoryItem> categoryItems = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
