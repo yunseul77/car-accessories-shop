@@ -8,11 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @NoArgsConstructor
 @Getter @Setter
-public class SaleListDto {
-
+@Data
+public class OrderManageListDto {
 
     private String categoryName;
     private String itemName;
@@ -22,5 +21,8 @@ public class SaleListDto {
     private String customerId;
     private Map<String, String> DeliveryStatusOption;
     private LocalDateTime orderCreatedAt;
+    private Long itemId;
+    private Long orderId;
+
 
 }
