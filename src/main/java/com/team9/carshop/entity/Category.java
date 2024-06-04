@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -23,7 +25,12 @@ public class Category extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    @Column(length = 255, nullable = false)
-    private String name;
+    @ManyToMany
+    @JoinTable(name = "category_item",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private List<Item> itemList;
 
+    @Column(name = "category_name", length = 255, nullable = false)
+    private String name;
 }
