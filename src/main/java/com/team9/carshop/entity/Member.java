@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,14 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-@Entity
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE member SET isDeleted = true WHERE id = ?")
 @Where(clause = "isDeleted = false")
+@Entity
 public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +35,12 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    @Column(length = 50, nullable = false, unique = true)
+    private String loginId;
+
+    @Column(length = 50, nullable = false)
+    private String password;
 
     @Column(length = 50, nullable = false)
     private String name;
