@@ -1,6 +1,7 @@
 package com.team9.carshop.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -29,7 +30,7 @@ public class Category extends BaseEntity {
     @JoinTable(name = "category_item",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
-    private List<Item> itemList;
+    private List<Item> items = new ArrayList<>();
 
     @Column(name = "category_name", length = 255, nullable = false)
     private String name;
