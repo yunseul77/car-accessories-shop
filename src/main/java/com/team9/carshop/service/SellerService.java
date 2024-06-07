@@ -1,11 +1,9 @@
 package com.team9.carshop.service;
 
-import com.team9.carshop.dto.SaleListDto;
+import com.team9.carshop.dto.OrderMageListDto;
 import com.team9.carshop.entity.Member;
-import com.team9.carshop.entity.OrderItem;
 import com.team9.carshop.repository.MemberRepository;
 import com.team9.carshop.repository.OrderItemRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +23,11 @@ public class SellerService {
     /**
      * 고객 주문관리 목록 조회
      */
-    public Page<SaleListDto> getMyOrderList(Long sellerId, Pageable pageable) {
+    public Page<OrderMageListDto> getMyOrderList(Long sellerId, Pageable pageable) {
         Member seller = memberRepository.findById(sellerId)
             .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 ID 입니다"));
 
-        SaleListDto saleListDto = new SaleListDto();
+        OrderMageListDto saleListDto = new OrderMageListDto();
         saleListDto.setCategoryName("카테고리명");
 
         return null;

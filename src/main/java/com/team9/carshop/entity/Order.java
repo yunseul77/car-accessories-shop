@@ -18,8 +18,8 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE orders SET isDeleted = true WHERE id = ?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
