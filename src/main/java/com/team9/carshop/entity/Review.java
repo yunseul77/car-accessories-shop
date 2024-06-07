@@ -16,8 +16,8 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE review SET isDeleted = true WHERE id = ?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Review extends BaseEntity {
 
     @Id
@@ -45,8 +45,8 @@ public class Review extends BaseEntity {
     @Column(precision = 2, scale = 1, nullable = false)
     private BigDecimal ratingValue;
 
-    //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
-    public void setDeleted() {
-        this.isDeleted = true;
-    }
+//    //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
+//    public void setDeleted() {
+//        this.is_deleted = true;
+//    }
 }
