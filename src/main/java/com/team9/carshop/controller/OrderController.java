@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/orders/")
 @RequiredArgsConstructor
 public class OrderController {
 
@@ -20,7 +20,7 @@ public class OrderController {
     }
 
     @GetMapping("/member/{memberId}")
-    public List<Order> getAllOrdersByMember(@PathVariable("member_id") Long memberId) {
+    public List<Order> getAllOrdersByMember(@PathVariable("memberId") Long memberId) {
         return orderService.getAllOrdersByMember(memberId);
     }
 
@@ -30,7 +30,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable("member_id") Long id) {
+    public void deleteOrder(@PathVariable("memberId") Long id) {
         orderService.deleteOrder(id);
     }
 }

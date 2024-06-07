@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-@Getter @Setter
 @Data
 public class OrderManageListDto {
 
@@ -19,10 +18,13 @@ public class OrderManageListDto {
     private int orderQuantity;
     private BigDecimal totalPrice;
     private String customerId;
-    private Map<String, String> DeliveryStatusOption;
+    private String deliveryStatus;
+    private String orderStatus;
+    private Map<String, String> deliveryStatusOption;
     private LocalDateTime orderCreatedAt;
     private Long itemId;
     private Long orderId;
+    private Long deliveryId;
 
 
 }

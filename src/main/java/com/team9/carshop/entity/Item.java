@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+@Builder
 @Entity
 @Getter
 @Setter
@@ -32,6 +33,9 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @ManyToMany
+    private List<Category> categories = new ArrayList<>();
+
     @Column(length = 255, nullable = false)
     private String name;
 
@@ -41,6 +45,9 @@ public class Item extends BaseEntity {
     @Column(precision = 4, scale = 2)
     private BigDecimal discount = BigDecimal.ZERO;
 
+    @Column(precision = 12, scale = 2)
+    private BigDecimal discountPrice;
+
     @Column(nullable = false)
     private int stockQuantity;
 
@@ -49,5 +56,17 @@ public class Item extends BaseEntity {
 
     @Lob
     private String description;
+
+    //==discountPrice 자동계산 메서드==//
+    @PrePersist
+    @PreUpdate
+    public void calculateDiscountPrice() {
+        if (price != null && discount != null) {
+            this.discountPrice = price.subtract(
+                price.multiply(discount.divide(new BigDecimal(100))));
+        } else {
+            this.discountPrice = price;
+        }
+    }
 
 }
