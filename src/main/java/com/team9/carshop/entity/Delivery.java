@@ -24,8 +24,8 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 생성자 생성 x, 가짜 객체를 만들기 위한 허용
-@SQLDelete(sql = "UPDATE delivery SET is_deleted = true WHERE id =?")
-@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE delivery SET isDeleted = true WHERE id =?")
+@Where(clause = "isDeleted = false")
 public class Delivery extends BaseEntity {
 
     @Id
