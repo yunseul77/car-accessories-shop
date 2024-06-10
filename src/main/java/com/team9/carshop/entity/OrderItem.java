@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC) // 접근 제어자를 PUBLIC으로 변경
-@SQLDelete(sql = "UPDATE order_item SET isDeleted = true WHERE id = ?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE order_item SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 
 public class OrderItem extends BaseEntity {
 
