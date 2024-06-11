@@ -14,6 +14,7 @@ public class ItemDto {
     private String name;
     private BigDecimal price;
     private BigDecimal discount;
+    private BigDecimal discountPrice;
     private int stockQuantity;
     private String titleImageUrl;
     private String contentImageUrl;
@@ -27,6 +28,7 @@ public class ItemDto {
                 .name(this.name)
                 .price(this.price)
                 .discount(this.discount)
+                .discountPrice(this.discountPrice)
                 .stockQuantity(this.stockQuantity)
                 .titleImageUrl(this.titleImageUrl)
                 .contentImageUrl(this.contentImageUrl)

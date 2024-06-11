@@ -1,5 +1,6 @@
 package com.team9.carshop.entity;
 
+import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +17,8 @@ import lombok.NoArgsConstructor;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC) // 접근 제어자를 PUBLIC으로 변경
-@SQLDelete(sql = "UPDATE order_item SET isDeleted = true WHERE id = ?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE order_item SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 
 public class OrderItem extends BaseEntity {
 
@@ -37,4 +38,28 @@ public class OrderItem extends BaseEntity {
     @Column(nullable = false)
     private int count;
 
+    @Column(precision = 12, scale = 2)
+    private BigDecimal price;
+
+    @Column(precision = 4, scale = 2)
+    private BigDecimal discount = BigDecimal.ZERO;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal discountPrice;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal totalPrice;
+
+
+    //==discountPrice 자동계산 메서드==//
+    @PrePersist
+    @PreUpdate
+    public void calculateDiscountPrice() {
+        if (price != null && discount != null) {
+            this.discountPrice = price.subtract(
+                price.multiply(discount.divide(new BigDecimal(100))));
+        } else {
+            this.discountPrice = price;
+        }
+    }
 }

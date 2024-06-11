@@ -1,6 +1,9 @@
 package com.team9.carshop.entity;
 
 import com.team9.carshop.dto.ItemDto;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,6 +49,9 @@ public class Item extends BaseEntity {
     @Column(precision = 4, scale = 2)
     private BigDecimal discount = BigDecimal.ZERO;
 
+    @Column(precision = 12, scale = 2)
+    private BigDecimal discountPrice;
+
     @Column(nullable = false)
     private int stockQuantity;
 
@@ -66,11 +72,24 @@ public class Item extends BaseEntity {
         itemDto.setName(item.getName());
         itemDto.setPrice(item.getPrice());
         itemDto.setDiscount(item.getDiscount());
+        itemDto.setDiscountPrice(item.getDiscountPrice());
         itemDto.setStockQuantity(item.getStockQuantity());
         itemDto.setTitleImageUrl(item.getTitleImageUrl());
         itemDto.setContentImageUrl(item.getContentImageUrl());
         itemDto.setDescription(item.getDescription());
 
         return itemDto;
+    }
+
+    //==discountPrice 자동계산 메서드==//
+    @PrePersist
+    @PreUpdate
+    public void calculateDiscountPrice() {
+        if (price != null && discount != null) {
+            this.discountPrice = price.subtract(
+                price.multiply(discount.divide(new BigDecimal(100))));
+        } else {
+            this.discountPrice = price;
+        }
     }
 }
