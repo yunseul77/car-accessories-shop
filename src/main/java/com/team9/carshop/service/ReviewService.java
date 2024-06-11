@@ -52,15 +52,29 @@ public class ReviewService {
         return null;
     }
 
-    //소프트 딜리트를 사용한 리뷰 삭제..인데 어떻게 고쳐야 하는거신가 ㅜㅜ
-    @Transactional
-    public void deleteReview(Long reviewId) {
-        Review review = reviewRepository.findByIdAndIsDeletedFalse(reviewId);
-        if (review != null) {
-            review.setDeleted(true);
-            reviewRepository.save(review);
-        }
-    }
+   //리뷰 삭제
+   @Transactional
+   public void deleteReview(Long reviewId) {
+       Review review = reviewRepository.findByIdAndIsDeletedFalse(reviewId);
+       if (review != null) {
+           reviewRepository.deleteById(reviewId);
+       }
+   }
+
+//    //별점 - DB에서 처리해서 넘기기? 쿼리 작성. 아니면 JPA에 에버리지 기능
+//    @Transactional(readOnly = true)
+//    public BigDecimal getAverageRating(Long itemId) {
+//        Item item = ItemService.getItemById(itemId);
+//        List<Review> reviews = reviewRepository.findByItemAndIsDeletedFalse(item);
+//
+//        if (reviews.isEmpty()) {
+//            return BigDecimal.ZERO; //리뷰가 없을 때 0으로 리턴해주기
+//        }
+//
+//        BigDecimal totalRating = BigDecimal.ZERO;
+//        for (Review review : reviews) {
+//            totalRating = totalRating.add(review.getRatingValue());
+//        }
 
     // 리뷰 페이지네이션
     public Page<ReviewDTO> getPagedReview(Long itemId, Pageable pageable) {
