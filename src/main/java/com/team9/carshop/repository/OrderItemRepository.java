@@ -35,7 +35,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "join i.categories c "
         + "where i.member.id = :sellerId "
         + "and i.member.role = 'SELLER' "
-        + "and o.is_deleted = false "
+        + "and o.isDeleted = false "
         + "and d.status != 'DELIVERED'")
     Page<OrderItem> findOrderItemPageBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
 
@@ -61,4 +61,5 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "and i.member.role = 'SELLER'"
         + "and d.status = 'DELIVERED'")
     Page<OrderItem> findSalePageBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
+
 }

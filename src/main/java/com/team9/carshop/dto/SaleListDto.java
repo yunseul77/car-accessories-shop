@@ -19,4 +19,5 @@ public class SaleListDto {
     private String customerPhone;
     private LocalDateTime DeliveryUpdatedAt;
     private Long itemId;
+
 }
