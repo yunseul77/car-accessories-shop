@@ -29,10 +29,14 @@ public class WebSecurityConfig {
                 .httpBasic(withDefaults()) // HTTP Basic 인증 사용
                 .csrf(csrf -> csrf.disable()); // CSRF 비활성화
 
+        http.authorizeHttpRequests((authorizeRequests) ->
+            authorizeRequests.anyRequest().permitAll());
+
         return http.build();
     }
 
     @Bean
+    PasswordEncoder passwordEncoder(){
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails user = User.withUsername("user")
                 .password(passwordEncoder.encode("password"))
@@ -46,4 +50,5 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

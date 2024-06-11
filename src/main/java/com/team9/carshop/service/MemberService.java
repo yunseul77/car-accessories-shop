@@ -1,35 +1,42 @@
-//package com.team9.carshop.service;
-//
-//import com.team9.carshop.dto.MemberJoinDTO;
-//import com.team9.carshop.entity.Member;
-//import com.team9.carshop.enums.MemberRole;
-//import com.team9.carshop.repository.MemberRepository;
-//import jakarta.transaction.Transactional;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.stereotype.Service;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//
-//@RequiredArgsConstructor
-//@Service
-//public class MemberService {
-//
-//  private final MemberRepository memberRepository;
-//  private final PasswordEncoder passwordEncoder;
-//
-////  @Transactional(rollbackFor = ) 오류방지
-//
-//
-//  public Member joinMember(MemberJoinDTO memberJoinDTO){
-//    Member member = new Member();
-//    member.setLoginId(memberJoinDTO.getLoginId());
-//    member.setName(memberJoinDTO.getName());
-//    member.setEmail(memberJoinDTO.getEmail());
-//    member.setPhone(memberJoinDTO.getPhone());
-//    member.setAddress(memberJoinDTO.getAddress());
-//    member.setRole(memberJoinDTO.getRole());
-//    member.setPassword(passwordEncoder.encode(memberJoinDTO.getPassword1()));
-////    this.memberRepository.save(member);
-//    return member;
-//  }
-//
-//}
+package com.team9.carshop.service;
+
+import com.team9.carshop.dto.MemberJoinRequestDTO;
+import com.team9.carshop.dto.MemberJoinResponseDTO;
+import com.team9.carshop.entity.Member;
+import com.team9.carshop.enums.MemberRole;
+import com.team9.carshop.exception.SignupException;
+import com.team9.carshop.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class MemberService {
+
+  private final MemberRepository memberRepository;
+  private final PasswordEncoder passwordEncoder;
+
+  public MemberJoinResponseDTO joinMember(MemberJoinRequestDTO memberJoinRequestDTO) {
+    Member member = new Member();
+    member.setLoginId(memberJoinRequestDTO.getLoginId());
+    member.setName(memberJoinRequestDTO.getName());
+    member.setEmail(memberJoinRequestDTO.getEmail());
+    member.setPhone(memberJoinRequestDTO.getPhone());
+    member.setAddress(memberJoinRequestDTO.getAddress());
+    member.setRole(memberJoinRequestDTO.getRole());
+    member.setPassword(passwordEncoder.encode(memberJoinRequestDTO.getPassword1()));
+
+    Member savedMember = memberRepository.save(member);
+
+    return new MemberJoinResponseDTO(
+        savedMember.getId(),
+        savedMember.getLoginId(),
+        savedMember.getName(),
+        savedMember.getEmail(),
+        savedMember.getPhone(),
+        savedMember.getAddress(),
+        savedMember.getRole()
+    );
+  }
+}
