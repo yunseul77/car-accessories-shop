@@ -1,15 +1,28 @@
 package com.team9.carshop.controller;
 
+<<<<<<< HEAD
+import com.team9.carshop.dto.OrderMageListDto;
+import com.team9.carshop.service.SellerService;
+
+//import java.awt.print.Pageable;
+=======
 import com.team9.carshop.dto.OrderManageDetailDto;
 import com.team9.carshop.dto.OrderManageListDto;
 import com.team9.carshop.dto.SaleListDto;
 import com.team9.carshop.dto.UpdateDeliveryStatusDto;
 import com.team9.carshop.repository.OrderRepository;
 import com.team9.carshop.service.SellerService;
+>>>>>>> dev
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+<<<<<<< HEAD
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+=======
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +31,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+>>>>>>> dev
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/seller")
+public class SellerController {
+
+    private final SellerService sellerService;
+
+    @GetMapping("/{sellerId}/salelist")
+    public ResponseEntity<Page<OrderMageListDto>> showMyOrderList(
+=======
 @RequiredArgsConstructor
 @RequestMapping("/sellers")
 @RestController
@@ -33,11 +58,22 @@ public class SellerController {
     // 주문 관리 페이지 조회
     @GetMapping("/{sellerId}/orderpages")
     public ResponseEntity<Page<OrderManageListDto>> showMyOrderList(
+>>>>>>> dev
         @PathVariable Long sellerId,
         @RequestParam(name = "pageindex", defaultValue = "0") int pageIndex,
         @RequestParam(name = "pagesize", defaultValue = "10") int pageSize,
         @RequestParam(name = "sort", defaultValue = "updatedAt") String sort) {
 
+<<<<<<< HEAD
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, Direction.DESC, sort);
+
+        Page<OrderMageListDto> myOrderList = sellerService.getMyOrderList(sellerId, pageable);
+        return ResponseEntity.ok(myOrderList);
+
+
+    }
+
+=======
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(Direction.DESC, sort));
 
 
@@ -92,4 +128,5 @@ public class SellerController {
     }
 
 
+>>>>>>> dev
 }

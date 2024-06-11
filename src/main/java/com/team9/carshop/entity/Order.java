@@ -5,8 +5,11 @@ import com.team9.carshop.enums.OrderStatus;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import jakarta.persistence.*;
+<<<<<<< HEAD
+=======
 import java.util.ArrayList;
 import java.util.List;
+>>>>>>> dev
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,8 +23,13 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+<<<<<<< HEAD
+@SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
+=======
 @SQLDelete(sql = "UPDATE orders SET isDeleted = true WHERE id = ?")
 @Where(clause = "isDeleted = false")
+>>>>>>> dev
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
@@ -37,9 +45,12 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+<<<<<<< HEAD
+=======
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+>>>>>>> dev
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.ORDER;
 

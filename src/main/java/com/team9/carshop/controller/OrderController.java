@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+<<<<<<< HEAD
+@RequestMapping("/orders")
+=======
 @RequestMapping("/orders/")
+>>>>>>> dev
 @RequiredArgsConstructor
 public class OrderController {
 
@@ -19,7 +23,11 @@ public class OrderController {
         return orderService.createOrder(order);
     }
 
+<<<<<<< HEAD
+    @GetMapping("/{memberId}")
+=======
     @GetMapping("/member/{memberId}")
+>>>>>>> dev
     public List<Order> getAllOrdersByMember(@PathVariable("memberId") Long memberId) {
         return orderService.getAllOrdersByMember(memberId);
     }
@@ -29,7 +37,11 @@ public class OrderController {
         return orderService.updateOrder(order);
     }
 
+<<<<<<< HEAD
+    @DeleteMapping("/{memberId}")
+=======
     @DeleteMapping("/{id}")
+>>>>>>> dev
     public void deleteOrder(@PathVariable("memberId") Long id) {
         orderService.deleteOrder(id);
     }
