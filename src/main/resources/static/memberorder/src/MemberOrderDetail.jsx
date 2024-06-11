@@ -1,10 +1,23 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import logo from './로고.png';
-import React from 'react';
+// import React from 'react';
 import test from './test.png';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function MemberOrder() {
+function MemberOrderDetail() {
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+      axios.get('http://localhost:8080/orders')
+        .then(response => {
+          setOrders(response.data);
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
+    }, []);
   return (
     <>
     <main style={{ marginBottom: "5%" }}>
@@ -111,35 +124,55 @@ function MemberOrder() {
                 <a style={{ marginLeft: "2%", fontSize:"14px"}}>주문번호 12312312341</a>
               </div>
               <ul className="list-group">
-                <li className="list-group-item d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center">
-                    <img src={test} alt="상품" style={{ width: "25%", height: "10%" }} />
-                    <div style={{ marginLeft: "10%" }}>
-                      <h5>상품 1(나중에 상품이름을 받아오는걸로 변경)</h5>
-                      <p>가격: ₩10000(나중에 총가격으로 변경)</p>
-                      <p>수량 : 1개</p>
+                {
+                  orders.map((order) => (
+                    <div key={order.id}>
+                      <h2>Order Number: {orders.orderNumber}</h2>
+                      <p>Receiver Name: {orders.receiverName}</p>
+                      <p>Receiver Phone: {orders.receiverPhone}</p>
+                      <p>Request Message: {orders.requestMessage}</p>
+                      <p>Total Price: {orders.totalPrice}</p>
+                      <p>Delivery Address: {orders.delivery.address}</p>
+                      <p>Delivery Status: {orders.delivery.status}</p>
+                      <p>Member Name: {orders.member.name}</p>
+                      <p>Member Email: {orders.member.email}</p>
+                      <p>Member Phone: {orders.member.phone}</p>
+                      <p>Member Address: {orders.member.address}</p>
+                      <button type="button" className="btn btn-secondary" style={{ marginTop:"40%", marginBottom: "5%", borderColor: "#ccc", backgroundColor: "white", color: "black"}}>주문 취소</button>
+                      <button type="button" className="btn btn-primary" style={{ marginTop:"5%", marginBottom: "5%", borderColor: "#ccc", backgroundColor: "white", color: "black"}}>구매 확정</button>
+                      <button type="button" className="btn btn-success" style={{ marginTop:"5%", marginBottom: "40%", borderColor: "#ccc", backgroundColor: "white", color: "black"}}>리뷰 작성하기</button>
                     </div>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid #eee", paddingLeft: "4%", paddingRight: "3%", height:"100%"}}>
-                    <button type="button" className="btn btn-secondary" style={{borderColor: "#ccc", backgroundColor: "white", color: "black"}}>주문 취소</button>
-                  </div>
-                </li>
-                <li className="list-group-item d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center">
-                    <img src={test} alt="상품" style={{ width: "25%", height: "10%" }} />
-                    <div style={{ marginLeft: "10%" }}>
-                      <h5>상품 2(나중에 상품이름을 받아오는걸로 변경)</h5>
-                      <p>가격: ₩60000(나중에 총가격으로 변경)</p>
-                      <p>수량 : 3개</p>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid #eee", paddingLeft: "4%", paddingRight: "3%", height:"100%"}}>
-                    <button type="button" className="btn btn-secondary" style={{borderColor: "#ccc", backgroundColor: "white", color: "black"}}>주문 취소</button>
-                  </div>
-                </li>
+                  ))
+                }
+{/*                 <li className="list-group-item d-flex align-items-center justify-content-between"> */}
+{/*                   <div className="d-flex align-items-center"> */}
+{/*                     <img src={test} alt="상품" style={{ width: "25%", height: "10%" }} /> */}
+{/*                     <div style={{ marginLeft: "10%" }}> */}
+{/*                       <h5>상품 1(나중에 상품이름을 받아오는걸로 변경)</h5> */}
+{/*                       <p>가격: ₩10000(나중에 총가격으로 변경)</p> */}
+{/*                       <p>수량 : 1개</p> */}
+{/*                     </div> */}
+{/*                   </div> */}
+{/*                   <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid #eee", paddingLeft: "4%", paddingRight: "3%", height:"100%"}}> */}
+{/*                     <button type="button" className="btn btn-secondary" style={{borderColor: "#ccc", backgroundColor: "white", color: "black"}}>주문 취소</button> */}
+{/*                   </div> */}
+{/*                 </li> */}
+{/*                 <li className="list-group-item d-flex align-items-center justify-content-between"> */}
+{/*                   <div className="d-flex align-items-center"> */}
+{/*                     <img src={test} alt="상품" style={{ width: "25%", height: "10%" }} /> */}
+{/*                     <div style={{ marginLeft: "10%" }}> */}
+{/*                       <h5>상품 2(나중에 상품이름을 받아오는걸로 변경)</h5> */}
+{/*                       <p>가격: ₩60000(나중에 총가격으로 변경)</p> */}
+{/*                       <p>수량 : 3개</p> */}
+{/*                     </div> */}
+{/*                   </div> */}
+{/*                   <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid #eee", paddingLeft: "4%", paddingRight: "3%", height:"100%"}}> */}
+{/*                     <button type="button" className="btn btn-secondary" style={{borderColor: "#ccc", backgroundColor: "white", color: "black"}}>주문 취소</button> */}
+{/*                   </div> */}
+{/*                 </li> */}
               </ul>
             </div>
-            
+
             <div className="payment-info" style={{ marginTop: "10%" }}>
                 <h3 className="fs-4" style={{ fontWeight: "bold" }}>수령인 정보</h3>
                 <hr />
@@ -187,4 +220,4 @@ function MemberOrder() {
   );
 }
 
-export default MemberOrder;
+export default MemberOrderDetail;

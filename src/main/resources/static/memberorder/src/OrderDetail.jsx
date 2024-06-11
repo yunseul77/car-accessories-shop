@@ -4,7 +4,7 @@ import logo from './로고.png';
 import React from 'react';
 import test from './test.png';
 
-function MemberOrder() {
+function OrderDetail() {
   return (
     <>
     <main style={{ marginBottom: "5%" }}>
@@ -189,4 +189,4 @@ function MemberOrder() {
   );
 }
 
-export default MemberOrder;
+export default OrderDetail;
