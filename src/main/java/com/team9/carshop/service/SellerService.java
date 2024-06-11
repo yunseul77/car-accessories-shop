@@ -1,5 +1,6 @@
 package com.team9.carshop.service;
 
+
 import com.team9.carshop.dto.OrderManageDetailDto;
 import com.team9.carshop.dto.OrderManageListDto;
 import com.team9.carshop.dto.SaleListDto;
@@ -21,12 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 @Transactional(readOnly = true)
@@ -40,9 +43,7 @@ public class SellerService {
     private final ItemRepository itemRepository;
     private final DeliveryRepository deliveryRepository;
 
-    /**
-     * 고객 주문관리 목록 조회
-     */
+
     public Page<OrderManageListDto> getMyOrderList(Long sellerId, Pageable pageable) {
         // 판매자 ID와 페이징기준으로 판매자가 등록한 모든 아이템에 대한 주문아이템 페이지 가져옴
         Page<OrderItem> orderPages = orderItemRepository.findOrderItemPageBySellerId(sellerId, pageable);
@@ -117,6 +118,7 @@ public class SellerService {
     /**
      * 고객 배송상태 수정
      */
+
     @Transactional
     public void updateDeliveryStatus(UpdateDeliveryStatusDto updateDeliveryStatusDto) {
         Delivery delivery = deliveryRepository.findById(updateDeliveryStatusDto.getDeliveryId())
@@ -128,9 +130,12 @@ public class SellerService {
     }
 
 
+
     /**
      * 판매완료 목록 조회
      */
+
+
     public Page<SaleListDto> getMySaleList(Long sellerId, Pageable pageable) {
         Page<OrderItem> salePages = orderItemRepository.findSalePageBySellerId(sellerId,
             pageable);
@@ -159,6 +164,7 @@ public class SellerService {
 
     }
 }
+
 
 
 
