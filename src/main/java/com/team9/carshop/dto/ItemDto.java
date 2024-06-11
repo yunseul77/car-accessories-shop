@@ -15,9 +15,11 @@ public class ItemDto {
     private BigDecimal price;
     private BigDecimal discount;
     private int stockQuantity;
-    private String imageUrl;
+    private String titleImageUrl;
+    private String contentImageUrl;
     private String description;
 
+    // Dto -> Entity
     public Item toEntity()
     {
         return Item.builder()
@@ -26,7 +28,8 @@ public class ItemDto {
                 .price(this.price)
                 .discount(this.discount)
                 .stockQuantity(this.stockQuantity)
-                .imageUrl(this.imageUrl)
+                .titleImageUrl(this.titleImageUrl)
+                .contentImageUrl(this.contentImageUrl)
                 .description(this.description)
                 .build();
     }

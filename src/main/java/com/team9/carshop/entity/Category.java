@@ -26,9 +26,6 @@ public class Category extends BaseEntity {
     private Category parent;
 
     @ManyToMany
-    @JoinTable(name = "category_item",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> itemList;
 
     @Column(name = "category_name", length = 255, nullable = false)

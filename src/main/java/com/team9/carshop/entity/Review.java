@@ -1,5 +1,6 @@
 package com.team9.carshop.entity;
 
+import com.team9.carshop.dto.ReviewDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -48,5 +49,17 @@ public class Review extends BaseEntity {
     //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
     public void setDeleted() {
         this.isDeleted = true;
+    }
+
+    public static ReviewDTO toDTO(Review review) {
+        ReviewDTO reviewDTO = new ReviewDTO();
+
+        reviewDTO.setId(review.getId());
+        reviewDTO.setSummary(review.getSummary());
+        reviewDTO.setDescription(review.getDescription());
+        reviewDTO.setImageUrl(review.getImageUrl());
+        reviewDTO.setRatingValue(review.getRatingValue());
+
+        return reviewDTO;
     }
 }

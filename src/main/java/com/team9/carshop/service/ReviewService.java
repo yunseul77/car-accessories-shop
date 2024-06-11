@@ -6,10 +6,14 @@ import com.team9.carshop.entity.Member;
 import com.team9.carshop.entity.Review;
 import com.team9.carshop.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +60,17 @@ public class ReviewService {
             review.setDeleted(true);
             reviewRepository.save(review);
         }
+    }
+
+    // 리뷰 페이지네이션
+    public Page<ReviewDTO> getPagedReview(Long itemId, Pageable pageable) {
+        Page<Review> reviewPage = reviewRepository.getByItemId(itemId, pageable);
+
+        List<ReviewDTO> reviewDtoList = reviewPage.getContent()
+                .stream()
+                .map(Review::toDTO)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(reviewDtoList, pageable, reviewPage.getTotalElements());
     }
 }
