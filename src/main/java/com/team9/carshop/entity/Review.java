@@ -46,7 +46,7 @@ public class Review extends BaseEntity {
     private BigDecimal ratingValue;
 
     //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
-    public void setDeleted() {
-        this.isDeleted = true;
-    }
+//    public void setDeleted() {
+//        this.isDeleted = true;
+//    }
 }
