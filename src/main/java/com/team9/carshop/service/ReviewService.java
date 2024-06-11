@@ -20,7 +20,7 @@
 //    @Transactional(readOnly = true)
 //    public List<Review> getReviewsForItem(Long itemId) {
 //        Item item = itemService.getItemById(itemId);
-//        return reviewRepository.findByItemAndIsDeletedFalse(item);
+//        return reviewRepository.findByItemAndis_deletedFalse(item);
 //    }
 //
 //    //리뷰 작성
@@ -37,7 +37,7 @@
 //    //리뷰 수정
 //    @Transactional
 //    public Review updateReview(Long reviewId, ReviewDTO reviewDTO) {
-//        Review review = reviewRepository.findByIdAndIsDeletedFalse(reviewId);
+//        Review review = reviewRepository.findByIdAndis_deletedFalse(reviewId);
 //        if (review != null) {
 //            review.setSummary(reviewDTO.getSummary());
 //            review.setDescription(reviewDTO.getDescription());
@@ -51,7 +51,7 @@
 //    //소프트 딜리트를 사용한 리뷰 삭제..인데 어떻게 고쳐야 하는거신가 ㅜㅜ
 //    @Transactional
 //    public void deleteReview(Long reviewId) {
-//        Review review = reviewRepository.findByIdAndIsDeletedFalse(reviewId);
+//        Review review = reviewRepository.findByIdAndis_deletedFalse(reviewId);
 //        if (review != null) {
 //            review.setDeleted(true);
 //            reviewRepository.save(review);

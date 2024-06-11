@@ -53,8 +53,8 @@ public class Review extends BaseEntity {
     @Column(precision = 2, scale = 1, nullable = false)
     private BigDecimal ratingValue;
 
-    //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
+//    //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
 //    public void setDeleted() {
-//        this.isDeleted = true;
+//        this.is_deleted = true;
 //    }
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -42,6 +44,12 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     @JsonBackReference
     private List<Order> orders = new ArrayList<>();
+
+    @Column(length = 50, nullable = false, unique = true)
+    private String loginId;
+
+    @Column(length = 50, nullable = false)
+    private String password;
 
     @Column(length = 50, nullable = false)
     private String name;
