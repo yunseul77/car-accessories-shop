@@ -2,12 +2,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import logo from './로고.png';
 import React from 'react';
+<<<<<<< HEAD
 import test from './test.png';
 
 function MemberOrder() {
   return (
     <>
     <main style={{ marginBottom: "5%" }}>
+=======
+
+function MemberOrder() {
+  return (
+    <main>
+>>>>>>> dev
         <div className="b-example-divider"></div>
         <nav className="py-1 bg-body-tertiary border-bottom" style={{ backgroundColor: "white" }}>
           <div className="container d-flex flex-wrap">
@@ -21,7 +28,11 @@ function MemberOrder() {
             <ul className="nav">
               <li className="nav-item">
                 <a href="#" className="nav-link link-body-emphasis px-2" style={{ fontSize: "80%", padding: "1% 2%" }}>
+<<<<<<< HEAD
                   <span style={{ verticalAlign: "inherit" }}>로그아웃</span>
+=======
+                  <span style={{ verticalAlign: "inherit" }}>로그인</span>
+>>>>>>> dev
                 </a>
               </li>
               <li className="nav-item">
@@ -34,7 +45,11 @@ function MemberOrder() {
         </nav>
         <header className="py-3 mb-4 border-bottom">
           <div className="container d-flex flex-wrap justify-content-between align-items-center">
+<<<<<<< HEAD
             <a href="/main" className="d-flex align-ite-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none" style={{ flex: "0.6" }}>
+=======
+            <a href="/main" className="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none" style={{ flex: "0.6" }}>
+>>>>>>> dev
               <img src={logo} alt="Logo" style={{ width: "40px", height: "40px", marginRight: "10px" }} />
               <span className="fs-4">차량용품</span>
             </a>
@@ -65,6 +80,7 @@ function MemberOrder() {
               </button>
             </div>
           </div>
+<<<<<<< HEAD
           <div className="category-list d-flex justify-content-center align-items-center" style={{marginTop:"0%", marginBottom:"0%"}}>
              {[
                { name: "방향제/공기청정", link: "/category/air-fresheners" },
@@ -84,6 +100,12 @@ function MemberOrder() {
         <div className="b-example-divider"></div>
         <div className="row">
           <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style={{ width: "14%", minHeight: "300px", maxHeight: "600px", overflowY: "auto", marginLeft: "17%" }}>
+=======
+        </header>
+        <div className="b-example-divider"></div>
+        <div className="row">
+          <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style={{ width: "14%", marginLeft: "17%" }}>
+>>>>>>> dev
             <a href="#" className="d-flex align-items-center justify-content-center mb-3 mb-md-0 link-body-emphasis text-decoration-none">
               <span className="fs-4" style={{ fontWeight: "bold" }}>마이페이지</span>
             </a>
@@ -101,11 +123,15 @@ function MemberOrder() {
             </ul>
             <hr />
           </div>
+<<<<<<< HEAD
           {/* 여기가 화면에 따라 길이가 다르게 나오는거 같은대 width를 조절해야할거 같아요 */}
+=======
+>>>>>>> dev
           <div className="d-flex flex-column flex-shrink-0 p-3" style={{ width: "48%", marginLeft: "2%" }}>
             <h3 className="fs-4" style={{ fontWeight: "bold" }}>주문목록</h3>
             <hr />
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style={{ width: "100%", marginTop: "1.5%" }}>
+<<<<<<< HEAD
               <div className="d-flex justify-content-between align-items-center">
                 <h3 className="fs-4" style={{ fontWeight: "bold" }}>배송 중 (나중에 날짜 추가)</h3>
                 <a href="#" className="nav-link" style={{color:"blue"}}>주문 상세보기 ></a>
@@ -177,6 +203,22 @@ function MemberOrder() {
                     <button type="button" className="btn btn-secondary" style={{ marginTop:"40%", marginBottom: "5%", borderColor: "#ccc", backgroundColor: "white", color: "black"}}>주문 취소</button>
                     <button type="button" className="btn btn-primary" style={{ marginTop:"5%", marginBottom: "5%", borderColor: "#ccc", backgroundColor: "white", color: "black"}}>구매 확정</button>
                     <button type="button" className="btn btn-success" style={{ marginTop:"5%", marginBottom: "40%", borderColor: "#ccc", backgroundColor: "white", color: "black"}}>리뷰 작성하기</button>
+=======
+              <h3 className="fs-4" style={{ fontWeight: "bold" }}>배송중 (나중에 날짜 추가)</h3>
+              <ul className="list-group">
+                <li className="list-group-item d-flex align-items-center">
+                  <img src="상품1이미지URL" alt="상품 1" style={{ width: "20%", height: "50px" }} />
+                  <div style={{ marginLeft: "10px" }}>
+                    <h5>상품 1(나중에 상품이름을 받아오는걸로 변경)</h5>
+                    <p>가격: ₩10000(나중에 총가격으로 변경), 수량: 1(나중에 총수량으로 변경)</p>
+                  </div>
+                </li>
+                <li className="list-group-item d-flex align-items-center">
+                  <img src="상품2이미지URL" alt="상품 2" style={{ width: "20%", height: "50px" }} />
+                  <div style={{ marginLeft: "10px" }}>
+                    <h5>상품 2</h5>
+                    <p>가격: ₩20000, 수량: 2</p>
+>>>>>>> dev
                   </div>
                 </li>
               </ul>
@@ -184,6 +226,7 @@ function MemberOrder() {
           </div>
         </div>
       </main>
+<<<<<<< HEAD
       <footer className="bg-dark text-light py-4 mt-auto">
       <div className="row justify-content-center mt-4">
           <div className="col text-center">
@@ -203,6 +246,8 @@ function MemberOrder() {
       </div>
     </footer>
     </>
+=======
+>>>>>>> dev
   );
 }
 
