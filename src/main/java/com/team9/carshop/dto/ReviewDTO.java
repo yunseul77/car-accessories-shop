@@ -12,10 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReviewDTO {
     private Long id;
-
     private String summary;
     private String description;
     private String imageUrl;
     private BigDecimal ratingValue;
-
 }

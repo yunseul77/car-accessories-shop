@@ -1,6 +1,6 @@
 package com.team9.carshop.entity;
 
-
+import com.team9.carshop.dto.ReviewDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,7 +23,6 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 //@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE id = ?")
 //@Where(clause = "is_deleted = false")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -42,9 +41,7 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-
     @JsonBackReference
-
     private Item item;
 
     @Column(length = 500)
@@ -59,10 +56,20 @@ public class Review extends BaseEntity {
     @Column(precision = 2, scale = 1, nullable = false)
     private BigDecimal ratingValue;
 
+    //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
+    public void setDeleted() {
+        this.isDeleted = true;
+    }
 
-//    //소프트 딜리트를 위한 메서드인데 베이스엔티티가 프라이빗이라 오류뜸
-//    public void setDeleted() {
-//        this.is_deleted = true;
-//    }
+    public static ReviewDTO toDTO(Review review) {
+        ReviewDTO reviewDTO = new ReviewDTO();
 
+        reviewDTO.setId(review.getId());
+        reviewDTO.setSummary(review.getSummary());
+        reviewDTO.setDescription(review.getDescription());
+        reviewDTO.setImageUrl(review.getImageUrl());
+        reviewDTO.setRatingValue(review.getRatingValue());
+
+        return reviewDTO;
+    }
 }

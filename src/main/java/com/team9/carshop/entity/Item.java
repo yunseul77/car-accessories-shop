@@ -1,10 +1,9 @@
 package com.team9.carshop.entity;
 
-
+import com.team9.carshop.dto.ItemDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,41 +13,32 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-
-@Builder
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
-@SQLDelete(sql = "UPDATE Item SET is_deleted = true WHERE id = ?")
-@Where(clause = "is_deleted = false")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@SQLDelete(sql = "UPDATE Item SET isDeleted = true WHERE id = ?")
+@Where(clause = "isDeleted = false")
+@Builder
 public class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long id;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "item")
-
-    private List<OrderItem> orderItems = new ArrayList<>();
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-
     @ManyToMany
-    private List<Category> categories = new ArrayList<>();
-
+    @JoinTable(name = "category_item",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Category category;
 
     @Column(length = 255, nullable = false)
     private String name;
@@ -59,20 +49,37 @@ public class Item extends BaseEntity {
     @Column(precision = 4, scale = 2)
     private BigDecimal discount = BigDecimal.ZERO;
 
-
     @Column(precision = 12, scale = 2)
     private BigDecimal discountPrice;
-
 
     @Column(nullable = false)
     private int stockQuantity;
 
     @Column(length = 1000)
-    private String imageUrl;
+    private String titleImageUrl;
+
+    @Column(length = 1000)
+    private String contentImageUrl;
 
     @Lob
     private String description;
 
+    // Item -> ItemDto 변환 메서드
+    public static ItemDto toDto(Item item) {
+        ItemDto itemDto = new ItemDto();
+
+        itemDto.setId(item.getId());
+        itemDto.setName(item.getName());
+        itemDto.setPrice(item.getPrice());
+        itemDto.setDiscount(item.getDiscount());
+        itemDto.setDiscountPrice(item.getDiscountPrice());
+        itemDto.setStockQuantity(item.getStockQuantity());
+        itemDto.setTitleImageUrl(item.getTitleImageUrl());
+        itemDto.setContentImageUrl(item.getContentImageUrl());
+        itemDto.setDescription(item.getDescription());
+
+        return itemDto;
+    }
 
     //==discountPrice 자동계산 메서드==//
     @PrePersist
@@ -85,6 +92,4 @@ public class Item extends BaseEntity {
             this.discountPrice = price;
         }
     }
-
-
 }

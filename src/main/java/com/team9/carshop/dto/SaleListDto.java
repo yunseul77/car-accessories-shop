@@ -2,7 +2,6 @@ package com.team9.carshop.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +19,4 @@ public class SaleListDto {
     private String customerPhone;
     private LocalDateTime DeliveryUpdatedAt;
     private Long itemId;
-
-
 }

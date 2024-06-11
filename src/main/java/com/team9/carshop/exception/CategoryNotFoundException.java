@@ -1,25 +1,24 @@
 package com.team9.carshop.exception;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ItemNotFoundException extends RuntimeException {
+public class CategoryNotFoundException extends RuntimeException {
 
-    public ItemNotFoundException() {
+    public CategoryNotFoundException() {
         super();
     }
 
-    public ItemNotFoundException(String message) {
+    public CategoryNotFoundException(String message) {
         super(message);
     }
 
-    public ItemNotFoundException(String message, Throwable cause) {
+    public CategoryNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ItemNotFoundException(Throwable cause) {
+    public CategoryNotFoundException(Throwable cause) {
         super(cause);
     }
 }
