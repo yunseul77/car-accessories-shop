@@ -23,11 +23,8 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE id = ?")
-//@Where(clause = "is_deleted = false")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
+@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Review extends BaseEntity {
 
     @Id
