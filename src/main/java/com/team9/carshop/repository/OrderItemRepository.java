@@ -1,6 +1,5 @@
 package com.team9.carshop.repository;
 
-
 import com.team9.carshop.entity.Order;
 import com.team9.carshop.entity.OrderItem;
 import java.util.List;
@@ -62,6 +61,4 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "and i.member.role = 'SELLER'"
         + "and d.status = 'DELIVERED'")
     Page<OrderItem> findSalePageBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
-
-
 }

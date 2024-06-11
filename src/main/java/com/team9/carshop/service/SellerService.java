@@ -1,6 +1,5 @@
 package com.team9.carshop.service;
 
-
 import com.team9.carshop.dto.OrderManageDetailDto;
 import com.team9.carshop.dto.OrderManageListDto;
 import com.team9.carshop.dto.SaleListDto;
@@ -29,8 +28,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -114,11 +111,9 @@ public class SellerService {
 
     }
 
-
     /**
      * 고객 배송상태 수정
      */
-
     @Transactional
     public void updateDeliveryStatus(UpdateDeliveryStatusDto updateDeliveryStatusDto) {
         Delivery delivery = deliveryRepository.findById(updateDeliveryStatusDto.getDeliveryId())
@@ -129,13 +124,9 @@ public class SellerService {
 
     }
 
-
-
     /**
      * 판매완료 목록 조회
      */
-
-
     public Page<SaleListDto> getMySaleList(Long sellerId, Pageable pageable) {
         Page<OrderItem> salePages = orderItemRepository.findSalePageBySellerId(sellerId,
             pageable);
@@ -164,7 +155,3 @@ public class SellerService {
 
     }
 }
-
-
-
-
