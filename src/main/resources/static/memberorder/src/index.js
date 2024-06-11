@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import App from './App';
 import MemberOrder from './MemberOrder';
+import OrderDetail from './OrderDetail';
+import MemberOrderDetail from './MemberOrderDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -19,6 +21,14 @@ const router = createBrowserRouter([
   {
     path: "/orders",
     element: <MemberOrder/>,
+  },
+  {
+    path: "/orders/detail",
+    element: <OrderDetail/>,
+  },
+  {
+    path: "/detail",
+    element: <MemberOrderDetail/>,
   }
 ]);
 
