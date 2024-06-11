@@ -1,8 +1,10 @@
 package com.team9.carshop.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,12 +14,15 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+
 @Builder
+
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 @SQLDelete(sql = "UPDATE Item SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -32,14 +37,18 @@ public class Item extends BaseEntity {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "item")
+
     private List<OrderItem> orderItems = new ArrayList<>();
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+
     @ManyToMany
     private List<Category> categories = new ArrayList<>();
+
 
     @Column(length = 255, nullable = false)
     private String name;
@@ -50,8 +59,10 @@ public class Item extends BaseEntity {
     @Column(precision = 4, scale = 2)
     private BigDecimal discount = BigDecimal.ZERO;
 
+
     @Column(precision = 12, scale = 2)
     private BigDecimal discountPrice;
+
 
     @Column(nullable = false)
     private int stockQuantity;
@@ -61,6 +72,7 @@ public class Item extends BaseEntity {
 
     @Lob
     private String description;
+
 
     //==discountPrice 자동계산 메서드==//
     @PrePersist
@@ -73,5 +85,6 @@ public class Item extends BaseEntity {
             this.discountPrice = price;
         }
     }
+
 
 }

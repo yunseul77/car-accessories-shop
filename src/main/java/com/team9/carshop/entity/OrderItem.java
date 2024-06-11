@@ -1,6 +1,8 @@
 package com.team9.carshop.entity;
 
+
 import java.math.BigDecimal;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +19,10 @@ import lombok.NoArgsConstructor;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC) // 접근 제어자를 PUBLIC으로 변경
+
 @SQLDelete(sql = "UPDATE order_item SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
+
 
 public class OrderItem extends BaseEntity {
 
@@ -37,6 +41,7 @@ public class OrderItem extends BaseEntity {
 
     @Column(nullable = false)
     private int count;
+
 
     @Column(precision = 12, scale = 2)
     private BigDecimal price;
@@ -62,4 +67,5 @@ public class OrderItem extends BaseEntity {
             this.discountPrice = price;
         }
     }
+
 }
