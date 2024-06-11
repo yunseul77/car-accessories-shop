@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import java.util.List;
-
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE Category SET isDeleted = true WHERE id = ?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE Category SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Category extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
