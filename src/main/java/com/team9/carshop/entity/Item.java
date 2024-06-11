@@ -13,14 +13,14 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+@Builder
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE Item SET isDeleted = true WHERE id = ?")
-@Where(clause = "isDeleted = false")
-@Builder
+@SQLDelete(sql = "UPDATE Item SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +34,8 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToMany
-    @JoinTable(name = "category_item",
-            joinColumns = @JoinColumn(name = "item_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Category category;
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
 
     @Column(length = 255, nullable = false)
     private String name;

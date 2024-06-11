@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RequiredArgsConstructor
 @RequestMapping("/sellers")
 @RestController
@@ -44,6 +43,7 @@ public class SellerController {
 
         Page<OrderManageListDto> myOrderList = sellerService.getMyOrderList(sellerId, pageable);
         return ResponseEntity.ok(myOrderList);
+
     }
 
 
@@ -90,4 +90,6 @@ public class SellerController {
         return ResponseEntity.ok().build();
 
     }
+
+
 }
