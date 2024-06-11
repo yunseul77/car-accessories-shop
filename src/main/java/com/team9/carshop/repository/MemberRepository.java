@@ -1,11 +1,7 @@
 package com.team9.carshop.repository;
 
 import com.team9.carshop.entity.Member;
-<<<<<<< HEAD
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
-=======
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,6 +14,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
   Member findByLoginId(String LoginId); // LoginId로 member조회
   List<Member> findAll(); // 전체 조회
 
->>>>>>> dev
+
 
 }

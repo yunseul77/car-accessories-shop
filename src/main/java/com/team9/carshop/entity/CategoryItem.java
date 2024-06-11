@@ -24,13 +24,10 @@ class CategoryItemId implements Serializable {
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-<<<<<<< HEAD
-@SQLDelete(sql = "UPDATE category_item SET isDeleted = true WHERE category_id = ? AND item_id = ?")
-@Where(clause = "isDeleted = false")
-=======
+
 @SQLDelete(sql = "UPDATE category_item SET is_deleted = true WHERE category_id = ? AND item_id = ?")
 @Where(clause = "is_deleted = false")
->>>>>>> dev
+
 @Table(name = "category_item")
 public class CategoryItem extends BaseEntity {
 
