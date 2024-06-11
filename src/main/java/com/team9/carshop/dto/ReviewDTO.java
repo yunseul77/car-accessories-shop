@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReviewDTO {
     private Long id;
-    private Long memberId;
-    private Long itemId;
     private String summary;
     private String description;
     private String imageUrl;
