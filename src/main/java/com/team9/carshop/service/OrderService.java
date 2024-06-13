@@ -2,6 +2,7 @@ package com.team9.carshop.service;
 
 import com.team9.carshop.entity.Order;
 import com.team9.carshop.repository.OrderRepository;
+
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -58,4 +59,5 @@ public class OrderService {
     public Stream<Order> getAllOrdersStream() {
         return orderRepository.findAll().stream();
     }
+
 }

@@ -11,6 +11,7 @@ import org.hibernate.annotations.Where;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+
     @JsonManagedReference
     private Member member;
 
