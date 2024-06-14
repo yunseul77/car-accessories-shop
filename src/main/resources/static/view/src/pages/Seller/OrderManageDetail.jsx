@@ -1,15 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
-import test from '../assets/test.png';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import useOrderStatus from "../hooks/useOrderStatus";
-import "../styles/OrderDetail.css";
+import test from '../../assets/test.png';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import useOrderStatus from "../../hooks/useOrderStatus";
+import "../../styles/OrderDetail.css";
 
 function OrderManageDetail() {
   const [deliveryStatus, setDeliveryStatus] = useOrderStatus("주문 완료");
-  const [totalPrice, setTotalPrice] = usePrice(0);
+  // const [totalPrice, setTotalPrice] = usePrice(0);
+  const totalPrice = 123213;
   const orderedAt = "2024.06.14 주문";
   const orderNumber = "주문번호 " + 12345123214;
   const itemName = "임시 상품명";
@@ -22,8 +23,8 @@ function OrderManageDetail() {
 
   return (
       <>
-        <Header />
-        <main style={{ marginBottom: "5%" }}>
+        <Header/>
+        <main style={{marginBottom: "5%"}}>
           <div className="b-example-divider"></div>
           <div className="row">
             <div
@@ -172,43 +173,12 @@ function OrderManageDetail() {
               <div className="payment-info" style={{marginTop: "10%"}}>
                 <h3 className="fs-4" style={{fontWeight: "bold"}}>수령인 정보</h3>
                 <hr/>
-                <div className="receiver-info" style={{
-                  border: "1px solid #eee",
-                  padding: "15px",
-                  borderRadius: "5px"
-                }}>
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                  }}>
-                    <p style={{marginRight: "10px", color:"slategray"}}>수령인
-                      성명:</p>
-                    <p style={{flexGrow: 1}}>{receiverName}</p>
-                  </div>
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                  }}>
-                    <p style={{marginRight: "10px", color:"slategray"}}>배송문자
-                      수신번호:</p>
-                    <p style={{flexGrow: 1}}>{receiverPhone}</p>
-                  </div>
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                  }}>
-                    <p style={{marginRight: "10px", color:"slategray"}}>배송지
-                      상세주소:</p>
-                    <p style={{flexGrow: 1}}>{receiverAddress}</p>
-                  </div>
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                  }}>
-                    <p style={{
-                      marginRight: "10px", color:"slategray"
-                    }}>배송요청사항:</p>
-                    <p style={{flexGrow: 1}}>{requestMessage}</p>
+                <div className="list-group">
+                  <div className="list-group-item">
+                    <pre>수령인 성명                  {receiverName}</pre>
+                    <pre>배송문자 수신번호             {receiverPhone}</pre>
+                    <pre>배송지 상세주소              {receiverAddress}</pre>
+                    <pre>배송 요청사항                {requestMessage}</pre>
                   </div>
                 </div>
                 <hr style={{borderColor: "#eeeeeee", margin: "5% 0"}}/>

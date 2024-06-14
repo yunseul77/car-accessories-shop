@@ -7,14 +7,20 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from './App';
-import MemberOrder from './pages/MemberOrder';
-import OrderManageDetail from './pages/OrderManageDetail';
-import MemberOrderDetail from './pages/MemberOrderDetail';
+import MemberOrder from './pages/MemberOrder/MemberOrder';
+import OrderManageDetail from './pages/Seller/OrderManageDetail';
+import MemberOrderDetail from './pages/MemberOrder/MemberOrderDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import OrderManage from "./pages/OrderManage";
-import SaleHistory from "./pages/SaleHistory";
-import ItemManage from "./pages/ItemManage";
+import OrderManage from "./pages/Seller/OrderManage";
+import SaleHistory from "./pages/Seller/SaleHistory";
+import ItemManage from "./pages/Item/ItemManage";
 import Main from "./pages/Main";
+import ItemDetail from "./pages/Item/ItemDetail";
+import JoinTypeSelection from "./pages/auth/JoinTypeSelection";
+import MemberJoin from "./pages/auth/MemberJoin";
+import SellerJoin from "./pages/auth/SellerJoin";
+import JoinComplete from "./pages/auth/JoinComplete";
+import Login from "./pages/auth/Login";
 
 
 const router = createBrowserRouter([
@@ -49,7 +55,32 @@ const router = createBrowserRouter([
   {
     path: "/main",
     element: <Main />
-  }
+  },
+  {
+    path: "/items/detail",
+    element: <ItemDetail />
+  },
+  {
+    path: "/join/1",
+    element: <JoinTypeSelection />
+  },
+  {
+    path: "/join/2",
+    element: <MemberJoin />
+  },
+  {
+    path: "/join/3",
+    element: <SellerJoin />
+  },
+  {
+    path: "/join/4",
+    element: <JoinComplete />
+  },
+  {
+    path: "/join/5",
+    element: <Login />
+}
+
 
 ]);
 

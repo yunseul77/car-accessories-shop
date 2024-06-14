@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Header from '../components/Header';
-import '../styles/ItemManage.css';
-import Footer from "../components/Footer"; // 새로운 CSS 파일을 임포트합니다.
+import Header from '../../components/Header';
+import '../../styles/ItemManage.css';
+import Footer from "../../components/Footer"; // 새로운 CSS 파일을 임포트합니다.
 
 const ItemManage = () => {
   const [products, setProducts] = useState([]);
@@ -32,12 +32,10 @@ const ItemManage = () => {
 
   return (
       <>
-        <div className="header-container">
-          <Header />
-        </div>
+        <Header/>
         <div className="main-container">
           <div className="container content-container">
-            <h3 className="fs-4" style={{ fontWeight: 'bold' }}>상품 관리</h3>
+            <h3 className="fs-4" style={{fontWeight: 'bold'}}>상품 관리</h3>
             <div className="d-flex justify-content-end mb-3">
               <button className="btn btn-primary">상품 등록</button>
             </div>
@@ -58,20 +56,23 @@ const ItemManage = () => {
                     <tr key={index}>
                       <td>
                         <div className="product-info">
-                          <img src={product.image} alt="상품 이미지" className="product-image" />
+                          <img src={product.image} alt="상품 이미지"
+                               className="product-image"/>
                           <span>{product.name}</span>
                         </div>
                       </td>
                       <td>{product.id}</td>
                       <td>
-                        {product.price}<br />
+                        {product.price}<br/>
                         {product.discount}
                       </td>
                       <td>{product.page}</td>
                       <td>{product.date}</td>
                       <td>
-                        <button className="btn btn-secondary btn-sm mx-1">수정</button>
-                        <button className="btn btn-danger btn-sm mx-1">삭제</button>
+                        <button className="btn btn-secondary btn-sm mx-1">수정
+                        </button>
+                        <button className="btn btn-danger btn-sm mx-1">삭제
+                        </button>
                       </td>
                     </tr>
                 ))}
@@ -95,7 +96,7 @@ const ItemManage = () => {
             </nav>
           </div>
         </div>
-        <Footer />
+        <Footer/>
       </>
   );
 };
