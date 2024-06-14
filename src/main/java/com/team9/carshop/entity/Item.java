@@ -1,5 +1,7 @@
 package com.team9.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team9.carshop.dto.ItemDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,13 +30,18 @@ public class Item extends BaseEntity {
     private Long id;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToMany(mappedBy = "items")
+    @ManyToMany
+    @JoinTable(name = "category_item",
+        joinColumns = @JoinColumn(name = "item_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JsonBackReference
     private List<Category> categories = new ArrayList<>();
 
     @Column(length = 255, nullable = false)

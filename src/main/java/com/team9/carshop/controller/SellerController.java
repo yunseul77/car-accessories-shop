@@ -1,8 +1,8 @@
 package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.OrderManageDetailDto;
-import com.team9.carshop.dto.OrderManageListDto;
-import com.team9.carshop.dto.SaleListDto;
+import com.team9.carshop.dto.OrderManageDto;
+import com.team9.carshop.dto.SaleHistoryDto;
 import com.team9.carshop.dto.UpdateDeliveryStatusDto;
 import com.team9.carshop.repository.OrderRepository;
 import com.team9.carshop.service.SellerService;
@@ -32,7 +32,7 @@ public class SellerController {
 
     // 주문 관리 페이지 조회
     @GetMapping("/{sellerId}/orderpages")
-    public ResponseEntity<Page<OrderManageListDto>> showMyOrderList(
+    public ResponseEntity<Page<OrderManageDto>> showMyOrderList(
         @PathVariable Long sellerId,
         @RequestParam(name = "pageindex", defaultValue = "0") int pageIndex,
         @RequestParam(name = "pagesize", defaultValue = "10") int pageSize,
@@ -41,7 +41,7 @@ public class SellerController {
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(Direction.DESC, sort));
 
 
-        Page<OrderManageListDto> myOrderList = sellerService.getMyOrderList(sellerId, pageable);
+        Page<OrderManageDto> myOrderList = sellerService.getMyOrderList(sellerId, pageable);
         return ResponseEntity.ok(myOrderList);
 
     }
@@ -49,7 +49,7 @@ public class SellerController {
 
     // 판매완료 페이지 조회
     @GetMapping("/{sellerId}/salepages")
-    public ResponseEntity<Page<SaleListDto>> showMySaleList(
+    public ResponseEntity<Page<SaleHistoryDto>> showMySaleList(
         @PathVariable Long sellerId,
         @RequestParam(name = "pageindex", defaultValue = "0") int pageIndex,
         @RequestParam(name = "pagesize", defaultValue = "10") int pageSize,
@@ -57,7 +57,7 @@ public class SellerController {
 
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(Direction.DESC, sort));
 
-        Page<SaleListDto> mySaleList = sellerService.getMySaleList(sellerId, pageable);
+        Page<SaleHistoryDto> mySaleList = sellerService.getMySaleList(sellerId, pageable);
         return ResponseEntity.ok(mySaleList);
 
     }

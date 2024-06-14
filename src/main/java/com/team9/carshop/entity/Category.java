@@ -1,5 +1,6 @@
 package com.team9.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import lombok.*;
@@ -24,10 +25,8 @@ public class Category extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    @ManyToMany
-    @JoinTable(name = "category_item",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @ManyToMany(mappedBy = "categories")
+    @JsonManagedReference
     private List<Item> items = new ArrayList<>();
 
     @Column(name = "category_name", length = 255, nullable = false)

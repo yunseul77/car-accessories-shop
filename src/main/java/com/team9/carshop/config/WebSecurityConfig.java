@@ -21,34 +21,29 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .anyRequest().permitAll() // 모든 요청을 허용
-                )
-                .formLogin(withDefaults()) // 기본 로그인 페이지 사용
-                .httpBasic(withDefaults()) // HTTP Basic 인증 사용
-                .csrf(csrf -> csrf.disable()); // CSRF 비활성화
-
-        http.authorizeHttpRequests((authorizeRequests) ->
-            authorizeRequests.anyRequest().permitAll());
+            .authorizeHttpRequests(authorizeRequests ->
+                authorizeRequests
+                    .anyRequest().permitAll() // 모든 요청을 허용
+            )
+            .formLogin(withDefaults()) // 기본 로그인 페이지 사용
+            .httpBasic(withDefaults()) // HTTP Basic 인증 사용
+            .csrf(csrf -> csrf.disable()); // CSRF 비활성화
 
         return http.build();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails user = User.withUsername("user")
-                .password(passwordEncoder.encode("password"))
-                .roles("USER")
-                .build();
+            .password(passwordEncoder.encode("password"))
+            .roles("USER")
+            .build();
 
         return new InMemoryUserDetailsManager(user);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }

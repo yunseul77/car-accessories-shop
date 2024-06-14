@@ -8,28 +8,49 @@ import {
 } from "react-router-dom";
 import App from './App';
 import MemberOrder from './pages/MemberOrder';
-import OrderDetail from './pages/OrderDetail';
+import OrderManageDetail from './pages/OrderManageDetail';
 import MemberOrderDetail from './pages/MemberOrderDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import OrderManage from "./pages/OrderManage";
+import SaleHistory from "./pages/SaleHistory";
+import ItemManage from "./pages/ItemManage";
+import Main from "./pages/Main";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
   },
   {
     path: "/orders",
-    element: <MemberOrder/>,
+    element: <MemberOrder />,
   },
   {
     path: "/orders/detail",
-    element: <OrderDetail/>,
+    element: <OrderManageDetail />,
   },
   {
     path: "/detail",
-    element: <MemberOrderDetail/>,
+    element: <MemberOrderDetail />,
+  },
+  {
+    path: "/orders/manage",
+    element: <OrderManage />,
+  },
+  {
+    path: "/orders/sale",
+    element: <SaleHistory />,
+  },
+  {
+    path: "/items/management",
+    element: <ItemManage />
+  },
+  {
+    path: "/main",
+    element: <Main />
   }
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

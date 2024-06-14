@@ -4,6 +4,7 @@ import com.team9.carshop.dto.ItemDto;
 import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.exception.*;
+import com.team9.carshop.repository.CategoryRepository;
 import com.team9.carshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -24,9 +25,9 @@ public class ItemService {
 
     // 카테고리별 아이템 조회
     public Page<ItemDto> getAllItemByCategory(String categoryName, Pageable pageable) {
-        Category category = itemRepository.findByCategoryName(categoryName);
+        Category category = itemRepository.findCategoryName(categoryName);
         if (category != null) {
-            Page<Item> itemPage = itemRepository.findByCategory(category, pageable);
+            Page<Item> itemPage = itemRepository.findByCategoriesName(categoryName, pageable);
 
             // Item -> ItemDto 변환
             List<ItemDto> itemDtoList = itemPage.getContent()

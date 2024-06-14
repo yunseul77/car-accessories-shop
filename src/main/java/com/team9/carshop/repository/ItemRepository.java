@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    Category findByCategoryName(String categoryName);
+    Category findCategoryName(String categoryName);
 
-    Page<Item> findByCategory(Category category, Pageable pageable);
+    Page<Item> findByCategoriesName(String categoryName, Pageable pageable);
 
     Page<Item> findByMemberId(Long id, Pageable pageable);
 }

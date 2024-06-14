@@ -1,8 +1,8 @@
 package com.team9.carshop.service;
 
 import com.team9.carshop.dto.OrderManageDetailDto;
-import com.team9.carshop.dto.OrderManageListDto;
-import com.team9.carshop.dto.SaleListDto;
+import com.team9.carshop.dto.OrderManageDto;
+import com.team9.carshop.dto.SaleHistoryDto;
 import com.team9.carshop.dto.UpdateDeliveryStatusDto;
 import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Delivery;
@@ -43,15 +43,15 @@ public class SellerService {
     /**
      * 고객 주문관리 목록 조회
      */
-    public Page<OrderManageListDto> getMyOrderList(Long sellerId, Pageable pageable) {
+    public Page<OrderManageDto> getMyOrderList(Long sellerId, Pageable pageable) {
         // 판매자 ID와 페이징기준으로 판매자가 등록한 모든 아이템에 대한 주문아이템 페이지 가져옴
         Page<OrderItem> orderPages = orderItemRepository.findOrderItemPageBySellerId(sellerId,
             pageable);
 
         // 모든 페이지에서 실제 보여줄 페이지에 필요한 데이터만 DTO에 map 해서 리턴해야 함
-        Page<OrderManageListDto> myOrderListDto = orderPages.map(orderItem ->
+        Page<OrderManageDto> myOrderListDto = orderPages.map(orderItem ->
         {
-            OrderManageListDto dto = new OrderManageListDto();
+            OrderManageDto dto = new OrderManageDto();
             String categoryName = (String.join(", ",
                 orderItem.getItem().getCategories().stream().map(
                     Category::getName).toList())); //아이템의 모든 카테고리 이름을 ,로 구분하여 조인
@@ -139,13 +139,13 @@ public class SellerService {
     /**
      * 판매완료 목록 조회
      */
-    public Page<SaleListDto> getMySaleList(Long sellerId, Pageable pageable) {
+    public Page<SaleHistoryDto> getMySaleList(Long sellerId, Pageable pageable) {
         Page<OrderItem> salePages = orderItemRepository.findSalePageBySellerId(sellerId,
             pageable);
 
-        Page<SaleListDto> saleListDto = salePages
+        Page<SaleHistoryDto> saleListDto = salePages
             .map(orderItem -> {
-                SaleListDto dto = new SaleListDto();
+                SaleHistoryDto dto = new SaleHistoryDto();
 
                 dto.setCustomerName(orderItem.getOrder().getMember().getName());
                 dto.setCustomerPhone(orderItem.getOrder().getMember().getPhone());

@@ -42,7 +42,6 @@ public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-
     @JsonManagedReference
     private Member member;
 
