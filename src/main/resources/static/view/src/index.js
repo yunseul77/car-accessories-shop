@@ -21,6 +21,14 @@ import MemberJoin from "./pages/auth/MemberJoin";
 import SellerJoin from "./pages/auth/SellerJoin";
 import JoinComplete from "./pages/auth/JoinComplete";
 import Login from "./pages/auth/Login";
+import ReviewForm from './pages/ReviewForm';
+import PasswordCheck from './pages/PasswordCheck';
+import SellerPasswordCheck from './pages/SellerPasswordCheck';
+import ItemPasswordCheck from './pages/ItemPasswordCheck';
+import SellerEditProfile from './pages/SellerEditProfile';
+import EditProfile from './pages/EditProfile';
+import ItemRegistration from './pages/ItemRegistration'
+import ItemEdit from './pages/ItemEdit';
 
 
 const router = createBrowserRouter([
@@ -79,7 +87,39 @@ const router = createBrowserRouter([
   {
     path: "/join/5",
     element: <Login />
-}
+},
+  {
+    path: "/review/form",
+    element: <ReviewForm/>,
+  },
+  {
+    path: "/password/check",
+    element: <PasswordCheck/>,
+  },
+  {
+    path: "/seller/password/check",
+    element: <SellerPasswordCheck/>,
+  },
+  {
+    path: "/item/password/check",
+    element: <ItemPasswordCheck/>,
+  },
+     {
+       path: "/edit/profile",
+       element: <EditProfile/>,
+     },
+     {
+       path: "/seller/edit/profile",
+       element: <SellerEditProfile/>,
+     },
+     {
+       path: "/item/registration",
+       element: <ItemRegistration/>,
+     },
+     {
+      path: "/item/edit",
+      element: <ItemEdit/>,
+     }
 
 
 ]);
