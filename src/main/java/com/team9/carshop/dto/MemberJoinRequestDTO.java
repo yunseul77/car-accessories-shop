@@ -22,7 +22,7 @@ public class MemberJoinRequestDTO {
   private String email;
 
   @NotEmpty(message = "전화번호는 필수입니다.")
-  @Pattern(regexp = "^01([0|1|6|7|8|9])-?([0-9]{3,4}-?([0-9]{4})$", message = "휴대폰 번호를 확인해 주세요.")
+  @Pattern(regexp = "^01([0|1|6|7|8|9])-?([0-9]{3,4}-?([0-9]{4})$)", message = "휴대폰 번호를 확인해 주세요.")
   private String phone;
 
   @NotEmpty(message = "주소는 필수입니다.")
@@ -37,5 +37,5 @@ public class MemberJoinRequestDTO {
   private String password2;
 
   @NotEmpty(message = "역할은 필수입니다.")
-  private MemberRole role;
+  private String role;
 }
