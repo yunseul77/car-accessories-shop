@@ -1,131 +1,200 @@
 package com.team9.carshop;
 
 import com.team9.carshop.entity.*;
-import com.team9.carshop.enums.*;
+import com.team9.carshop.enums.DeliveryStatus;
+import com.team9.carshop.enums.MemberRole;
+import com.team9.carshop.enums.OrderStatus;
+import com.team9.carshop.repository.*;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+@Transactional
+@Commit
 public class DataInsertionTest {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private DeliveryRepository deliveryRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    private final Random random = new Random();
+    private final AtomicInteger uniqueId = new AtomicInteger(0);
 
     @Test
-    @Transactional
-    @Rollback(false)
-    public void insertTestData() {
-        // Members
-        List<Member> members = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
-            Member member = Member.builder()
-                .loginId("login" + i)
-                .password("password" + i)
-                .name("Member" + i)
-                .email("member" + i + "@example.com")
-                .phone("010-1234-567" + i)
-                .address("Address " + i)
-                .role(MemberRole.USER)
-                .build();
-            entityManager.persist(member);
-            members.add(member);
-        }
+    public void initializeData() {
+        // 여러 개의 회원 추가
+        for (int i = 0; i < 10; i++) {
+            Member member = createMember();
+            memberRepository.save(member);
 
-        // Categories
-        List<Category> categories = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            Category category = new Category();
-            category.setName("Category " + i);
-            entityManager.persist(category);
-            categories.add(category);
-        }
+            // 여러 개의 카테고리 추가
+            for (int j = 0; j < 3; j++) {
+                Category category = createCategory();
+                categoryRepository.save(category);
 
-        // Items
-        List<Item> items = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            Item item = Item.builder()
-                .name("Item" + i)
-                .price(BigDecimal.valueOf(10000 + i * 1000))
-                .discount(BigDecimal.valueOf(10))
-                .stockQuantity(100)
-                .titleImageUrl("http://example.com/image" + i)
-                .description("Description of Item " + i)
-                .member(members.get(new Random().nextInt(members.size())))
-                .build();
-            item.setCategories(categories);
-            entityManager.persist(item);
-            items.add(item);
-        }
+                // 여러 개의 상품 추가
+                for (int k = 0; k < 5; k++) {
+                    Item item = createItem(category, member);
+                    itemRepository.save(item);
 
-        // Orders and OrderItems
-        for (int i = 1; i <= 5; i++) {
-            Order order = new Order();
-            order.setOrderNumber("ORD" + i);
-            order.setReceiverName("Receiver" + i);
-            order.setReceiverPhone("010-9876-543" + i);
-            order.setRequestMessage("Please deliver between 9AM and 5PM.");
-            order.setTotalPrice(BigDecimal.valueOf(50000 + i * 10000));
-            order.setStatus(OrderStatus.ORDER);
-            order.setMember(members.get(new Random().nextInt(members.size())));
-
-            // Delivery
-            Delivery delivery = new Delivery();
-            delivery.setAddress("Delivery Address " + i);
-            delivery.setStatus(DeliveryStatus.ORDERED);
-            delivery.setOrder(order);
-            entityManager.persist(delivery);
-            order.setDelivery(delivery);
-
-            entityManager.persist(order);
-
-            for (int j = 1; j <= 3; j++) {
-                OrderItem orderItem = new OrderItem();
-                orderItem.setOrder(order);
-                orderItem.setItem(items.get(new Random().nextInt(items.size())));
-                orderItem.setCount(1);
-                orderItem.setPrice(BigDecimal.valueOf(20000 + j * 5000));
-                orderItem.setDiscount(BigDecimal.valueOf(5));
-                entityManager.persist(orderItem);
+                    // 여러 개의 리뷰 추가
+                    for (int l = 0; l < 3; l++) {
+                        Review review = createReview(member, item);
+                        reviewRepository.save(review);
+                    }
+                }
             }
-        }
 
-        // Reviews
-        for (int i = 1; i <= 10; i++) {
-            Review review = new Review();
-            review.setSummary("Review summary " + i);
-            review.setDescription("Review description " + i);
-            review.setImageUrl("http://example.com/review" + i);
-            review.setRatingValue(BigDecimal.valueOf(4.5));
-            review.setMember(members.get(new Random().nextInt(members.size())));
-            review.setItem(items.get(new Random().nextInt(items.size())));
-            entityManager.persist(review);
-        }
-
-        // Carts and CartItems
-        for (int i = 1; i <= 3; i++) {
+            // 장바구니 및 장바구니 아이템 추가
             Cart cart = new Cart();
-            entityManager.persist(cart);
+            cartRepository.save(cart);
 
-            for (int j = 1; j <= 3; j++) {
-                CartItem cartItem = new CartItem();
-                cartItem.setCart(cart);
-                cartItem.setProductId("PID" + j);
-                cartItem.setQuantity(new Random().nextInt(5) + 1);
-                entityManager.persist(cartItem);
+            for (int m = 0; m < 5; m++) {
+                CartItem cartItem = createCartItem(cart);
+                cartItemRepository.save(cartItem);
+            }
+
+            // 주문 및 주문 아이템 추가
+            for (int n = 0; n < 5; n++) {
+                Delivery delivery = createDelivery();
+                deliveryRepository.save(delivery);
+
+                Order order = createOrder(member, delivery, uniqueId.incrementAndGet()); // 주문 번호에 고유 번호 추가
+                orderRepository.save(order);
+
+                for (int o = 0; o < 5; o++) {
+                    OrderItem orderItem = createOrderItem(order, itemRepository.findAll().get(random.nextInt((int) itemRepository.count())));
+                    orderItemRepository.save(orderItem);
+                }
             }
         }
+
+        // 데이터 검증
+        assertThat(memberRepository.findAll()).hasSize(10);
+        assertThat(categoryRepository.findAll()).hasSize(30);
+        assertThat(itemRepository.findAll()).hasSize(150);
+        assertThat(cartRepository.findAll()).hasSize(10);
+        assertThat(cartItemRepository.findAll()).hasSize(50);
+        assertThat(orderRepository.findAll()).hasSize(50);
+        assertThat(orderItemRepository.findAll()).hasSize(250);
+        assertThat(reviewRepository.findAll()).hasSize(450);
+    }
+
+    private Member createMember() {
+        int id = uniqueId.incrementAndGet();
+        return Member.builder()
+            .loginId("login" + id)
+            .password("password" + id)
+            .name("Member Name" + id)
+            .email("member" + id + "@example.com")
+            .phone("010-1234-" + String.format("%04d", id))
+            .address("Address " + id)
+            .role(MemberRole.values()[random.nextInt(MemberRole.values().length)])
+            .build();
+    }
+
+    private Category createCategory() {
+        Category category = new Category();
+        category.setName("Category " + random.nextInt(100));
+        return category;
+    }
+
+    private Item createItem(Category category, Member member) {
+        Item item = Item.builder()
+            .name("Product " + random.nextInt(1000))
+            .price(BigDecimal.valueOf(random.nextDouble() * 100))
+            .discount(BigDecimal.valueOf(random.nextInt(50)))
+            .stockQuantity(random.nextInt(100))
+            .titleImageUrl("http://example.com/title" + random.nextInt(1000))
+            .contentImageUrl("http://example.com/content" + random.nextInt(1000))
+            .description("Description " + random.nextInt(1000))
+            .categories(List.of(category))
+            .member(member)
+            .build();
+        item.calculateDiscountPrice();
+        return item;
+    }
+
+    private Review createReview(Member member, Item item) {
+        Review review = new Review();
+        review.setMember(member);
+        review.setItem(item);
+        review.setSummary("Summary " + random.nextInt(1000));
+        review.setDescription("Description " + random.nextInt(1000));
+        review.setImageUrl("http://example.com/image" + random.nextInt(1000));
+        review.setRatingValue(BigDecimal.valueOf(random.nextDouble() * 5).setScale(1, BigDecimal.ROUND_HALF_UP));
+        return review;
+    }
+
+    private CartItem createCartItem(Cart cart) {
+        CartItem cartItem = new CartItem();
+        cartItem.setProductId("Product" + random.nextInt(1000));
+        cartItem.setQuantity(random.nextInt(10) + 1);
+        cartItem.setCart(cart);
+        return cartItem;
+    }
+
+    private Delivery createDelivery() {
+        Delivery delivery = new Delivery();
+        delivery.setAddress("Address " + random.nextInt(1000));
+        delivery.setStatus(DeliveryStatus.values()[random.nextInt(DeliveryStatus.values().length)]);
+        return delivery;
+    }
+
+    private Order createOrder(Member member, Delivery delivery, int uniqueId) {
+        Order order = new Order();
+        order.setDelivery(delivery);
+        order.setMember(member);
+        order.setOrderNumber("Order" + uniqueId);
+        order.setReceiverName(member.getName() + uniqueId); // 고유한 receiver name 설정
+        order.setReceiverPhone("010-5678-" + String.format("%04d", uniqueId)); // 고유한 receiver phone 설정
+        order.setStatus(OrderStatus.values()[random.nextInt(OrderStatus.values().length)]);
+        order.setTotalPrice(BigDecimal.valueOf(random.nextDouble() * 1000));
+        return order;
+    }
+
+    private OrderItem createOrderItem(Order order, Item item) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrder(order);
+        orderItem.setItem(item);
+        orderItem.setCount(random.nextInt(10) + 1);
+        orderItem.setPrice(item.getPrice());
+        orderItem.setDiscount(item.getDiscount());
+        orderItem.calculateDiscountPrice();
+        orderItem.setTotalPrice(orderItem.getDiscountPrice().multiply(BigDecimal.valueOf(orderItem.getCount())));
+        return orderItem;
     }
 }

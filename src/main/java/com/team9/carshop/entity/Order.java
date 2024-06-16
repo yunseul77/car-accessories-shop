@@ -28,8 +28,6 @@ import java.math.BigDecimal;
 @SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "orders")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order extends BaseEntity {
 
     @Id
@@ -42,7 +40,6 @@ public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonManagedReference
     private Member member;
 
     @OneToMany(mappedBy = "order")

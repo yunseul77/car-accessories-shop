@@ -30,7 +30,6 @@ public class Item extends BaseEntity {
     private Long id;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE)
-    @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,7 +40,6 @@ public class Item extends BaseEntity {
     @JoinTable(name = "category_item",
         joinColumns = @JoinColumn(name = "item_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id"))
-    @JsonBackReference
     private List<Category> categories = new ArrayList<>();
 
     @Column(length = 255, nullable = false)

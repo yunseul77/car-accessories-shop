@@ -26,9 +26,8 @@ public class Category extends BaseEntity {
     private Category parent;
 
     @ManyToMany(mappedBy = "categories")
-    @JsonManagedReference
     private List<Item> items = new ArrayList<>();
 
-    @Column(name = "category_name", length = 255, nullable = false)
+    @Column(length = 255, nullable = false)
     private String name;
 }

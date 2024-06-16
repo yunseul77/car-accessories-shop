@@ -35,7 +35,6 @@ public class Member extends BaseEntity {
     private List<Item> items = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    @JsonBackReference
     private List<Order> orders = new ArrayList<>();
 
     @Column(length = 50, nullable = false, unique = true)

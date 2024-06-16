@@ -25,7 +25,7 @@ public class ItemService {
 
     // 카테고리별 아이템 조회
     public Page<ItemDto> getAllItemByCategory(String categoryName, Pageable pageable) {
-        Category category = itemRepository.findCategoryName(categoryName);
+        Category category = itemRepository.findByCategoryName(categoryName);
         if (category != null) {
             Page<Item> itemPage = itemRepository.findByCategoriesName(categoryName, pageable);
 

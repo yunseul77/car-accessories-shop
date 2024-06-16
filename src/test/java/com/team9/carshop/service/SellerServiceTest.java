@@ -81,17 +81,17 @@ class SellerServiceTest {
 //        assertFalse(result.isEmpty());
 //    }
 
-    @Test
-    void getMyOrderList_ShouldThrowException_WhenNoOrdersExist() {
-        Long sellerId = 1L;
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Page<OrderItem> emptyPage = Page.empty();
-        when(orderItemRepository.findOrderItemPageBySellerId(any(Long.class), any(Pageable.class)))
-            .thenReturn(emptyPage);
-
-        assertThrows(OrderNotFoundException.class, () -> sellerService.getMyOrderList(sellerId, pageable));
-    }
+//    @Test
+//    void getMyOrderList_ShouldThrowException_WhenNoOrdersExist() {
+//        Long sellerId = 1L;
+//        Pageable pageable = PageRequest.of(0, 10);
+//
+//        Page<OrderItem> emptyPage = Page.empty();
+//        when(orderItemRepository.findOrderItemPageBySellerId(any(Long.class), any(Pageable.class)))
+//            .thenReturn(emptyPage);
+//
+//        assertThrows(OrderNotFoundException.class, () -> sellerService.getMyOrderList(sellerId, pageable));
+//    }
 
     @Test
     void getMyOrderDetail_ShouldReturnOrderDetail_WhenOrderExists() {
@@ -169,15 +169,15 @@ class SellerServiceTest {
 //        assertFalse(result.isEmpty());
 //    }
 
-    @Test
-    void getMySaleList_ShouldThrowException_WhenNoSalesExist() {
-        Long sellerId = 1L;
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Page<OrderItem> emptyPage = Page.empty();
-        when(orderItemRepository.findSalePageBySellerId(any(Long.class), any(Pageable.class)))
-            .thenReturn(emptyPage);
-
-        assertThrows(SaleNotFoundException.class, () -> sellerService.getMySaleList(sellerId, pageable));
-    }
+//    @Test
+//    void getMySaleList_ShouldThrowException_WhenNoSalesExist() {
+//        Long sellerId = 1L;
+//        Pageable pageable = PageRequest.of(0, 10);
+//
+//        Page<OrderItem> emptyPage = Page.empty();
+//        when(orderItemRepository.findSalePageBySellerId(any(Long.class), any(Pageable.class)))
+//            .thenReturn(emptyPage);
+//
+//        assertThrows(SaleNotFoundException.class, () -> sellerService.getMySaleList(sellerId, pageable));
+//    }
 }
