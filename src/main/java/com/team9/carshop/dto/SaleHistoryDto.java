@@ -20,7 +20,7 @@ public class SaleHistoryDto {
     private BigDecimal totalPrice;
     private String itemName;
     private String categoryNames;
-    private LocalDateTime DeliveryUpdatedAt;
+    private LocalDateTime deliveryUpdatedAt;
     private Long itemId;
 
 

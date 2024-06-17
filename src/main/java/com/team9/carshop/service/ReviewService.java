@@ -28,37 +28,48 @@ public class ReviewService {
 
     //Item 아이디를 가져와서 해당 상품에 대한 리뷰를 조회
     @Transactional(readOnly = true)
-    public List<Review> getReviewsForItem(Long itemId) {
+    public List<ReviewDTO> getReviewsForItem(Long itemId) {
         ItemDto itemDto = itemService.getItemById(itemId);
         Item item = itemDto.toEntity();
-        return reviewRepository.findByItemAndIsDeletedFalse(item);
+        List<Review> reviews = reviewRepository.findByItemAndIsDeletedFalse(item);
+        return reviews.stream().map(Review::toDTO).collect(Collectors.toList());
     }
 
     //리뷰 작성
     @Transactional
-    public Review writeReview(ReviewDTO reviewDTO, Long memberId) {
+    public ReviewDTO writeReview(ReviewDTO reviewDTO, Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         ItemDto itemDto = itemService.getItemById(reviewDTO.getItemId());
         Item item = itemDto.toEntity();
-        Review review = new Review(reviewDTO.getId(), member, item, reviewDTO.getSummary(),
-                //member랑 item도 reviewDTO.~ 로 해야하나??
-                reviewDTO.getDescription(), reviewDTO.getImageUrl(), reviewDTO.getRatingValue());
-        return reviewRepository.save(review);
+        Review review = new Review(
+                reviewDTO.getId(),
+                member,
+                item,
+                reviewDTO.getSummary(),
+                reviewDTO.getDescription(),
+                reviewDTO.getImageUrl(),
+                reviewDTO.getRatingValue()
+        );
+        Review savedReview = reviewRepository.save(review);
+        return savedReview.toDTO();
     }
+
 
     //리뷰 수정
     @Transactional
-    public Review updateReview(Long reviewId, ReviewDTO reviewDTO) {
+    public ReviewDTO updateReview(Long reviewId, ReviewDTO reviewDTO) {
         Review review = reviewRepository.findByIdAndIsDeletedFalse(reviewId);
         if (review != null) {
             review.setSummary(reviewDTO.getSummary());
             review.setDescription(reviewDTO.getDescription());
             review.setImageUrl(reviewDTO.getImageUrl());
             review.setRatingValue(reviewDTO.getRatingValue());
-            return reviewRepository.save(review);
+            Review updatedReview = reviewRepository.save(review);
+            return updatedReview.toDTO();
         }
         return null;
     }
+
 
    //리뷰 삭제
    @Transactional
@@ -68,21 +79,6 @@ public class ReviewService {
            reviewRepository.deleteById(reviewId);
        }
    }
-
-//    //별점 - DB에서 처리해서 넘기기? 쿼리 작성. 아니면 JPA에 에버리지 기능
-//    @Transactional(readOnly = true)
-//    public BigDecimal getAverageRating(Long itemId) {
-//        Item item = ItemService.getItemById(itemId);
-//        List<Review> reviews = reviewRepository.findByItemAndIsDeletedFalse(item);
-//
-//        if (reviews.isEmpty()) {
-//            return BigDecimal.ZERO; //리뷰가 없을 때 0으로 리턴해주기
-//        }
-//
-//        BigDecimal totalRating = BigDecimal.ZERO;
-//        for (Review review : reviews) {
-//            totalRating = totalRating.add(review.getRatingValue());
-//        }
 
     // 리뷰 페이지네이션
     public Page<ReviewDTO> getPagedReview(Long itemId, Pageable pageable) {

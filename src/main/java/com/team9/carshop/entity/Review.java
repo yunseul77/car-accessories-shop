@@ -32,6 +32,7 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
+    @JsonBackReference
     private Item item;
 
     @Column(length = 500)
@@ -46,14 +47,16 @@ public class Review extends BaseEntity {
     @Column(precision = 2, scale = 1, nullable = false)
     private BigDecimal ratingValue;
 
-    public static ReviewDTO toDTO(Review review) {
+    public ReviewDTO toDTO() {
         ReviewDTO reviewDTO = new ReviewDTO();
 
-        reviewDTO.setId(review.getId());
-        reviewDTO.setSummary(review.getSummary());
-        reviewDTO.setDescription(review.getDescription());
-        reviewDTO.setImageUrl(review.getImageUrl());
-        reviewDTO.setRatingValue(review.getRatingValue());
+        reviewDTO.setId(this.id);
+        reviewDTO.setItemId(this.item.getId());
+        reviewDTO.setMemberId(this.member.getId());
+        reviewDTO.setSummary(this.summary);
+        reviewDTO.setDescription(this.description);
+        reviewDTO.setImageUrl(this.imageUrl);
+        reviewDTO.setRatingValue(this.ratingValue);
 
         return reviewDTO;
     }
