@@ -28,12 +28,15 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Item> items = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
@@ -55,6 +58,7 @@ public class Member extends BaseEntity {
     @Column(length = 255, nullable = false)
     private String address;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private MemberRole role = MemberRole.USER;
 

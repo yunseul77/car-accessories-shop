@@ -1,39 +1,38 @@
 import React, {useState, useEffect} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
+import {json, useParams} from "react-router-dom";
 
 const OrderManage = () => {
+  const {sellerId} = useParams();
   const [orders, setOrders] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    // 여기에 API 호출을 통해 데이터를 가져오는 로직을 추가할 수 있습니다.
-    // 현재는 예시 데이터를 사용합니다.
     const fetchOrders = async () => {
-      const exampleOrders = [
-        {
-          category: '생활용품/잡화',
-          productName: '상품명 예시',
-          productPrice: '238000원',
-          quantity: 20,
-          totalAmount: '5660000원',
-          buyerId: 'qwerasdf1234',
-          orderTime: '2024-05-25 17:56:32',
-          deliveryStatus: '발송준비',
-          orderStatus: '주문 완료',
-        },
-        // 여기에 더 많은 예시 데이터를 추가하세요
-      ];
-      setOrders(exampleOrders);
+      try {
+        const response = await fetch(
+            `http://localhost:8080/sellers/${sellerId}/orderpages?pageindex=0&pagesize=10&sort=updatedAt`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+        if(!response.ok) {
+          throw new Error("네트워크 상태가 불안정합니다.");
+        }
+        const data = await response.json();
+        setOrders(data.content);
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        console.error("주문을 불러오는데 실패했습니다.", error);
+      }
+
     };
 
     fetchOrders();
-  }, []);
+  }, [sellerId]);
 
   return (
-      <>
-        <Header/>
+
         <div className="container">
           <h3 className="fs-4" style={{fontWeight: 'bold'}}>주문관리</h3>
           <div className="table-responsive">
@@ -55,18 +54,18 @@ const OrderManage = () => {
               <tbody>
               {orders.map((order, index) => (
                   <tr key={index}>
-                    <td>{order.category}</td>
-                    <td>{order.productName}</td>
-                    <td>{order.productPrice}</td>
-                    <td>{order.quantity}</td>
-                    <td>{order.totalAmount}</td>
-                    <td>{order.buyerId}</td>
-                    <td>{order.orderTime}</td>
+                    <td>{order.categoryName}</td>
+                    <td>{order.itemName}</td>
+                    <td>{order.sellingPrice}</td>
+                    <td>{order.orderQuantity}</td>
+                    <td>{order.totalPrice}</td>
+                    <td>{order.cutomerId}</td>
+                    <td>{order.orderCreatedAt}</td>
                     <td>
                       <select className="form-control">
-                        <option value="발송준비">발송준비</option>
-                        <option value="배송중">배송중</option>
-                        <option value="배송완료">배송완료</option>
+                        <option value="ORDERED">발송준비</option>
+                        <option value="IN_TRANSIT">배송중</option>
+                        <option value="DELIVERED">배송완료</option>
                       </select>
                     </td>
                     <td>
@@ -100,8 +99,7 @@ const OrderManage = () => {
             </ul>
           </nav>
         </div>
-        <Footer/>
-      </>
+
   );
 };
 

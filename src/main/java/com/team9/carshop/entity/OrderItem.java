@@ -1,5 +1,6 @@
 package com.team9.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class OrderItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderitem_id")
+    @Column(name = "order_item_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

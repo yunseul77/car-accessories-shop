@@ -20,7 +20,9 @@ import com.team9.carshop.repository.OrderItemRepository;
 import com.team9.carshop.repository.OrderRepository;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -96,7 +98,21 @@ public class SellerService {
 
         delivery.setStatus(DeliveryStatus.valueOf(
             updateDeliveryStatusDto.getDeliveryStatus()));
+    }
 
+
+    /**
+     * 고객 주문 삭제
+     */
+    @Transactional
+    public void softDeleteOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new OrderNotFoundException("현재 주문이 존재하지 않습니다."));
+
+        List<OrderItem> orderItems = order.getOrderItems();
+        orderItemRepository.deleteAll(orderItems);
+
+        orderRepository.delete(order);
     }
 
 
@@ -113,6 +129,8 @@ public class SellerService {
         return saleListDto;
 
     }
+
+
 
 
     //== OrderManageItem 매핑 메서드 ==//
