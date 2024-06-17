@@ -1,5 +1,8 @@
 package com.team9.carshop.dto;
 
+import lombok.Getter;
+
+@Getter
 public class AuthResponseDTO {
   private String token;
 
@@ -7,8 +10,5 @@ public class AuthResponseDTO {
     this.token = token;
   }
 
-  // Getter 메서드
-  public String getToken() {
-    return token;
-  }
+
 }

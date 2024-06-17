@@ -1,5 +1,6 @@
 package com.team9.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.team9.carshop.enums.MemberRole;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE member SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 @Entity

@@ -3,10 +3,9 @@ package com.team9.carshop.service;
 import com.team9.carshop.dto.MemberJoinRequestDTO;
 import com.team9.carshop.dto.MemberJoinResponseDTO;
 import com.team9.carshop.entity.Member;
-import com.team9.carshop.enums.MemberRole;
-import com.team9.carshop.exception.SignupException;
 import com.team9.carshop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
   private final MemberRepository memberRepository;
-  private final PasswordEncoder passwordEncoder;
+  private final @Lazy PasswordEncoder passwordEncoder;
 
   public MemberJoinResponseDTO joinMember(MemberJoinRequestDTO memberJoinRequestDTO) {
     Member member = new Member();

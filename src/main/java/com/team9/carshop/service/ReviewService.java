@@ -1,9 +1,11 @@
 package com.team9.carshop.service;
 
+import com.team9.carshop.dto.ItemDto;
 import com.team9.carshop.dto.ReviewDTO;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.entity.Member;
 import com.team9.carshop.entity.Review;
+import com.team9.carshop.repository.MemberRepository;
 import com.team9.carshop.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,23 +22,29 @@ import java.util.stream.Collectors;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 
+    private final ItemService itemService;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
+
     //Item 아이디를 가져와서 해당 상품에 대한 리뷰를 조회
-//    @Transactional(readOnly = true)
-//    public List<Review> getReviewsForItem(Long itemId) {
-//        Item item = itemService.getItemById(itemId);
-//        return reviewRepository.findByItemAndIsDeletedFalse(item);
-//    }
+    @Transactional(readOnly = true)
+    public List<Review> getReviewsForItem(Long itemId) {
+        ItemDto itemDto = itemService.getItemById(itemId);
+        Item item = itemDto.toEntity();
+        return reviewRepository.findByItemAndIsDeletedFalse(item);
+    }
 
     //리뷰 작성
-//    @Transactional
-//    public Review writeReview(ReviewDTO reviewDTO) {
-//        Member member = memberService.getLoggedInMember();
-//        Item item = itemService.getItemById(reviewDTO.getItemId());
-//        Review review = new Review(reviewDTO.getId(), member, item, reviewDTO.getSummary(),
-//                //member랑 item도 reviewDTO.~ 로 해야하나??
-//                reviewDTO.getDescription(), reviewDTO.getImageUrl(), reviewDTO.getRatingValue());
-//        return reviewRepository.save(review);
-//    }
+    @Transactional
+    public Review writeReview(ReviewDTO reviewDTO, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        ItemDto itemDto = itemService.getItemById(reviewDTO.getItemId());
+        Item item = itemDto.toEntity();
+        Review review = new Review(reviewDTO.getId(), member, item, reviewDTO.getSummary(),
+                //member랑 item도 reviewDTO.~ 로 해야하나??
+                reviewDTO.getDescription(), reviewDTO.getImageUrl(), reviewDTO.getRatingValue());
+        return reviewRepository.save(review);
+    }
 
     //리뷰 수정
     @Transactional

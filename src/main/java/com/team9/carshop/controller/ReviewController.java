@@ -19,17 +19,19 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-//    @GetMapping("/{itemId}")
-//    public ResponseEntity<List<Review>> getReviewsForItem(@PathVariable Long itemId) {
-//        List<Review> reviews = reviewService.getReviewsForItem(itemId);
-//        return ResponseEntity.ok(reviews);
-//    }
+    @GetMapping("/{itemId}")
+    public ResponseEntity<List<Review>> showReviewsForItem(@PathVariable Long itemId) {
+        List<Review> reviews = reviewService.getReviewsForItem(itemId);
+        return ResponseEntity.ok(reviews);
+    }
 
-//    @PostMapping("/write")
-//    public ResponseEntity<Review> writeReview(@RequestBody ReviewDTO reviewDTO) {
-//        Review review = reviewService.writeReview(reviewDTO);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(review);
-//    }
+    @PostMapping("{memberId}/write")
+    public ResponseEntity<Review> writeReview(
+        @PathVariable Long memberId,
+        @RequestBody ReviewDTO reviewDTO) {
+        Review review = reviewService.writeReview(reviewDTO, memberId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(review);
+    }
 
     @PutMapping("/update/{reviewId}")
     public ResponseEntity<Review> updateReview(@PathVariable Long reviewId,

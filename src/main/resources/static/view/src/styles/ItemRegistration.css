@@ -1,0 +1,23 @@
+/* ItemRegistration.css */
+.no-arrow {
+  -moz-appearance: textfield;
+}
+
+.no-arrow::-webkit-outer-spin-button,
+.no-arrow::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-select-wrapper {
+  position: relative;
+}
+
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: white url('data:image/svg+xml;utf8,<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg"><g><path d="M70 103.32c-1.02 0-2.03-.39-2.81-1.18L26.69 61.64c-1.56-1.56-1.56-4.09 0-5.66s4.09-1.56 5.66 0L70 93.63l37.65-37.65c1.56-1.56 4.09-1.56 5.66 0s1.56 4.09 0 5.66l-40.5 40.5c-.79.79-1.8 1.18-2.81 1.18z" fill="gray"/></g></svg>') no-repeat right 10px center;
+  background-color: white;
+  padding-right: 30px; /* Adjust the padding to ensure the arrow is not overlapping the text */
+}
