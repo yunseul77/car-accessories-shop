@@ -20,23 +20,24 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/{itemId}")
-    public ResponseEntity<List<Review>> showReviewsForItem(@PathVariable Long itemId) {
-        List<Review> reviews = reviewService.getReviewsForItem(itemId);
+    public ResponseEntity<List<ReviewDTO>> showReviewsForItem(@PathVariable Long itemId) {
+        List<ReviewDTO> reviews = reviewService.getReviewsForItem(itemId);
         return ResponseEntity.ok(reviews);
     }
 
+
     @PostMapping("{memberId}/write")
-    public ResponseEntity<Review> writeReview(
-        @PathVariable Long memberId,
-        @RequestBody ReviewDTO reviewDTO) {
-        Review review = reviewService.writeReview(reviewDTO, memberId);
+    public ResponseEntity<ReviewDTO> writeReview(
+            @PathVariable Long memberId,
+            @RequestBody ReviewDTO reviewDTO) {
+        ReviewDTO review = reviewService.writeReview(reviewDTO, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(review);
     }
 
     @PutMapping("/update/{reviewId}")
-    public ResponseEntity<Review> updateReview(@PathVariable Long reviewId,
-                                               @RequestBody ReviewDTO reviewDTO) {
-        Review review = reviewService.updateReview(reviewId, reviewDTO);
+    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long reviewId,
+                                                  @RequestBody ReviewDTO reviewDTO) {
+        ReviewDTO review = reviewService.updateReview(reviewId, reviewDTO);
         if (review != null) {
             return ResponseEntity.ok(review);
         } else {
@@ -49,10 +50,4 @@ public class ReviewController {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.noContent().build();
     }
-
-    // @GetMapping("/item/{itemId}/average-rating")
-    // public ResponseEntity<BigDecimal> getAverageRating(@PathVariable Long itemId) {
-    //     BigDecimal averageRating = reviewService.getAverageRating(itemId);
-    //     return ResponseEntity.ok(averageRating);
-    // }
 }

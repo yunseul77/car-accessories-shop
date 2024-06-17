@@ -2,47 +2,70 @@ package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.AuthRequestDTO;
 import com.team9.carshop.dto.AuthResponseDTO;
+import com.team9.carshop.dto.RefreshTokenResponseDTO;
 import com.team9.carshop.security.JwtUtil;
-import javax.security.sasl.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/auth")
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@RestController // 이 클래스를 RESTful 웹 서비스의 컨트롤러로 지정
+@RequestMapping("/auth") // 이 클래스의 기본 URL 경로를 /auth로 설정
 public class AuthController {
 
-  private final AuthenticationManager authenticationManager;
-  private final JwtUtil jwtUtil;
+  @Autowired // Spring이 AuthenticationManager를 주입하도록 설정
+  private AuthenticationManager authenticationManager;
 
-  // 생성자를 통해 주입 받음
-  @Autowired
-  public AuthController(@Lazy AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
-    this.authenticationManager = authenticationManager;
-    this.jwtUtil = jwtUtil;
+  @Autowired // Spring이 JwtUtil을 주입하도록 설정
+  private JwtUtil jwtUtil;
+
+  @PostMapping("/login") // HTTP POST 요청을 처리
+  public AuthResponseDTO login(@RequestBody AuthRequestDTO authRequest, HttpServletResponse response) throws AuthenticationException, IOException {
+    // 사용자의 인증 정보를 확인
+    Authentication authentication = authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+
+    // 인증된 사용자 정보를 가져옴
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    // Access Token과 Refresh Token을 생성
+    String accessToken = jwtUtil.generateAccessToken(userDetails.getUsername());
+    String refreshToken = jwtUtil.generateRefreshToken(userDetails.getUsername());
+
+    // 쿠키에 Access Token과 Refresh Token을 설정
+    Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
+    accessTokenCookie.setHttpOnly(true); // 클라이언트 측 스크립트에서 쿠키를 사용할 수 없도록 설정
+    accessTokenCookie.setPath("/"); // 쿠키의 유효 경로를 설정
+    response.addCookie(accessTokenCookie); // 응답에 쿠키를 추가
+
+    Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+    refreshTokenCookie.setHttpOnly(true); // 클라이언트 측 스크립트에서 쿠키를 사용할 수 없도록 설정
+    refreshTokenCookie.setPath("/"); // 쿠키의 유효 경로를 설정
+    response.addCookie(refreshTokenCookie); // 응답에 쿠키를 추가
+
+    // Access Token과 Refresh Token을 응답
+    return new AuthResponseDTO(accessToken, refreshToken);
   }
 
-  @PostMapping("/login")
-  public AuthResponseDTO login(@RequestBody AuthRequestDTO authRequest)
-      throws AuthenticationException {
-    Authentication authentication = authenticationManager.authenticate( //사용자 인증정보 확인
-        new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
-            authRequest.getPassword()));
+  @PostMapping("/refresh") // HTTP POST 요청을 처리
+  public RefreshTokenResponseDTO refresh(@CookieValue(value = "refreshToken") String refreshToken) {
+    // Refresh Token이 유효한지 검증
+    if (jwtUtil.validateToken(refreshToken)) {
+      // Refresh Token에서 사용자 이름을 추출
+      String username = jwtUtil.getUsernameFromToken(refreshToken);
+      // 새로운 Access Token을 생성
+      String newAccessToken = jwtUtil.generateAccessToken(username);
 
-    //인증된 사용자 정보 가져오기
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-    //토큰 생성
-    String token = jwtUtil.generateToken(userDetails.getUsername());
-
-    //토큰 응답
-    return new AuthResponseDTO(token);
+      // 새로운 Access Token을 응답
+      return new RefreshTokenResponseDTO(newAccessToken);
+    } else {
+      throw new RuntimeException("Invalid Refresh Token");
+    }
   }
 }

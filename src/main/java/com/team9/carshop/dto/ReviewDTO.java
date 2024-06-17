@@ -17,4 +17,5 @@ public class ReviewDTO {
     private String imageUrl;
     private BigDecimal ratingValue;
     private Long itemId;
+    private Long memberId;
 }

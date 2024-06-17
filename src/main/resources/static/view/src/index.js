@@ -7,16 +7,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from './App';
-<<<<<<< HEAD
-import MemberOrder from './pages/MemberOrder';
-import OrderDetail from './pages/OrderDetail';
-import MemberOrderDetail from './pages/MemberOrderDetail';
-import ItemListByCategory from './pages/ItemListByCategory';
-=======
+import ItemListByCategory from './pages/Item/ItemListByCategory';
 import MemberOrder from './pages/MemberOrder/MemberOrder';
 import OrderManageDetail from './pages/Seller/OrderManageDetail';
 import MemberOrderDetail from './pages/MemberOrder/MemberOrderDetail';
->>>>>>> c9c7f12607564126bf46bc2ddaaf7837ae94eb74
 import 'bootstrap/dist/css/bootstrap.min.css';
 import OrderManage from "./pages/Seller/OrderManage";
 import SaleHistory from "./pages/Seller/SaleHistory";
@@ -53,15 +47,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/detail",
-<<<<<<< HEAD
     element: <MemberOrderDetail/>,
   },
   {
     path: "/itemList",
     element: <ItemListByCategory/>,
-  }
-=======
-    element: <MemberOrderDetail />,
   },
   {
     path: "/orders/manage",
@@ -137,7 +127,7 @@ const router = createBrowserRouter([
      }
 
 
->>>>>>> c9c7f12607564126bf46bc2ddaaf7837ae94eb74
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

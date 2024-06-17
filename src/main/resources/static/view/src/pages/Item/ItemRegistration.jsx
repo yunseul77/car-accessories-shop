@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import '../styles/ItemRegistration.css';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import '../../styles/ItemRegistration.css';
 
 const ItemRegistration = () => {
   const [itemName, setItemName] = useState('');
