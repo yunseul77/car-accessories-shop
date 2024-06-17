@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
+import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,7 @@ public class JwtUtil {
   //시크릿키 가져오기, BASE64 인코딩된 비밀키를 디코딩
   private Key getsigngkey(){
     byte[] keyBytes = Base64.getDecoder().decode(secret);
-    return Keys.hmacShaKeyFor(keyBytes); //HMAC-SHA 알고리즘 사용하여 시크릿 키 생성
+    return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName()); //HMAC-SHA 알고리즘 사용하여 시크릿 키 생성
   }
 
   //jwt 토큰을 생성하는 메서드

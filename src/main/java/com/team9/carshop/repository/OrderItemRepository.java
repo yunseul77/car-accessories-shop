@@ -1,5 +1,7 @@
 package com.team9.carshop.repository;
 
+import com.team9.carshop.dto.OrderManageDto;
+import com.team9.carshop.dto.SaleHistoryDto;
 import com.team9.carshop.entity.Order;
 import com.team9.carshop.entity.OrderItem;
 import java.util.List;
@@ -14,19 +16,20 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     /* orderItems 기준으로 테이블6개 전부 조인 -> Item의 memberId가 특정 sellerId 인것만 필터
     다시 남은 테이블에서 필요한 데이터만 필터 후 페이징 */
-    @Query("select "
+    @Query("select new com.team9.carshop.dto.OrderManageDto("
         + "oi.discountPrice,"
         + "oi.count,"
         + "oi.totalPrice,"
         + "oi.createdAt,"
-        + "o.status,"
+        + "cast(o.status as string),"
         + "o.id,"
         + "c.name,"
         + "i.id,"
         + "i.name,"
-        + "d.status,"
+        + "cast(d.status as string),"
         + "d.id, "
         + "m.loginId "
+        + ") "
         + "from OrderItem oi "
         + "join oi.order o "
         + "join o.member m "
@@ -37,11 +40,11 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "and i.member.role = 'SELLER' "
         + "and o.isDeleted = false "
         + "and d.status != 'DELIVERED'")
-    Page<OrderItem> findOrderItemPageBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
+    Page<OrderManageDto> findOrderItemPageBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
 
 
     // 판매완료 페이지 조회. "특정 sellerId + 상태는 DELIVERED" 인 6개 테이블 필요데이터를 다 조회
-    @Query("select "
+    @Query("select new com.team9.carshop.dto.SaleHistoryDto ("
         + "oi.discountPrice, "
         + "oi.count,"
         + "m.name,"
@@ -50,7 +53,9 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "o.totalPrice,"
         + "i.name,"
         + "c.name,"
-        + "d.updatedAt "
+        + "d.updatedAt,"
+        + "i.id "
+        + ") "
         + "from OrderItem oi "
         + "join oi.order o "
         + "join o.member m "
@@ -60,6 +65,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "where i.member.id = :sellerId "
         + "and i.member.role = 'SELLER'"
         + "and d.status = 'DELIVERED'")
-    Page<OrderItem> findSalePageBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
+    Page<SaleHistoryDto> findSalePageBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
 
 }

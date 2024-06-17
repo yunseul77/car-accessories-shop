@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +20,18 @@ import com.team9.carshop.security.JwtUtil;
 @Component // 이 클래스를 Spring의 빈으로 등록
 public class JwtFilter extends OncePerRequestFilter {
 
-  private final JwtUtil jwtUtil;
-  private final UserDetailsService userDetailsService;
+  private JwtUtil jwtUtil;
+  private UserDetailsService userDetailsService;
 
-  // JwtUtil과 UserDetailsService를 주입받음
-  public JwtFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+  // 세터 메서드 추가
+  @Autowired
+  public void setJwtUtil(JwtUtil jwtUtil) {
     this.jwtUtil = jwtUtil;
+  }
+
+  @Autowired
+  @Lazy
+  public void setUserDetailsService(UserDetailsService userDetailsService) {
     this.userDetailsService = userDetailsService;
   }
 

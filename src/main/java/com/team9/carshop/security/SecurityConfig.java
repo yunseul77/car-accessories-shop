@@ -2,6 +2,7 @@ package com.team9.carshop.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,8 +21,8 @@ public class SecurityConfig {
   private final JwtFilter jwtFilter;
   private final UserDetailsService userDetailsService;
 
-  // JwtFilter와 UserDetailsService를 주입받음
-  public SecurityConfig(JwtFilter jwtFilter, UserDetailsService userDetailsService) {
+  // JwtFilter와 UserDetailsService를 생성자를 통해 주입받음
+  public SecurityConfig(JwtFilter jwtFilter, @Lazy UserDetailsService userDetailsService) {
     this.jwtFilter = jwtFilter;
     this.userDetailsService = userDetailsService;
   }

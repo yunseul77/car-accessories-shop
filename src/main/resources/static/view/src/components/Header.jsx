@@ -3,6 +3,7 @@ import logo from '../assets/로고.png';
 
 const Header = () => {
   return (
+      <div className="header-container">
       <header className="py-3 border-bottom">
         <div className="container d-flex flex-wrap justify-content-between align-items-center">
           <a href="/main" className="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none" style={{ flex: "0.6" }}>
@@ -52,6 +53,7 @@ const Header = () => {
           ))}
         </div>
       </header>
+      </div>
   );
 };
 
