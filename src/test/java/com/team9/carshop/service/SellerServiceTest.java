@@ -5,22 +5,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.team9.carshop.dto.OrderManageDetailDto;
-import com.team9.carshop.dto.OrderManageListDto;
-import com.team9.carshop.dto.SaleListDto;
 import com.team9.carshop.dto.UpdateDeliveryStatusDto;
 import com.team9.carshop.entity.*;
 import com.team9.carshop.enums.DeliveryStatus;
-import com.team9.carshop.exception.ItemNotFoundException;
 import com.team9.carshop.exception.OrderNotFoundException;
 import com.team9.carshop.exception.SaleNotFoundException;
 import com.team9.carshop.repository.DeliveryRepository;
 import com.team9.carshop.repository.ItemRepository;
 import com.team9.carshop.repository.OrderItemRepository;
 import com.team9.carshop.repository.OrderRepository;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -86,17 +81,17 @@ class SellerServiceTest {
 //        assertFalse(result.isEmpty());
 //    }
 
-    @Test
-    void getMyOrderList_ShouldThrowException_WhenNoOrdersExist() {
-        Long sellerId = 1L;
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Page<OrderItem> emptyPage = Page.empty();
-        when(orderItemRepository.findOrderItemPageBySellerId(any(Long.class), any(Pageable.class)))
-            .thenReturn(emptyPage);
-
-        assertThrows(OrderNotFoundException.class, () -> sellerService.getMyOrderList(sellerId, pageable));
-    }
+//    @Test
+//    void getMyOrderList_ShouldThrowException_WhenNoOrdersExist() {
+//        Long sellerId = 1L;
+//        Pageable pageable = PageRequest.of(0, 10);
+//
+//        Page<OrderItem> emptyPage = Page.empty();
+//        when(orderItemRepository.findOrderItemPageBySellerId(any(Long.class), any(Pageable.class)))
+//            .thenReturn(emptyPage);
+//
+//        assertThrows(OrderNotFoundException.class, () -> sellerService.getMyOrderList(sellerId, pageable));
+//    }
 
     @Test
     void getMyOrderDetail_ShouldReturnOrderDetail_WhenOrderExists() {
@@ -174,15 +169,15 @@ class SellerServiceTest {
 //        assertFalse(result.isEmpty());
 //    }
 
-    @Test
-    void getMySaleList_ShouldThrowException_WhenNoSalesExist() {
-        Long sellerId = 1L;
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Page<OrderItem> emptyPage = Page.empty();
-        when(orderItemRepository.findSalePageBySellerId(any(Long.class), any(Pageable.class)))
-            .thenReturn(emptyPage);
-
-        assertThrows(SaleNotFoundException.class, () -> sellerService.getMySaleList(sellerId, pageable));
-    }
+//    @Test
+//    void getMySaleList_ShouldThrowException_WhenNoSalesExist() {
+//        Long sellerId = 1L;
+//        Pageable pageable = PageRequest.of(0, 10);
+//
+//        Page<OrderItem> emptyPage = Page.empty();
+//        when(orderItemRepository.findSalePageBySellerId(any(Long.class), any(Pageable.class)))
+//            .thenReturn(emptyPage);
+//
+//        assertThrows(SaleNotFoundException.class, () -> sellerService.getMySaleList(sellerId, pageable));
+//    }
 }

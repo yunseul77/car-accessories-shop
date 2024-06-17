@@ -1,5 +1,5 @@
 package com.team9.carshop.controller;
-
+package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.AuthRequestDTO;
 import com.team9.carshop.dto.AuthResponseDTO;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController // 이 클래스를 RESTful 웹 서비스의 컨트롤러로 지정
 @RequestMapping("/auth") // 이 클래스의 기본 URL 경로를 /auth로 설정
@@ -27,7 +28,7 @@ public class AuthController {
   private JwtUtil jwtUtil;
 
   @PostMapping("/login") // HTTP POST 요청을 처리
-  public AuthResponseDTO login(@RequestBody AuthRequestDTO authRequest, HttpServletResponse response) throws AuthenticationException {
+  public AuthResponseDTO login(@RequestBody AuthRequestDTO authRequest, HttpServletResponse response) throws AuthenticationException, IOException {
     // 사용자의 인증 정보를 확인
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -40,14 +41,14 @@ public class AuthController {
 
     // 쿠키에 Access Token과 Refresh Token을 설정
     Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
-    accessTokenCookie.setHttpOnly(true);
-    accessTokenCookie.setPath("/");
-    response.addCookie(accessTokenCookie);
+    accessTokenCookie.setHttpOnly(true); // 클라이언트 측 스크립트에서 쿠키를 사용할 수 없도록 설정
+    accessTokenCookie.setPath("/"); // 쿠키의 유효 경로를 설정
+    response.addCookie(accessTokenCookie); // 응답에 쿠키를 추가
 
     Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
-    refreshTokenCookie.setHttpOnly(true);
-    refreshTokenCookie.setPath("/");
-    response.addCookie(refreshTokenCookie);
+    refreshTokenCookie.setHttpOnly(true); // 클라이언트 측 스크립트에서 쿠키를 사용할 수 없도록 설정
+    refreshTokenCookie.setPath("/"); // 쿠키의 유효 경로를 설정
+    response.addCookie(refreshTokenCookie); // 응답에 쿠키를 추가
 
     // Access Token과 Refresh Token을 응답
     return new AuthResponseDTO(accessToken, refreshToken);
