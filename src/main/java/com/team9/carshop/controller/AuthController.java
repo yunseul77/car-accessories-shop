@@ -1,5 +1,4 @@
 package com.team9.carshop.controller;
-package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.AuthRequestDTO;
 import com.team9.carshop.dto.AuthResponseDTO;
@@ -13,8 +12,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController // 이 클래스를 RESTful 웹 서비스의 컨트롤러로 지정
