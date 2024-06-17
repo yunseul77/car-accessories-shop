@@ -21,14 +21,16 @@ import MemberJoin from "./pages/auth/MemberJoin";
 import SellerJoin from "./pages/auth/SellerJoin";
 import JoinComplete from "./pages/auth/JoinComplete";
 import Login from "./pages/auth/Login";
-import ReviewForm from './pages/ReviewForm';
-import PasswordCheck from './pages/PasswordCheck';
-import SellerPasswordCheck from './pages/SellerPasswordCheck';
-import ItemPasswordCheck from './pages/ItemPasswordCheck';
-import SellerEditProfile from './pages/SellerEditProfile';
-import EditProfile from './pages/EditProfile';
-import ItemRegistration from './pages/ItemRegistration'
-import ItemEdit from './pages/ItemEdit';
+import ReviewForm from './pages/review/ReviewForm';
+import PasswordCheck from './pages/auth/PasswordCheck';
+import SellerPasswordCheck from './pages/auth/SellerPasswordCheck';
+import ItemPasswordCheck from './pages/Item/ItemPasswordCheck';
+import SellerEditProfile from './pages/Seller/SellerEditProfile';
+import EditProfile from './pages/auth/EditProfile';
+import ItemRegistration from './pages/Item/ItemRegistration'
+import ItemEdit from './pages/Item/ItemEdit';
+import ReviewList from './pages/review/ReviewList';
+import OrderDetail from './pages/MemberOrder/OrderDetail';
 
 
 const router = createBrowserRouter([
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/orders",
+    path: "/orders/:memberId",
     element: <MemberOrder />,
   },
   {
@@ -119,9 +121,15 @@ const router = createBrowserRouter([
      {
       path: "/item/edit",
       element: <ItemEdit/>,
-     }
-
-
+     },
+  {
+    path: "/review",
+    element: <ReviewList/>,
+  },
+  {
+    path: "/orders/detail/detail",
+    element: <OrderDetail/>,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

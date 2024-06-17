@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button } from 'react-bootstrap';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 const EditProfile = () => {
   const [userInfo, setUserInfo] = useState({
@@ -60,13 +60,13 @@ const EditProfile = () => {
             <hr style={{ marginTop: "10px", marginBottom: "10px" }} />
             <ul className="nav nav-pills flex-column mb-auto">
               <li className="nav-item">
-                <a href="/order" className="nav-link link-body-emphasis" aria-current="page">주문목록</a>
+                <a href="/orders" className="nav-link link-body-emphasis" aria-current="page">주문목록</a>
               </li>
               <li>
-                <a href="/order" className="nav-link active">회원정보 조회/수정</a>
+                <a href="/edit/profile" className="nav-link active">회원정보 조회/수정</a>
               </li>
               <li>
-                <a href="/order" className="nav-link link-body-emphasis">작성리뷰 목록</a>
+                <a href="/review" className="nav-link link-body-emphasis">작성리뷰 목록</a>
               </li>
             </ul>
             <hr style={{ marginTop: "10px", marginBottom: "10px" }} />

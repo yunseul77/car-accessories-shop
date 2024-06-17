@@ -1,12 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import test from '../../assets/test.png';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import test from '../../assets/test.png';
 
-function MemberOrderDetail() {
+function OrderDetail() {
   const orderDate = "2024.06.14";
   const orderNumber = "1234567890";
   const item1 = "메이튼 카 플레이";
@@ -31,33 +30,34 @@ function MemberOrderDetail() {
             <hr />
             <ul className="nav nav-pills flex-column mb-auto">
               <li className="nav-item">
-                <a href="/orders" className="nav-link active" aria-current="page">주문관리</a>
+                <a href="/orders/detail/detail" className="nav-link active" aria-current="page">주문목록</a>
               </li>
               <li>
-                <a href="/edit/profile" className="nav-link link-body-emphasis">판매내역</a>
+                <a href="/edit/profile" className="nav-link link-body-emphasis">회원정보 조회수정</a>
               </li>
               <li>
-                <a href="/review" className="nav-link link-body-emphasis">판매자 정보조회/수정</a>
+                <a href="/review" className="nav-link link-body-emphasis">작성리뷰 목록</a>
               </li>
             </ul>
             <hr />
           </div>
           <div className="d-flex flex-column flex-shrink-0 p-3" style={{ width: "48%", marginLeft: "2%" }}>
-            <h3 className="fs-4" style={{ fontWeight: "bold" }}>고객주문 상세</h3>
+            <h3 className="fs-4" style={{ fontWeight: "bold" }}>주문상세</h3>
             <hr style={{ color: "#000000", backgroundColor: "#000000", border: "0.5px solid #000000", width: "100%" }} />
+            {/* 여기가 상품 테두리 */}
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-white" style={{ width: "100%", marginTop: "1.5%", borderRadius: "10px", border: "1px solid #cccccc" }}>
               <div className="d-flex justify-content-between align-items-center">
                 <h3 className="fs-4" style={{ fontWeight: "bold", display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>
-                  <span style={{ marginLeft: "6%", marginRight: "6%" }}>배송 중</span>
-                  <span style={{ fontSize: "smaller", fontWeight: "lighter", marginRight: "3%" }}>{orderDate}</span>
-                  <span style={{ fontSize: "70%", marginRight: "5%" }}>주문</span>
+                  <span style={{ color:"blue", marginLeft:"6%", marginRight: "6%" }}>배송 중</span>
+                  <span style={{ fontSize: "smaller", fontWeight: "lighter", marginRight:"3%" }}>{orderDate}</span>
+                  <span style={{ fontSize: "70%", marginRight:"5%" }}>주문</span>
                   <span style={{ fontSize: "60%" }}>주문번호 : {orderNumber}</span>
                 </h3>
               </div>
               <ul className="list-group">
                 <li className="list-group-item d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
-                    <img src={test} alt="상품" style={{ width: "40%", height: "auto", objectFit: "cover", display: "block", cursor: "pointer" }} onClick={() => window.location.href = `/items/detail`} />
+                    <img src={test} alt="상품" style={{ width: "40%", height: "auto", objectFit: "cover", display: "block", cursor: "pointer"}} onClick={() => window.location.href = `/items/detail`} />
                     <div style={{ marginLeft: "7%" }}>
                       <div style={{ cursor: "pointer" }} onClick={() => window.location.href = `/items/detail`}>
                         <h5>{item1}</h5>
@@ -117,4 +117,4 @@ function MemberOrderDetail() {
   );
 }
 
-export default MemberOrderDetail;
+export default OrderDetail;
