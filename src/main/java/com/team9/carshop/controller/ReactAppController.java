@@ -13,6 +13,6 @@ public class ReactAppController {
 
     @RequestMapping(value = "/**")
     public Resource redirect(HttpServletRequest request) throws IOException {
-        return new ClassPathResource("/static/index.html");
+        return new ClassPathResource("/static1/index.html");
     }
 }
