@@ -1,5 +1,6 @@
 package com.team9.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -25,16 +26,17 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE orders_id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orders_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 

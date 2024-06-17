@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const ItemEdit = () => {

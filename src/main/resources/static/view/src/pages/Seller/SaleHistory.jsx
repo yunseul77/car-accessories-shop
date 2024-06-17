@@ -33,8 +33,7 @@ const SaleHistory = () => {
   }, []);
 
   return (
-      <>
-        <Header/>
+
         <div className="body-background">
           <div className="container sale-history-container">
             <h3 className="fs-4" style={{fontWeight: 'bold'}}>판매완료 내역</h3>
@@ -87,8 +86,7 @@ const SaleHistory = () => {
             </nav>
           </div>
         </div>
-        <Footer/>
-      </>
+
   );
 };
 

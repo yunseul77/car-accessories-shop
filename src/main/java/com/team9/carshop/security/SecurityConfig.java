@@ -42,7 +42,7 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable()) // CSRF 보호를 비활성화
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/auth/login", "/signup").permitAll() // /auth/login과 /signup 경로는 인증 없이 접근 가능
-            .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
+            .anyRequest().permitAll() //authenticated()임시 주석// 그 외 모든 요청은 인증 필요
         )
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션을 사용하지 않음
