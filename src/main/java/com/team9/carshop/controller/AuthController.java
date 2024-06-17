@@ -26,20 +26,20 @@ public class AuthController {
   @Autowired
   private JwtUtil jwtUtil;
 
-  @PostMapping("/login")
-  public AuthResponseDTO login(@RequestBody AuthRequestDTO authRequest)
-      throws AuthenticationException {
-    Authentication authentication = authenticationManager.authenticate( //사용자 인증정보 확인
-        new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
-            authRequest.getPassword()));
-
-    //인증된 사용자 정보 가져오기
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-    //토큰 생성
-    String token = jwtUtil.generateToken(userDetails.getUsername());
-
-    //토큰 응답
-    return new AuthResponseDTO(token);
-  }
+//  @PostMapping("/login")
+//  public AuthResponseDTO login(@RequestBody AuthRequestDTO authRequest)
+//      throws AuthenticationException {
+//    Authentication authentication = authenticationManager.authenticate( //사용자 인증정보 확인
+//        new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
+//            authRequest.getPassword()));
+//
+//    //인증된 사용자 정보 가져오기
+//    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//    //토큰 생성
+//    String token = jwtUtil.generateToken(userDetails.getUsername());
+//
+//    //토큰 응답
+//    return new AuthResponseDTO(token);
+//  }
 }

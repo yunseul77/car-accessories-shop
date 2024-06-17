@@ -1,23 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function MemberOrderDetail() {
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:8080/orders')
-    .then(response => {
-      setOrders(response.data);
-    })
-    .catch(error => {
-      console.error('There was an error!', error);
-    });
-  }, []);
-
   return (
       <>
         <Header />
@@ -31,28 +19,28 @@ function MemberOrderDetail() {
               <hr />
               <ul className="nav nav-pills flex-column mb-auto">
                 <li className="nav-item">
-                  <a href="/order" className="nav-link active" aria-current="page">주문목록</a>
+                  <a href="/orders" className="nav-link active" aria-current="page">주문목록</a>
                 </li>
                 <li>
-                  <a href="/order" className="nav-link link-body-emphasis">회원정보 조회수정</a>
+                  <a href="/edit" className="nav-link link-body-emphasis">회원정보 조회수정</a>
                 </li>
                 <li>
-                  <a href="/order" className="nav-link link-body-emphasis">작성리뷰 목록</a>
+                  <a href="/review" className="nav-link link-body-emphasis">작성리뷰 목록</a>
                 </li>
               </ul>
               <hr />
             </div>
             <div className="d-flex flex-column flex-shrink-0 p-3" style={{ width: "48%", marginLeft: "2%" }}>
               <h3 className="fs-4" style={{ fontWeight: "bold" }}>고객주문 상세</h3>
-              <hr />
-              <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style={{ width: "100%", marginTop: "1.5%" }}>
+              <hr style={{ color: "#000000", backgroundColor: "#000000", border: "0.5px solid #000000", width: "100%" }}/>
+              <div className="d-flex flex-column flex-shrink-0 p-3 p-3 bg-white" style={{ width: "100%", marginTop: "1.5%", borderRadius: "10px", border: "1px solid #cccccc" }}>
                 <div className="d-flex justify-content-left align-items-center">
                   <h3 className="fs-4" style={{ fontWeight: "bold", color:"blue"}}>배송 중</h3>
                   <a style={{ marginLeft: "2%", fontSize:"22px", marginBottom:"0.5rem"}}>2024.05.24 주문</a>
                   <a style={{ marginLeft: "2%", fontSize:"14px"}}>주문번호 12312312341</a>
                 </div>
                 <ul className="list-group">
-                  {
+                  {/* {
                     orders.map((order) => (
                         <div key={order.id}>
                           <h2>Order Number: {order.orderNumber}</h2>
@@ -71,7 +59,7 @@ function MemberOrderDetail() {
                           <button type="button" className="btn btn-success" style={{ marginTop:"5%", marginBottom: "40%", borderColor: "#ccc", backgroundColor: "white", color: "black"}}>리뷰 작성하기</button>
                         </div>
                     ))
-                  }
+                  } */}
                 </ul>
               </div>
 

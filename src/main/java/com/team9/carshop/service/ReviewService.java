@@ -21,22 +21,22 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     //Item 아이디를 가져와서 해당 상품에 대한 리뷰를 조회
-    @Transactional(readOnly = true)
-    public List<Review> getReviewsForItem(Long itemId) {
-        Item item = itemService.getItemById(itemId);
-        return reviewRepository.findByItemAndIsDeletedFalse(item);
-    }
+//    @Transactional(readOnly = true)
+//    public List<Review> getReviewsForItem(Long itemId) {
+//        Item item = itemService.getItemById(itemId);
+//        return reviewRepository.findByItemAndIsDeletedFalse(item);
+//    }
 
     //리뷰 작성
-    @Transactional
-    public Review writeReview(ReviewDTO reviewDTO) {
-        Member member = memberService.getLoggedInMember();
-        Item item = itemService.getItemById(reviewDTO.getItemId());
-        Review review = new Review(reviewDTO.getId(), member, item, reviewDTO.getSummary(),
-                //member랑 item도 reviewDTO.~ 로 해야하나??
-                reviewDTO.getDescription(), reviewDTO.getImageUrl(), reviewDTO.getRatingValue());
-        return reviewRepository.save(review);
-    }
+//    @Transactional
+//    public Review writeReview(ReviewDTO reviewDTO) {
+//        Member member = memberService.getLoggedInMember();
+//        Item item = itemService.getItemById(reviewDTO.getItemId());
+//        Review review = new Review(reviewDTO.getId(), member, item, reviewDTO.getSummary(),
+//                //member랑 item도 reviewDTO.~ 로 해야하나??
+//                reviewDTO.getDescription(), reviewDTO.getImageUrl(), reviewDTO.getRatingValue());
+//        return reviewRepository.save(review);
+//    }
 
     //리뷰 수정
     @Transactional

@@ -10,6 +10,7 @@ import App from './App';
 import MemberOrder from './pages/MemberOrder';
 import OrderDetail from './pages/OrderDetail';
 import MemberOrderDetail from './pages/MemberOrderDetail';
+import ReviewList from './pages/ReviewList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/detail",
     element: <MemberOrderDetail/>,
+  },
+  {
+    path: "/review",
+    element: <ReviewList/>,
   }
 ]);
 
