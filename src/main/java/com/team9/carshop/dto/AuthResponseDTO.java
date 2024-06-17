@@ -1,14 +1,21 @@
 package com.team9.carshop.dto;
 
-import lombok.Getter;
 
-@Getter
 public class AuthResponseDTO {
-  private String token;
+  private String accessToken;
+  private String refreshToken;
 
-  public AuthResponseDTO(String token) {
-    this.token = token;
+  public AuthResponseDTO(String accessToken, String refreshToken) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
   }
 
+  // Getter 메서드
+  public String getAccessToken() {
+    return accessToken;
+  }
 
+  public String getRefreshToken() {
+    return refreshToken;
+  }
 }

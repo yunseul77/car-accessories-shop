@@ -13,10 +13,10 @@ public class MemberJoinResponseDTO {
   private String email;
   private String phone;
   private String address;
-  private MemberRole role;
+  private String role;
 
 
-  public MemberJoinResponseDTO(Long id, String loginId, String name, String email, String phone, String address, MemberRole role) {
+  public MemberJoinResponseDTO(Long id, String loginId, String name, String email, String phone, String address, String role) {
     this.id = id;
     this.loginId = loginId;
     this.name = name;
