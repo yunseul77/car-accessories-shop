@@ -10,6 +10,7 @@ import App from './App';
 import MemberOrder from './pages/MemberOrder';
 import OrderDetail from './pages/OrderDetail';
 import MemberOrderDetail from './pages/MemberOrderDetail';
+import ItemListByCategory from './pages/ItemListByCategory';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/detail",
     element: <MemberOrderDetail/>,
+  },
+  {
+    path: "/itemList",
+    element: <ItemListByCategory/>,
   }
 ]);
 

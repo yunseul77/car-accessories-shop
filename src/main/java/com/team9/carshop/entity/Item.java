@@ -34,7 +34,10 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToMany(mappedBy = "items")
+    @ManyToMany
+    @JoinTable(name = "category_item",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
 
     @Column(length = 255, nullable = false)
