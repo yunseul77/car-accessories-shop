@@ -3,6 +3,9 @@ package com.team9.carshop.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team9.carshop.dto.ItemDto;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +21,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE Item SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE Item SET is_deleted = true WHERE item_id = ?")
 @Where(clause = "is_deleted = false")
 public class Item extends BaseEntity {
 

@@ -1,6 +1,12 @@
 package com.team9.carshop.entity;
 
 import com.team9.carshop.dto.ReviewDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,7 +23,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE review_id = ?")
 @Where(clause = "is_deleted = false")
 public class Review extends BaseEntity {
 
@@ -28,6 +34,7 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonManagedReference
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)

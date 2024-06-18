@@ -2,7 +2,10 @@ package com.team9.carshop.controller;
 
 import com.team9.carshop.entity.Order;
 import com.team9.carshop.service.OrderService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +25,16 @@ public class OrderController {
 
     @PostMapping
     public Order createOrder(@RequestBody Order order) {
-        return orderService.createOrder(order);
+        Order createdOrder = orderService.createOrder(order);
+        return orderService.getOrder(createdOrder.getId())
+            .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다..."));
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long orderId) {
+        Optional<Order> order = orderService.getOrder(orderId);
+        return order.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{memberId}")
@@ -40,26 +52,3 @@ public class OrderController {
         orderService.deleteOrder(id);
     }
 }
-//package com.team9.carshop.controller;
-//
-//import com.team9.carshop.entity.Order;
-//import com.team9.carshop.service.OrderService;
-//import java.util.List;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//@RestController
-//public class OrderController {
-//
-//    private final OrderService orderService;
-//
-//    public OrderController(OrderService orderService) {
-//        this.orderService = orderService;
-//    }
-//
-//    @GetMapping("/api/orders/{memberId}")
-//    public List<Order> getOrdersByMemberId(@PathVariable Long memberId) {
-//        return orderService.getOrdersByMemberId(memberId);
-//    }
-//}

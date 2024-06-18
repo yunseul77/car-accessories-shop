@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 @SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE orders_id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "orders")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Order extends BaseEntity {
 
     @Id
@@ -38,6 +39,7 @@ public class Order extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "delivery_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Delivery delivery;
 
     @ManyToOne(fetch = FetchType.LAZY)

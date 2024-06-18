@@ -1,25 +1,43 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import React from 'react';
+import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import test from '../../assets/test.png';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 function OrderDetail() {
+  const { orderId } = useParams();
+  const [order, setOrder] = useState(null);
+
+  useEffect(() => {
+    axios.get(`/orders/${orderId}`)
+      .then(response => {
+        setOrder(response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [orderId]);
+
+  if (!order) {
+      return <div>왜 안나오냐</div>;
+  }
+
   const orderDate = "2024.06.14";
   const orderNumber = "1234567890";
   const item1 = "메이튼 카 플레이";
-  const itemId = 1;
+//   const itemId = 1;
   const totalPrice = "123455";
   const totalCount = 4;
-  const memberName = "홍길동";
-  const phoneNumber = "010-1234-5678";
-  const address = "서울시 강남구 역삼동 123-45";
-  const request = "부재시 경비실에 맡겨주세요";
+//   const memberName = "홍길동";
+//   const phoneNumber = "010-1234-5678";
+//   const address = "서울시 강남구 역삼동 123-45";
+//   const request = "부재시 경비실에 맡겨주세요";
 
   return (
     <>
-      <Header />
       <main style={{ marginBottom: "5%" }}>
         <div className="b-example-divider"></div>
         <div className="row">
@@ -93,10 +111,10 @@ function OrderDetail() {
               <div className="list-group">
                 {/* 구매자의 정보를 받아와서 표시해야함 */}
                 <div className="list-group-item">
-                  <p>수령인 성명 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{memberName}</p>
-                  <p>배송문자 수신번호 &emsp;&emsp;&emsp;&emsp;&emsp;{phoneNumber}</p>
-                  <p>배송지 상세주소 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{address}</p>
-                  <p>배송 요청사항 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{request}</p>
+                  <p>수령인 성명 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{order.memberName}</p>
+                  <p>배송문자 수신번호 &emsp;&emsp;&emsp;&emsp;&emsp;{order.phoneNumber}</p>
+                  <p>배송지 상세주소 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{order.address}</p>
+                  <p>배송 요청사항 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{order.request}</p>
                 </div>
               </div>
               <hr style={{ borderColor: "#eeeeeee", margin: "5% 0" }} />
@@ -112,7 +130,6 @@ function OrderDetail() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

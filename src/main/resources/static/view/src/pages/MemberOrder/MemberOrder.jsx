@@ -13,7 +13,7 @@ function MemberOrder() {
   const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-      axios.get('/api/orders/${memberId}')
+      axios.get('/orders/${memberId}')
         .then(response => {
           setOrders(response.data);
         })

@@ -108,7 +108,6 @@ const Main = () => {
 
   return (
       <>
-        <Header />
         <div className="main-container">
           <div className="container">
             <div className="title-image-container">
@@ -190,7 +189,6 @@ const Main = () => {
             </section>
           </div>
         </div>
-        <Footer />
       </>
   );
 };

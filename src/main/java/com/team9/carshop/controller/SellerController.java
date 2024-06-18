@@ -5,6 +5,7 @@ import com.team9.carshop.dto.OrderManageDto;
 import com.team9.carshop.dto.SaleHistoryDto;
 import com.team9.carshop.dto.UpdateDeliveryStatusDto;
 import com.team9.carshop.repository.OrderRepository;
+import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.SellerService;
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SellerController {
 
     private final SellerService sellerService;
+    private final JwtUtil jwtUtil;
 
     // 주문 관리 페이지 조회
     @GetMapping("/{sellerId}/orderpages")
@@ -48,25 +51,27 @@ public class SellerController {
 
 
     // 판매완료 페이지 조회
-    @GetMapping("/{sellerId}/salepages")
+    @GetMapping("/salepages")
     public ResponseEntity<Page<SaleHistoryDto>> showMySaleList(
+//        @CookieValue(value = "token", required = false) String token,
         @PathVariable Long sellerId,
         @RequestParam(name = "pageindex", defaultValue = "0") int pageIndex,
         @RequestParam(name = "pagesize", defaultValue = "10") int pageSize,
         @RequestParam(name = "sort", defaultValue = "updatedAt") String sort) {
 
+//        if (!jwtUtil.validateToken(token)) {
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(Direction.DESC, sort));
 
         Page<SaleHistoryDto> mySaleList = sellerService.getMySaleList(sellerId, pageable);
         return ResponseEntity.ok(mySaleList);
-
     }
+//    }
 
     // 주문 상세 조회 (특정1)
     @GetMapping("/orders/{itemId}/{orderId}")
     public ResponseEntity<OrderManageDetailDto> showMyOrderDetail(
-         @PathVariable Long itemId,
-         @PathVariable Long orderId) {
+        @PathVariable Long itemId,
+        @PathVariable Long orderId) {
 
         OrderManageDetailDto myOrderDetail = sellerService.getMyOrderDetail(orderId, itemId);
         return ResponseEntity.ok(myOrderDetail);
