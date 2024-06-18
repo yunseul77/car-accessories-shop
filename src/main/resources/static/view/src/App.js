@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Main from "./pages/Main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -10,48 +10,45 @@ import Layout from "./components/Layout";
 
 function App() {
   return (
-    <Router>
       <Routes>
         <Route path={"/"} element={<Main />}/>
 
 
-        <Route path={"/auth"} element={}>
-          <Route path={"/login"} element={}/>
+        <Route path={"/auth"} element={<Main />}>
+          <Route path={"login"} element={<Main />}/>
         </Route>
 
 
-        <Route path={"cart"} element={}>
-          <Route path={"/create"} element={}/>
-          <Route path={"/:cartId/add"} element={}/>
-          <Route path={"/:cartId/items/:itemId"} element={}/>
-          <Route path={"/:cartId/items"} element={}/>
-          <Route path={"/:cartId/items/:itemId"} element={}/>
-          <Route path={"/:cartId/total"} element={}/>
+        <Route path={"/cart"} element={<Main />}>
+          <Route path={"create"} element={<Main />}/>
+          <Route path={":cartId/add"} element={<Main />}/>
+          <Route path={":cartId/items/:itemId"} element={<Main />}/>
+          <Route path={":cartId/items"} element={<Main />}/>
+          <Route path={":cartId/total"} element={<Main />}/>
         </Route>
 
 
-        <Route path={"member"} element={}>
-          <Route path={"signup"} element={}/>
+        <Route path={"/member"} element={<Main />}>
+          <Route path={"signup"} element={<Main />}/>
         </Route>
 
 
-        <Route path={"review"} element={<Layout/>}>
-          <Route path={":/itemId"} element={}/>
-          <Route path={":/memberId/write"} element={}/>
-          <Route path={"/update/:reviewId"} element={}/>
-          <Route path={"delete/:reviewId"} element={}/>
+        <Route path={"/review"} element={<Layout/>}>
+          <Route path={":itemId"} element={<Main />}/>
+          <Route path={":memberId/write"} element={<Main />}/>
+          <Route path={"update/:reviewId"} element={<Main />}/>
+          <Route path={"delete/:reviewId"} element={<Main />}/>
         </Route>
 
 
         <Route path={"/sellers"} element={<SellerLayout />}>
-          <Route path={"/:sellerId/orderpages"} element={<OrderManage/>}/>
-          <Route path={"/:sellerId/salepages"} element={<SaleHistory/>}/>
-          <Route path={"orders/:itemId/:orderId"} element={}/>
-          <Route path={"orders/update-delivery"} element={}/>
-          <Route path={"orders/:orderId"} element={}/>
+          <Route path={":sellerId/orderpages"} element={<OrderManage/>}/>
+          <Route path={":sellerId/salepages"} element={<SaleHistory/>}/>
+          <Route path={"orders/:itemId/:orderId"} element={<Main />}/>
+          <Route path={"orders/update-delivery"} element={<Main />}/>
+          <Route path={"orders/:orderId"} element={<Main />}/>
         </Route>
       </Routes>
-    </Router>
   )
 }
 
