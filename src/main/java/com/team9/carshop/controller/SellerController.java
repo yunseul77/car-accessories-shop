@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SellerController {
 
     private final SellerService sellerService;
-    private final OrderRepository orderRepository;
 
     // 주문 관리 페이지 조회
     @GetMapping("/{sellerId}/orderpages")
@@ -79,7 +78,7 @@ public class SellerController {
     public ResponseEntity<String> updateDeliveryStatus(
         @RequestBody UpdateDeliveryStatusDto updateDeliveryStatusDto) {
         sellerService.updateDeliveryStatus(updateDeliveryStatusDto);
-        return ResponseEntity.ok("배송 상태가" + updateDeliveryStatusDto.getDeliveryStatus() + "으로 변경되었습니다.");
+        return ResponseEntity.ok("배송 상태가 " + updateDeliveryStatusDto.getDeliveryStatus() + "으로 변경되었습니다.");
 
     }
 
@@ -87,7 +86,7 @@ public class SellerController {
     // 주문 삭제
     @DeleteMapping("/orders/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
-        orderRepository.deleteById(orderId);
+        sellerService.softDeleteOrder(orderId);
         return ResponseEntity.ok().build();
 
     }

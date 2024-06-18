@@ -29,6 +29,7 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
@@ -36,6 +37,7 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(name = "category_item",
         joinColumns = @JoinColumn(name = "item_id"),
@@ -48,6 +50,7 @@ public class Item extends BaseEntity {
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
+    @Builder.Default
     @Column(precision = 4, scale = 2)
     private BigDecimal discount = BigDecimal.ZERO;
 

@@ -22,8 +22,7 @@ function OrderManageDetail() {
   const receiverName = "홍길동"
 
   return (
-      <>
-        <Header/>
+
         <main style={{marginBottom: "5%"}}>
           <div className="b-example-divider"></div>
           <div className="row">
@@ -197,8 +196,7 @@ function OrderManageDetail() {
             </div>
           </div>
         </main>
-        <Footer/>
-      </>
+
   )
       ;
 }

@@ -1,5 +1,6 @@
 package com.team9.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -37,7 +38,6 @@ public class Delivery extends BaseEntity {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "delivery")//지연로딩 필요시 부름, 딜리버리가 셋팅한거로 따라 가겠다
-    @JoinColumn(name = "order_id") //외래키 설정(찾아보기)
     private Order order;
 
     @Column(length = 500, nullable = false)
