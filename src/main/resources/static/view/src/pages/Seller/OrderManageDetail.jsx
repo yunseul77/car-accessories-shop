@@ -155,7 +155,7 @@ function OrderManageDetail() {
                     fontWeight: 'bold',
                     fontSize: '25px',
                     textAlign: 'right'
-                  }}>총 결제금액: {totalPrice}원</p>
+                  }}>총 결제금액: {orderDetail.totalPrice}원</p>
                 </div>
               </div>
             </div>

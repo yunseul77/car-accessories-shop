@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE Category SET is_deleted = true WHERE category_id = ?")
 @Where(clause = "is_deleted = false")
 public class Category extends BaseEntity {

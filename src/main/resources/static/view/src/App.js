@@ -8,12 +8,13 @@ import SellerLayout from "./components/SellerLayout";
 import Layout from "./components/Layout";
 import MemberOrder from "./pages/MemberOrder/MemberOrder";
 import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
+import OrderManageDetail from "./pages/Seller/OrderManageDetail";
 
 function App() {
   return (
-       <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<SaleHistory />}/>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Main />}/>
 
                 <Route path="auth">
                   <Route path="login" element={<Main />} />
