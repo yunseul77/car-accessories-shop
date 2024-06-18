@@ -75,4 +75,16 @@ public class JwtUtil {
       return false; // 토큰이 유효하지 않으면 false 반환
     }
   }
+
+  public void setSecret(String secret) {
+    this.secret = secret;
+  }
+
+  public void setAccessExpiration(Long accessExpiration) {
+    this.accessExpiration = accessExpiration;
+  }
+
+  public void setRefreshExpiration(Long refreshExpiration) {
+    this.refreshExpiration = refreshExpiration;
+  }
 }
