@@ -56,7 +56,7 @@ const ItemListPaginationForm = () => {
                 <div className="loading">로딩 중...</div>
             ) : (
                 <>
-                    <ul>
+                    <ul className="item-list">
                         {items.map((item) => (
                             <BabyItem key={item.id} item={item} />
                         ))}

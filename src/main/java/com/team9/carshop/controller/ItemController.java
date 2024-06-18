@@ -24,11 +24,11 @@ public class ItemController {
     private final ReviewService reviewService;
 
     // 카테고리별 아이템 목록 조회
-    @GetMapping("/{category}")
-    public ResponseEntity<Page<ItemDto>> getAllItemListByCategory(@PathVariable("category") String categoryName,
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<Page<ItemDto>> getAllItemListByCategory(@PathVariable Long categoryId,
                                                                   @RequestParam(name = "page", defaultValue = "0") int page,
                                                                   @RequestParam(name = "size", defaultValue = "16") int size) {
-        Page<ItemDto> itemPage = itemService.getAllItemByCategory(categoryName, PageRequest.of(page, size));
+        Page<ItemDto> itemPage = itemService.getAllItemByCategory(categoryId, PageRequest.of(page, size));
         return new ResponseEntity<>(itemPage, HttpStatus.OK);
     }
 
