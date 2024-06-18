@@ -29,4 +29,3 @@ public class Cart extends BaseEntity {
     private List<CartItem> Items = new ArrayList<>();
 
 }
-

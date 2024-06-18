@@ -1,6 +1,7 @@
 package com.team9.carshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team9.carshop.enums.MemberRole;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class Member extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "member")
+    @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
 
     @Builder.Default

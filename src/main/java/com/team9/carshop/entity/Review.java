@@ -34,6 +34,7 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonManagedReference
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -10,13 +10,13 @@ const MyPageNav = () => {
         <hr />
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
-            <a href="/order" className="nav-link active" aria-current="page">주문목록</a>
+            <a href="/orders" className="nav-link active" aria-current="page">주문목록</a>
           </li>
           <li>
-            <a href="/order" className="nav-link link-body-emphasis">회원정보 조회수정</a>
+            <a href="/edit/profile" className="nav-link link-body-emphasis">회원정보 조회수정</a>
           </li>
           <li>
-            <a href="/order" className="nav-link link-body-emphasis">작성리뷰 목록</a>
+            <a href="/review" className="nav-link link-body-emphasis">작성리뷰 목록</a>
           </li>
         </ul>
         <hr />
