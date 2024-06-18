@@ -8,6 +8,8 @@ import SellerLayout from "./components/SellerLayout";
 import Layout from "./components/Layout";
 import MemberOrder from "./pages/MemberOrder/MemberOrder";
 import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
+import Login from "./pages/auth/Login";
+import MemberJoin from "./pages/auth/MemberJoin";
 
 function App() {
   return (
@@ -16,7 +18,8 @@ function App() {
                 <Route index element={<SaleHistory />}/>
 
                 <Route path="auth">
-                  <Route path="login" element={<Main />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
                 </Route>
 
                 <Route path="cart">
@@ -27,9 +30,6 @@ function App() {
                   <Route path=":cartId/total" element={<Main />} />
                 </Route>
 
-                <Route path="member">
-                  <Route path="signup" element={<Main />} />
-                </Route>
 
                 <Route path="review">
                   <Route path=":itemId" element={<Main />} />
@@ -43,7 +43,7 @@ function App() {
                 <Route path="sellers" element={<SellerLayout />}>
                   <Route path=":sellerId/orderpages" element={<OrderManage />} />
                   <Route path=":sellerId/salepages" element={<SaleHistory />} />
-                  <Route path="orders/:itemId/:orderId" element={<OrderManageDetail />} />
+                  <Route path="orders/:itemId/:orderId" element={<Main />} />
                   <Route path="orders/update-delivery" element={<MemberOrderDetail />} />
                   <Route path="orders/:orderId" element={<MemberOrder />} />
                 </Route>
