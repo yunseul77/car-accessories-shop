@@ -1,26 +1,43 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import test from '../../assets/test.png';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import test from '../../assets/test.png';
 
-function MemberOrderDetail() {
+function OrderDetail() {
+  const { orderId } = useParams();
+  const [order, setOrder] = useState(null);
+
+  useEffect(() => {
+    axios.get(`/orders/${orderId}`)
+      .then(response => {
+        setOrder(response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [orderId]);
+
+  if (!order) {
+      return <div>왜 안나오냐</div>;
+  }
+
   const orderDate = "2024.06.14";
   const orderNumber = "1234567890";
   const item1 = "메이튼 카 플레이";
-  const itemId = 1;
+//   const itemId = 1;
   const totalPrice = "123455";
   const totalCount = 4;
-  const memberName = "홍길동";
-  const phoneNumber = "010-1234-5678";
-  const address = "서울시 강남구 역삼동 123-45";
-  const request = "부재시 경비실에 맡겨주세요";
+//   const memberName = "홍길동";
+//   const phoneNumber = "010-1234-5678";
+//   const address = "서울시 강남구 역삼동 123-45";
+//   const request = "부재시 경비실에 맡겨주세요";
 
   return (
     <>
-      <Header />
       <main style={{ marginBottom: "5%" }}>
         <div className="b-example-divider"></div>
         <div className="row">
@@ -31,33 +48,34 @@ function MemberOrderDetail() {
             <hr />
             <ul className="nav nav-pills flex-column mb-auto">
               <li className="nav-item">
-                <a href="/orders" className="nav-link active" aria-current="page">주문관리</a>
+                <a href="/orders/detail/detail" className="nav-link active" aria-current="page">주문목록</a>
               </li>
               <li>
-                <a href="/edit/profile" className="nav-link link-body-emphasis">판매내역</a>
+                <a href="/edit/profile" className="nav-link link-body-emphasis">회원정보 조회수정</a>
               </li>
               <li>
-                <a href="/review" className="nav-link link-body-emphasis">판매자 정보조회/수정</a>
+                <a href="/review" className="nav-link link-body-emphasis">작성리뷰 목록</a>
               </li>
             </ul>
             <hr />
           </div>
           <div className="d-flex flex-column flex-shrink-0 p-3" style={{ width: "48%", marginLeft: "2%" }}>
-            <h3 className="fs-4" style={{ fontWeight: "bold" }}>고객주문 상세</h3>
+            <h3 className="fs-4" style={{ fontWeight: "bold" }}>주문상세</h3>
             <hr style={{ color: "#000000", backgroundColor: "#000000", border: "0.5px solid #000000", width: "100%" }} />
+            {/* 여기가 상품 테두리 */}
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-white" style={{ width: "100%", marginTop: "1.5%", borderRadius: "10px", border: "1px solid #cccccc" }}>
               <div className="d-flex justify-content-between align-items-center">
                 <h3 className="fs-4" style={{ fontWeight: "bold", display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>
-                  <span style={{ marginLeft: "6%", marginRight: "6%" }}>배송 중</span>
-                  <span style={{ fontSize: "smaller", fontWeight: "lighter", marginRight: "3%" }}>{orderDate}</span>
-                  <span style={{ fontSize: "70%", marginRight: "5%" }}>주문</span>
+                  <span style={{ color:"blue", marginLeft:"6%", marginRight: "6%" }}>배송 중</span>
+                  <span style={{ fontSize: "smaller", fontWeight: "lighter", marginRight:"3%" }}>{orderDate}</span>
+                  <span style={{ fontSize: "70%", marginRight:"5%" }}>주문</span>
                   <span style={{ fontSize: "60%" }}>주문번호 : {orderNumber}</span>
                 </h3>
               </div>
               <ul className="list-group">
                 <li className="list-group-item d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
-                    <img src={test} alt="상품" style={{ width: "40%", height: "auto", objectFit: "cover", display: "block", cursor: "pointer" }} onClick={() => window.location.href = `/items/detail`} />
+                    <img src={test} alt="상품" style={{ width: "40%", height: "auto", objectFit: "cover", display: "block", cursor: "pointer"}} onClick={() => window.location.href = `/items/detail`} />
                     <div style={{ marginLeft: "7%" }}>
                       <div style={{ cursor: "pointer" }} onClick={() => window.location.href = `/items/detail`}>
                         <h5>{item1}</h5>
@@ -93,10 +111,10 @@ function MemberOrderDetail() {
               <div className="list-group">
                 {/* 구매자의 정보를 받아와서 표시해야함 */}
                 <div className="list-group-item">
-                  <p>수령인 성명 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{memberName}</p>
-                  <p>배송문자 수신번호 &emsp;&emsp;&emsp;&emsp;&emsp;{phoneNumber}</p>
-                  <p>배송지 상세주소 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{address}</p>
-                  <p>배송 요청사항 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{request}</p>
+                  <p>수령인 성명 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{order.memberName}</p>
+                  <p>배송문자 수신번호 &emsp;&emsp;&emsp;&emsp;&emsp;{order.phoneNumber}</p>
+                  <p>배송지 상세주소 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{order.address}</p>
+                  <p>배송 요청사항 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{order.request}</p>
                 </div>
               </div>
               <hr style={{ borderColor: "#eeeeeee", margin: "5% 0" }} />
@@ -112,9 +130,8 @@ function MemberOrderDetail() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
 
-export default MemberOrderDetail;
+export default OrderDetail;

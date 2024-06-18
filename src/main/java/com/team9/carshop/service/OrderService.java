@@ -60,4 +60,7 @@ public class OrderService {
         return orderRepository.findAll().stream();
     }
 
+    public List<Order> getOrdersByMemberId(Long memberId) {
+        return orderRepository.findAllByMemberId(memberId);
+    }
 }

@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    @Query("select c from Category c where c.name = :name")
-    Category findByCategoryName(@Param("name") String categoryName);
+    @Query("select c from Category c where c.id = :id")
+    Category findByCategoryId(@Param("id") Long categoryId);
 
-    Page<Item> findByCategoriesName(String categoryName, Pageable pageable);
+    Page<Item> findByCategoriesId(Long categoryId, Pageable pageable);
 
     Page<Item> findByMemberId(Long id, Pageable pageable);
 }

@@ -1,6 +1,7 @@
 package com.team9.carshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team9.carshop.enums.MemberRole;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor//(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE member SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE member SET is_deleted = true WHERE member_id = ?")
 @Where(clause = "is_deleted = false")
 @Entity
 public class Member extends BaseEntity {
@@ -30,6 +31,7 @@ public class Member extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "member")
+    @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
 
     @Builder.Default
@@ -43,7 +45,7 @@ public class Member extends BaseEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String loginId;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 500, nullable = false)
     private String password;
 
     @Column(length = 50, nullable = false)

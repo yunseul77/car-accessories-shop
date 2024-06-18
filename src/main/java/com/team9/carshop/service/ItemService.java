@@ -24,10 +24,10 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     // 카테고리별 아이템 조회
-    public Page<ItemDto> getAllItemByCategory(String categoryName, Pageable pageable) {
-        Category category = itemRepository.findByCategoryName(categoryName);
+    public Page<ItemDto> getAllItemByCategory(Long categoryId, Pageable pageable) {
+        Category category = itemRepository.findByCategoryId(categoryId);
         if (category != null) {
-            Page<Item> itemPage = itemRepository.findByCategoriesName(categoryName, pageable);
+            Page<Item> itemPage = itemRepository.findByCategoriesId(categoryId, pageable);
 
             // Item -> ItemDto 변환
             List<ItemDto> itemDtoList = itemPage.getContent()
@@ -38,7 +38,7 @@ public class ItemService {
             return new PageImpl<>(itemDtoList, pageable, itemPage.getTotalElements());
 
         } else {
-            throw new CategoryNotFoundException("해당 카테고리를 찾을 수 없습니다: " + categoryName);
+            throw new CategoryNotFoundException("해당 카테고리를 찾을 수 없습니다: " + categoryId);
         }
     }
 

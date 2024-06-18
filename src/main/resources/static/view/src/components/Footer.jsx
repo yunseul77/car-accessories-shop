@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-      <footer className="bg-dark text-light py-4 mt-auto">
+      <footer style={{ width: '100%', position: 'relative', marginTop: '10%', minHeight: '50px' }} className="bg-dark text-light py-4">
         <div className="row justify-content-center mt-4">
           <div className="col text-center">
             <h1>Developed By Team 09</h1>
