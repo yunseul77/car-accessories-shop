@@ -13,7 +13,7 @@ function MemberOrder() {
   const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-      axios.get('/orders/${memberId}')
+      axios.get(`/orders/${memberId}`)
         .then(response => {
           setOrders(response.data);
         })
@@ -24,9 +24,10 @@ function MemberOrder() {
 
   return (
     <>
+    <Header/>
       <main style={{ marginBottom: "5%" }}>
         <div className="b-example-divider"></div>
-        <div className="row">
+        <div className="row" style={{width:"100%"}}>
           <MyPageNav/>
           <div className="d-flex flex-column flex-shrink-0 p-3" style={{ width: "48%", marginLeft: "2%" }}>
             <h3 className="fs-4" style={{ fontWeight: "bold" }}>주문목록</h3>

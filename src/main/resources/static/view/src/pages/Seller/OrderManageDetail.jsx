@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 
 function OrderManageDetail() {
   const { itemId, orderId } = useParams();
-  const [orderDetail, setOrderDetail] = useState(null);
+  const [orderDetail, setOrderDetail] = useState([]);
 
   useEffect(() => {
     const fetchOrderDetail = async () => {

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useContext}from 'react';
 import logo from '../assets/로고.png';
+import { TokenContext } from '../tokenContext';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
+  const { token, logout } = useContext(TokenContext);
+
   return (
     <div className="header-container">
       <div className="b-example-divider"></div>
@@ -9,28 +13,30 @@ const Header = () => {
           <div className="container d-flex flex-wrap">
             <ul className="nav me-auto">
               <li className="nav-item">
-                <a href="#" className="nav-link link-body-emphasis px-2 active" aria-current="page" style={{ fontSize: "80%", padding: "1% 2%" }}>
-                  <span style={{ verticalAlign: "inherit" }}>고객센터</span>
-                </a>
+{/*                   고객센터 없앤곳 (로그인/로그아웃 버튼을 오른쪽 끝에 배치하기위해 <a>태그만 지움) -feat.코치님 */}
               </li>
             </ul>
             <ul className="nav">
               <li className="nav-item">
-                <a href="#" className="nav-link link-body-emphasis px-2" style={{ fontSize: "80%", padding: "1% 2%" }}>
-                  <span style={{ verticalAlign: "inherit" }}>로그아웃</span>
-                </a>
+                {
+                  token ? (<button onClick={logout} className="nav-link link-body-emphasis px-2" style={{ fontSize: "80%", padding: "1% 2%" }}>
+                    <span style={{ verticalAlign: "inherit" }}>로그아웃</span>
+                  </button>) : <Link to="/auth/Login" className="nav-link link-body-emphasis px-2" style={{ fontSize: "80%", padding: "1% 2%" }}>
+                  <span style={{ verticalAlign: "inherit" }}>로그인</span>
+                </Link>
+                }
               </li>
-              <li className="nav-item">
+              {!token && <li className="nav-item">
                 <a href="#" className="nav-link link-body-emphasis px-2" style={{ fontSize: "80%", padding: "1% 2%" }}>
                   <span style={{ verticalAlign: "inherit" }}>가입하기</span>
                 </a>
-              </li>
+              </li>}
             </ul>
           </div>
         </nav>
         <header className="py-3 border-bottom">
           <div className="container d-flex flex-wrap justify-content-between align-items-center">
-            <a href="/main" className="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none" style={{ flex: "0.6" }}>
+            <a href="/" className="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none" style={{ flex: "0.6" }}>
               <img src={logo} alt="Logo" style={{ width: "40px", height: "40px", marginRight: "10px" }} />
               <span className="fs-4">차량용품</span>
             </a>
