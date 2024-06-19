@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.team9.carshop.enums.OrderStatus;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import jakarta.persistence.*;
@@ -37,7 +40,7 @@ public class Order extends BaseEntity {
     @Column(name = "orders_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Delivery delivery;
@@ -66,4 +69,25 @@ public class Order extends BaseEntity {
 
     @Column(precision = 12, scale = 2)
     private BigDecimal totalPrice;
+
+    //== 주문번호 자동생성 메서드 ==//
+    @PrePersist
+    protected void OnCreate() {
+        if (this.orderNumber == null) {
+            this.orderNumber = addOrderNumber();
+        }
+    }
+
+    private String addOrderNumber() {
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter yyMMdd = DateTimeFormatter.ofPattern("yyMMdd");
+        String create = now.format(yyMMdd);
+
+        Random random = new Random();
+        StringBuilder randomPart = new StringBuilder(5);
+        for(int i = 0; i < 5; i++) {
+            randomPart.append(random.nextInt(10));
+        }
+        return create + randomPart;
+    }
 }
