@@ -12,7 +12,7 @@ import org.hibernate.annotations.Where;
 
 @Getter @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE Category SET is_deleted = true WHERE cart_item_id = ?")
 @Where(clause = "is_deleted = false")
 @Entity

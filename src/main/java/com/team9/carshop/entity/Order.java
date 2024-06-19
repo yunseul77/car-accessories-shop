@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor///(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE orders_id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "orders")

@@ -22,7 +22,6 @@ const PasswordCheck = () => {
 
   return (
     <>
-      <Header />
       <main style={{ marginBottom: "5%" }}>
         <div className="b-example-divider"></div>
         <div className="row">
