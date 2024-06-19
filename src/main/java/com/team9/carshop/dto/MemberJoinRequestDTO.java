@@ -29,11 +29,11 @@ public class MemberJoinRequestDTO {
   private String address;
 
   @NotEmpty(message = "비밀번호는 필수입니다.")
-  @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}", message = "최소 하나의 문잔 및 숫자를 포함한 8 ~ 16자 이여야 합니다.")
+  @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}", message = "최소 하나의 문자 및 숫자를 포함한 8 ~ 16자 이여야 합니다.")
   private String password1;
 
   @NotEmpty(message = "비밀번호 확인은 필수입니다.")
-  @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}", message = "최소 하나의 문잔 및 숫자를 포함한 8 ~ 16자 이여야 합니다.")
+  @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}", message = "최소 하나의 문자 및 숫자를 포함한 8 ~ 16자 이여야 합니다.")
   private String password2;
 
   @NotEmpty(message = "역할은 필수입니다.")

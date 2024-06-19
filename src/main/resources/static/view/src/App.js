@@ -1,4 +1,4 @@
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -8,15 +8,21 @@ import SellerLayout from "./components/SellerLayout";
 import Layout from "./components/Layout";
 import MemberOrder from "./pages/MemberOrder/MemberOrder";
 import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
+import OrderManageDetail from "./pages/Seller/OrderManageDetail";
+import { TokenProvider } from "./tokenContext";
+import Login from "./pages/auth/Login";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-       <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<SaleHistory />}/>
+    <TokenProvider>
+     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Main />}/>
 
                 <Route path="auth">
-                  <Route path="login" element={<Main />} />
+                  <Route path="login" element={<Login />} />
                 </Route>
 
                 <Route path="cart">
@@ -39,15 +45,20 @@ function App() {
                 </Route>
               </Route>
 
+              <Route path="orders">
+                <Route path=":memberId" element={<MemberOrder />} />
+                <Route path=":memberId/:orderId" element={<MemberOrderDetail />} />
+              </Route>
 
                 <Route path="sellers" element={<SellerLayout />}>
                   <Route path=":sellerId/orderpages" element={<OrderManage />} />
                   <Route path=":sellerId/salepages" element={<SaleHistory />} />
                   <Route path="orders/:itemId/:orderId" element={<OrderManageDetail />} />
-                  <Route path="orders/update-delivery" element={<MemberOrderDetail />} />
-                  <Route path="orders/:orderId" element={<MemberOrder />} />
                 </Route>
             </Routes>
+           <Footer style={{ marginTop: 'auto' }} />
+         </div>
+      </TokenProvider>
   )
 }
 

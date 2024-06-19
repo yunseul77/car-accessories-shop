@@ -1,8 +1,7 @@
 package com.team9.carshop;
-
+import java.util.UUID;
 import com.team9.carshop.entity.*;
 import com.team9.carshop.enums.DeliveryStatus;
-import com.team9.carshop.enums.MemberRole;
 import com.team9.carshop.enums.OrderStatus;
 import com.team9.carshop.repository.*;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,15 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @Commit
 public class DataInsertionTest {
-
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private CartItemRepository cartItemRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @Autowired
     private DeliveryRepository deliveryRepository;
@@ -47,124 +36,30 @@ public class DataInsertionTest {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
-
     private final Random random = new Random();
     private final AtomicInteger uniqueId = new AtomicInteger(0);
 
     @Test
     public void initializeData() {
-        // 여러 개의 회원 추가
-        for (int i = 0; i < 10; i++) {
-            Member member = createMember();
-            memberRepository.save(member);
+        Member member = memberRepository.findById(25L).orElseThrow(() -> new RuntimeException("Member not found"));
+        Item item347 = itemRepository.findById(347L).orElseThrow(() -> new RuntimeException("Item not found"));
 
-            // 여러 개의 카테고리 추가
-            for (int j = 0; j < 3; j++) {
-                Category category = createCategory();
-                categoryRepository.save(category);
+        for (int n = 0; n < 10; n++) {
+            Delivery delivery = createDelivery();
+            deliveryRepository.save(delivery);
 
-                // 여러 개의 상품 추가
-                for (int k = 0; k < 5; k++) {
-                    Item item = createItem(category, member);
-                    itemRepository.save(item);
+            Order order = createOrder(member, delivery, uniqueId.incrementAndGet());
+            orderRepository.save(order);
 
-                    // 여러 개의 리뷰 추가
-                    for (int l = 0; l < 3; l++) {
-                        Review review = createReview(member, item);
-                        reviewRepository.save(review);
-                    }
-                }
-            }
-
-            // 장바구니 및 장바구니 아이템 추가
-            Cart cart = new Cart();
-            cartRepository.save(cart);
-
-            for (int m = 0; m < 5; m++) {
-                CartItem cartItem = createCartItem(cart);
-                cartItemRepository.save(cartItem);
-            }
-
-            // 주문 및 주문 아이템 추가
-            for (int n = 0; n < 5; n++) {
-                Delivery delivery = createDelivery();
-                deliveryRepository.save(delivery);
-
-                Order order = createOrder(member, delivery, uniqueId.incrementAndGet()); // 주문 번호에 고유 번호 추가
-                orderRepository.save(order);
-
-                for (int o = 0; o < 5; o++) {
-                    OrderItem orderItem = createOrderItem(order, itemRepository.findAll().get(random.nextInt((int) itemRepository.count())));
-                    orderItemRepository.save(orderItem);
-                }
+            for (int o = 0; o < 5; o++) {
+                OrderItem orderItem = createOrderItem(order, item347);
+                orderItemRepository.save(orderItem);
             }
         }
 
         // 데이터 검증
-        assertThat(memberRepository.findAll()).hasSize(10);
-        assertThat(categoryRepository.findAll()).hasSize(30);
-        assertThat(itemRepository.findAll()).hasSize(150);
-        assertThat(cartRepository.findAll()).hasSize(10);
-        assertThat(cartItemRepository.findAll()).hasSize(50);
-        assertThat(orderRepository.findAll()).hasSize(50);
-        assertThat(orderItemRepository.findAll()).hasSize(250);
-        assertThat(reviewRepository.findAll()).hasSize(450);
-    }
-
-    private Member createMember() {
-        int id = uniqueId.incrementAndGet();
-        return Member.builder()
-            .loginId("login" + id)
-            .password("password" + id)
-            .name("Member Name" + id)
-            .email("member" + id + "@example.com")
-            .phone("010-1234-" + String.format("%04d", id))
-            .address("Address " + id)
-            .role(MemberRole.values()[random.nextInt(MemberRole.values().length)])
-            .build();
-    }
-
-    private Category createCategory() {
-        Category category = new Category();
-        category.setName("Category " + random.nextInt(100));
-        return category;
-    }
-
-    private Item createItem(Category category, Member member) {
-        Item item = Item.builder()
-            .name("Product " + random.nextInt(1000))
-            .price(BigDecimal.valueOf(random.nextDouble() * 100))
-            .discount(BigDecimal.valueOf(random.nextInt(50)))
-            .stockQuantity(random.nextInt(100))
-            .titleImageUrl("http://example.com/title" + random.nextInt(1000))
-            .contentImageUrl("http://example.com/content" + random.nextInt(1000))
-            .description("Description " + random.nextInt(1000))
-            .categories(List.of(category))
-            .member(member)
-            .build();
-        item.calculateDiscountPrice();
-        return item;
-    }
-
-    private Review createReview(Member member, Item item) {
-        Review review = new Review();
-        review.setMember(member);
-        review.setItem(item);
-        review.setSummary("Summary " + random.nextInt(1000));
-        review.setDescription("Description " + random.nextInt(1000));
-        review.setImageUrl("http://example.com/image" + random.nextInt(1000));
-        review.setRatingValue(BigDecimal.valueOf(random.nextDouble() * 5).setScale(1, BigDecimal.ROUND_HALF_UP));
-        return review;
-    }
-
-    private CartItem createCartItem(Cart cart) {
-        CartItem cartItem = new CartItem();
-        cartItem.setProductId("Product" + random.nextInt(1000));
-        cartItem.setQuantity(random.nextInt(10) + 1);
-        cartItem.setCart(cart);
-        return cartItem;
+        assertThat(orderRepository.findAll()).hasSize(10);
+        assertThat(orderItemRepository.findAll()).hasSize(50);
     }
 
     private Delivery createDelivery() {
@@ -178,9 +73,17 @@ public class DataInsertionTest {
         Order order = new Order();
         order.setDelivery(delivery);
         order.setMember(member);
-        order.setOrderNumber("Order" + uniqueId);
-        order.setReceiverName(member.getName() + uniqueId); // 고유한 receiver name 설정
-        order.setReceiverPhone("010-5678-" + String.format("%04d", uniqueId)); // 고유한 receiver phone 설정
+
+        // UUID와 현재 시간을 사용하여 유일한 order_number 생성 (11자로 자름)
+        String orderNumber = "Ord" + (UUID.randomUUID().toString().replace("-", "").substring(0, 3) + System.currentTimeMillis()).substring(0, 8);
+        int maxLength = 11; // 데이터베이스에서 정의된 최대 길이
+        if (orderNumber.length() > maxLength) {
+            orderNumber = orderNumber.substring(0, maxLength);
+        }
+        order.setOrderNumber(orderNumber);
+
+        order.setReceiverName(member.getName() + uniqueId);
+        order.setReceiverPhone("010-5678-" + String.format("%04d", uniqueId));
         order.setStatus(OrderStatus.values()[random.nextInt(OrderStatus.values().length)]);
         order.setTotalPrice(BigDecimal.valueOf(random.nextDouble() * 1000));
         return order;
@@ -193,7 +96,14 @@ public class DataInsertionTest {
         orderItem.setCount(random.nextInt(10) + 1);
         orderItem.setPrice(item.getPrice());
         orderItem.setDiscount(item.getDiscount());
-        orderItem.calculateDiscountPrice();
+
+        // Calculate the discount price and ensure it's set
+        if (item.getDiscount() != null && item.getDiscount().compareTo(BigDecimal.ZERO) > 0) {
+            orderItem.setDiscountPrice(item.getPrice().subtract(item.getDiscount()));
+        } else {
+            orderItem.setDiscountPrice(item.getPrice());
+        }
+
         orderItem.setTotalPrice(orderItem.getDiscountPrice().multiply(BigDecimal.valueOf(orderItem.getCount())));
         return orderItem;
     }
