@@ -6,6 +6,9 @@ import OrderManage from "./pages/Seller/OrderManage";
 import SaleHistory from "./pages/Seller/SaleHistory";
 import SellerLayout from "./components/SellerLayout";
 import Layout from "./components/Layout";
+import ItemListByCategory from "./pages/Item/ItemListByCategory";
+import ItemDetail from "./pages/Item/ItemDetail";
+import ItemRegistration from "./pages/Item/ItemRegistration";
 
 
 function App() {
@@ -47,6 +50,12 @@ function App() {
           <Route path={"orders/:itemId/:orderId"} element={<Main />}/>
           <Route path={"orders/update-delivery"} element={<Main />}/>
           <Route path={"orders/:orderId"} element={<Main />}/>
+        </Route>
+
+        <Route path={"/item"} element={<Layout />}>
+          <Route path={"category/:categoryId"} element={<ItemListByCategory/>}/>
+          <Route path={":itemId"} element={<ItemDetail/>}/>
+          <Route path={"addItem"} element={<ItemRegistration/>}/>
         </Route>
       </Routes>
   )

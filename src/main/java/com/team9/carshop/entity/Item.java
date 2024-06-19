@@ -97,4 +97,8 @@ public class Item extends BaseEntity {
             this.discountPrice = price;
         }
     }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
 }

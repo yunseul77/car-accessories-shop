@@ -1,4 +1,6 @@
 import React from 'react';
+import StarRating from './StarRating';
+import styles from '../styles/BabyItem.css';
 
 const BabyItem = ({ item }) => {
     return (
@@ -11,11 +13,13 @@ const BabyItem = ({ item }) => {
                     <dd className="descriptions">
                         <div className="name">{item.name}</div>
                         <div className="price-area">
-                            <del className="base-price">{item.price}</del>
-                            <span className="discount-percentage">{item.discount}</span>
+                            <del className="base-price">{item.price.toLocaleString()}원</del>
+                            <span className="discount-percentage">{item.discount}%</span>
                         </div>
-                        <div className="discount-price">{item.discountPrice}</div>
-                        <div className="rating-value">{item.ratingValue}</div>
+                        <div className="discount-price">{item.discountPrice.toLocaleString()}원</div>
+                        <div className="rating-value">
+                            <StarRating rating={item.ratingValue} />
+                        </div>
                     </dd>
                 </dl>
             </a>
