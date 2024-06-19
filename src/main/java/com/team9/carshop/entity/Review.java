@@ -22,7 +22,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE review_id = ?")
 @Where(clause = "is_deleted = false")
 public class Review extends BaseEntity {

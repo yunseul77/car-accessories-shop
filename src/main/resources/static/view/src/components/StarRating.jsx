@@ -3,17 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 
 const StarRating = ({ rating }) => {
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    if (rating >= i) {
-      stars.push(<FontAwesomeIcon key={i} icon={faStar} color="gold" />);
-    } else if (rating >= i - 0.5) {
-      stars.push(<FontAwesomeIcon key={i} icon={faStarHalfAlt} color="gold" />);
+  [...Array(5)].map((_, index) => {
+    const fullStars = Math.floor(rating);
+    if (rating >= index) {
+      return <FontAwesomeIcon key={index} icon={faStar} color="gold"/>;
+    } else if (rating >= index - 0.5) {
+      return <FontAwesomeIcon key={index} icon={faStarHalfAlt} color="gold"/>;
     } else {
-      stars.push(<FontAwesomeIcon key={i} icon={faStar} color="lightgray" />);
+      return <FontAwesomeIcon key={index} icon={faStar} color="lightgray"/>;
     }
-  }
-  return <div>{stars}</div>;
-};
+  });
+}
 
 export default StarRating;

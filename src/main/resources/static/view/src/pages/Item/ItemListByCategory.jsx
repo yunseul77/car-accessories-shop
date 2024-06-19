@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
-import test from '../assets/test.png';
-import styles from '../styles/ItemListByCategory.css'
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import test from '../../assets/test.png';
+import styles from '../../styles/ItemListByCategory.css'
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 const ItemListByCategory = () => {
     return (

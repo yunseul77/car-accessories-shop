@@ -1,4 +1,4 @@
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -8,14 +8,15 @@ import SellerLayout from "./components/SellerLayout";
 import Layout from "./components/Layout";
 import MemberOrder from "./pages/MemberOrder/MemberOrder";
 import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
+import OrderManageDetail from "./pages/Seller/OrderManageDetail";
 import Login from "./pages/auth/Login";
 import MemberJoin from "./pages/auth/MemberJoin";
 
 function App() {
   return (
-       <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<SaleHistory />}/>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Main />}/>
 
                 <Route path="auth">
                   <Route path="login" element={<Login />} />
