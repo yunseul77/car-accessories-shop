@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <div className="header-container">
       <div className="b-example-divider"></div>
-        <nav className="py-1 bg-body-tertiary border-bottom" style={{ backgroundColor: "white" }}>
+        <nav className="py-1 bg-body-white border-bottom">
           <div className="container d-flex flex-wrap">
             <ul className="nav me-auto">
               <li className="nav-item">

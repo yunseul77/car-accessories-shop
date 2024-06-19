@@ -24,7 +24,6 @@ function MemberOrder() {
 
   return (
     <>
-      <Header />
       <main style={{ marginBottom: "5%" }}>
         <div className="b-example-divider"></div>
         <div className="row">
@@ -132,7 +131,6 @@ function MemberOrder() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
