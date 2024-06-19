@@ -18,24 +18,20 @@ import java.io.IOException;
 @Component // 이 클래스를 Spring의 빈으로 등록하여, 필터로 사용할 수 있도록 설정합니다.
 public class JwtFilter extends OncePerRequestFilter {
 
-  // JWT 유틸리티 클래스. 토큰 생성, 검증, 사용자 이름 추출 등의 작업을 수행합니다.
   private final JwtUtil jwtUtil;
-
-  // 사용자 세부 정보를 로드하는 서비스. 사용자의 세부 정보를 가져오는 데 사용됩니다.
   private final UserDetailsService userDetailsService;
 
-  // 생성자를 통해 JwtUtil과 UserDetailsService를 주입받습니다.
   public JwtFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
     this.jwtUtil = jwtUtil;
     this.userDetailsService = userDetailsService;
   }
 
-  // 필터링 로직을 구현하는 메서드입니다. 모든 요청에 대해 실행됩니다.
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
     String token = null; // 요청에서 추출한 JWT 토큰을 저장할 변수
     String username = null; // JWT 토큰에서 추출한 사용자 이름을 저장할 변수
+    Long memberId = null; // JWT 토큰에서 추출한 사용자 ID를 저장할 변수
 
     // 요청에 포함된 쿠키들을 검사하여, 이름이 "accessToken"인 쿠키를 찾습니다.
     if (request.getCookies() != null) {
@@ -43,8 +39,15 @@ public class JwtFilter extends OncePerRequestFilter {
         if (cookie.getName().equals("accessToken")) {
           token = cookie.getValue(); // JWT 토큰 값을 가져옵니다.
           username = jwtUtil.getUsernameFromToken(token); // JWT 토큰에서 사용자 이름을 추출합니다.
+          memberId = jwtUtil.getMemberIdFromToken(token); // JWT 토큰에서 사용자 ID를 추출합니다.
         }
       }
+    }
+
+    // 토큰이 유효하지 않거나, 사용자 이름이 없으면 필터 체인 중단
+    if (token == null || !jwtUtil.validateToken(token) || username == null) {
+      chain.doFilter(request, response);
+      return;
     }
 
     // 사용자 이름이 존재하고, 현재 SecurityContext에 인증 정보가 없는 경우에만 인증을 수행합니다.

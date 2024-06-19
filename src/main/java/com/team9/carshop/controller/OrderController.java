@@ -1,6 +1,11 @@
 package com.team9.carshop.controller;
 
+import com.team9.carshop.dto.OrderRequestDto;
+import com.team9.carshop.dto.OrderResponseDto;
+import com.team9.carshop.entity.Delivery;
 import com.team9.carshop.entity.Order;
+import com.team9.carshop.enums.DeliveryStatus;
+import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.OrderService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.server.ResponseStatusException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -17,17 +23,27 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final JwtUtil jwtUtil;
 
     @GetMapping
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.createOrder(order);
-        return orderService.getOrder(createdOrder.getId())
-            .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다..."));
+    // 주문 생성요청 받는 컨트롤러 메서드
+    @PostMapping("/add")
+    public ResponseEntity<OrderResponseDto> createOrder(
+        @RequestBody OrderRequestDto orderDto,
+        @CookieValue(value = "accessToken", required = false) String accessToken ) {
+
+        if (!jwtUtil.validateToken(accessToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+        }
+
+        Long memberId = jwtUtil.getMemberIdFromToken(accessToken);
+
+        OrderResponseDto createdOrder = orderService.createOrder(memberId, orderDto);
+        return ResponseEntity.ok(createdOrder);
     }
 
     @GetMapping("/{orderId}")
