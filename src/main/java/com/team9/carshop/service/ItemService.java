@@ -1,10 +1,10 @@
 package com.team9.carshop.service;
 
 import com.team9.carshop.dto.ItemDto;
+import com.team9.carshop.dto.ItemRequestDTO;
 import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.exception.*;
-import com.team9.carshop.repository.CategoryRepository;
 import com.team9.carshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -68,9 +68,9 @@ public class ItemService {
 
     // 아이템 추가
     @Transactional
-    public Item addItem(ItemDto itemDto) {
+    public Item addItem(ItemRequestDTO itemRequestDTO) {
         try {
-            Item newItem = itemDto.toEntity();
+            Item newItem = itemRequestDTO.toEntity();
             return itemRepository.save(newItem);
         }  catch (DataAccessException e) {
             // 데이터베이스 저장 중에 문제 발생

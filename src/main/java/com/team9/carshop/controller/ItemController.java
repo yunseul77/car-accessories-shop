@@ -1,6 +1,7 @@
 package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.ItemDto;
+import com.team9.carshop.dto.ItemRequestDTO;
 import com.team9.carshop.dto.ReviewDTO;
 import com.team9.carshop.service.ItemService;
 import com.team9.carshop.service.ReviewService;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/item")
+@CrossOrigin(origins = "*")
 public class ItemController {
 
     private final ItemService itemService;
@@ -61,8 +63,8 @@ public class ItemController {
     // 아이템 추가 ( 판매자만 가능 )
     @PostMapping("/addItem")
     @PreAuthorize("hasAuthority('SELLER')")
-    public ResponseEntity<String> addItem(@RequestBody ItemDto itemDto) {
-        itemService.addItem(itemDto);
+    public ResponseEntity<String> addItem(@RequestBody ItemRequestDTO itemRequestDTO) {
+        itemService.addItem(itemRequestDTO);
         return ResponseEntity.ok("아이템이 성공적으로 추가되었습니다.");
     }
 
