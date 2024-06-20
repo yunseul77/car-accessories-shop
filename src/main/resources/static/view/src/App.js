@@ -9,14 +9,9 @@ import Layout from "./components/Layout";
 import MemberOrder from "./pages/MemberOrder/MemberOrder";
 import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
 import OrderManageDetail from "./pages/Seller/OrderManageDetail";
-import ItemListByCategory from "./pages/Item/ItemListByCategory";
-import ItemDetail from "./pages/Item/ItemDetail";
-import ItemRegistration from "./pages/Item/ItemRegistration";
-import { TokenProvider } from "./tokenContext";
-import Login from "./pages/auth/Login";
-import Footer from "./components/Footer";
-import MemberJoin from "./pages/auth/MemberJoin";
-import JoinTypeSelection from './pages/auth/JoinTypeSelection';
+import ReviewForm from "./pages/review/ReviewForm";
+import ReviewList from "./pages/review/ReviewList";
+import ReviewUpdate from "./pages/review/ReviewUpdate";
 
 function App() {
   return (
@@ -67,6 +62,7 @@ function App() {
           </Routes>
     </TokenProvider>
   )
+
 }
 
 export default App;
