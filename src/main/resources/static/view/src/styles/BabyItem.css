@@ -1,0 +1,47 @@
+.baby-item {
+    width: 355px;
+    position: relative;
+    float: left;
+    padding: 20px 20px 20px 20px;
+}
+
+.baby-item-link {
+    height: 524px;
+    display: block;
+    box-sizing: border-box;
+}
+
+.baby-item-wrap {
+    height: 503px;
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.baby-item .discount-price {
+    display: block;
+    height: 17px;
+}
+
+.baby-item .name {
+    width: 100%;
+    max-height: 48px;
+    line-height: 16px;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.baby-item .price-area {
+    display: block;
+    padding-top: 3px;
+}
+
+.baby-item .base-price {
+    padding-right: 10px;
+}
+
+.baby-item .rating-value {
+    display: block;
+    margin-top: 0 !important;
+    height: 17px;
+}

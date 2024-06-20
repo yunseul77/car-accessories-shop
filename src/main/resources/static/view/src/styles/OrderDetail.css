@@ -1,0 +1,13 @@
+.receiver-info {
+  border: 1px solid #eee;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.receiver-info p {
+  margin: 0 0 10px 0;
+}
+
+.receiver-info p:last-child {
+  margin: 0;
+}
