@@ -10,10 +10,9 @@ import org.hibernate.annotations.Where;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @AllArgsConstructor
-@NoArgsConstructor//(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SQLDelete(sql = "UPDATE Category SET is_deleted = true WHERE category_id = ?")
 @Where(clause = "is_deleted = false")
 public class Category extends BaseEntity {
@@ -22,11 +21,7 @@ public class Category extends BaseEntity {
     @Column(name = "category_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
-
-    @ManyToMany(mappedBy = "categories")
+    @OneToMany(mappedBy = "category")
     private List<Item> items = new ArrayList<>();
 
     @Column(length = 255, nullable = false)

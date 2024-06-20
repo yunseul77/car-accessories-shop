@@ -4,7 +4,7 @@ import com.team9.carshop.dto.AuthRequestDTO;
 import com.team9.carshop.dto.AuthResponseDTO;
 import com.team9.carshop.dto.RefreshTokenResponseDTO;
 import com.team9.carshop.security.JwtUtil;
-import com.team9.carshop.security.CustomUserDetails;
+import com.team9.carshop.service.CustomUserDetails;
 import com.team9.carshop.service.MemberUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

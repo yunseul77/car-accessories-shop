@@ -63,8 +63,8 @@ public class OrderService {
             orderItem.setCount(dto.getCount());
             orderItem.setPrice(item.getPrice());
             orderItem.setDiscount(item.getDiscount());
-            orderItem.setTotalPrice(
-                orderItem.getDiscountPrice().multiply(BigDecimal.valueOf(orderItem.getCount())));
+            orderItem.calculateDiscountPrice();
+            orderItem.calculateTotalPrice();
             return orderItem;
         }).toList();
 

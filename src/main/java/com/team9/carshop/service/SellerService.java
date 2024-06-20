@@ -11,6 +11,7 @@ import com.team9.carshop.entity.Item;
 import com.team9.carshop.entity.Order;
 import com.team9.carshop.entity.OrderItem;
 import com.team9.carshop.enums.DeliveryStatus;
+import com.team9.carshop.exception.InvalidDeliveryStatusException;
 import com.team9.carshop.exception.ItemNotFoundException;
 import com.team9.carshop.exception.OrderNotFoundException;
 import com.team9.carshop.exception.SaleNotFoundException;
@@ -18,6 +19,7 @@ import com.team9.carshop.repository.DeliveryRepository;
 import com.team9.carshop.repository.ItemRepository;
 import com.team9.carshop.repository.OrderItemRepository;
 import com.team9.carshop.repository.OrderRepository;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -76,7 +78,7 @@ public class SellerService {
             .orElseThrow(() -> new ItemNotFoundException("현재 아이템이 존재하지 않습니다."));
 
         OrderManageDetailDto dto = new OrderManageDetailDto();
-        mapOrderManageDetailDto(dto, order);
+        mapOrderManageDetailDto(dto, order, itemId);
 
         OrderManageDetailDto.OrderManageItemDto itemDto = new OrderManageDetailDto.OrderManageItemDto();
         mapOrderManageItemDto(itemId, itemDto, order, item);
@@ -92,12 +94,21 @@ public class SellerService {
      * 고객 배송상태 수정
      */
     @Transactional
-    public void updateDeliveryStatus(UpdateDeliveryStatusDto updateDeliveryStatusDto) {
+    public DeliveryStatus updateDeliveryStatus(UpdateDeliveryStatusDto updateDeliveryStatusDto) {
         Delivery delivery = deliveryRepository.findById(updateDeliveryStatusDto.getDeliveryId())
             .orElseThrow(() -> new OrderNotFoundException("현재 주문이 존재하지 않습니다."));
 
-        delivery.setStatus(DeliveryStatus.valueOf(
-            updateDeliveryStatusDto.getDeliveryStatus()));
+        try {
+            DeliveryStatus updatedStatus = DeliveryStatus.valueOf(
+                updateDeliveryStatusDto.getDeliveryStatus());
+
+            delivery.setStatus(updatedStatus);
+            return delivery.getStatus();
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidDeliveryStatusException("유효하지 않은 변경 요청입니다." +
+                updateDeliveryStatusDto.getDeliveryStatus());
+        }
     }
 
 
@@ -146,14 +157,20 @@ public class SellerService {
     }
 
     //== OrderManageDetail 매핑 메서드 ==//
-    private void mapOrderManageDetailDto(OrderManageDetailDto dto, Order order) {
+    private void mapOrderManageDetailDto(OrderManageDetailDto dto, Order order, Long itemId) {
         dto.setOrderedAt(order.getCreatedAt());
         dto.setOrderNumber(order.getOrderNumber());
         dto.setDeliveryStatus(order.getDelivery().getStatus().name());
         dto.setReceiverName(order.getReceiverName());
         dto.setReceiverPhone(order.getReceiverPhone());
         dto.setReceiverAddress(order.getDelivery().getAddress());
-        dto.setTotalPrice(order.getTotalPrice());
+
+        BigDecimal totalPrice = order.getOrderItems().stream()
+            .filter(orderItem -> orderItem.getItem().getId().equals(itemId))
+            .map(OrderItem::getTotalPrice)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        dto.setTotalPrice(totalPrice);
         dto.setRequestMessage(order.getRequestMessage());
     }
 }

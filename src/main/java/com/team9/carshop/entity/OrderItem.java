@@ -51,15 +51,22 @@ public class OrderItem extends BaseEntity {
     private BigDecimal totalPrice;
 
 
-    //==discountPrice 자동계산 메서드==//
-    @PrePersist
-    @PreUpdate
+    //==discountPrice 계산 메서드==//
     public void calculateDiscountPrice() {
         if (price != null && discount != null) {
             this.discountPrice = price.subtract(
                 price.multiply(discount.divide(new BigDecimal(100))));
         } else {
             this.discountPrice = price;
+        }
+    }
+
+    //==totalPrice 계산 메서드==//
+    public void calculateTotalPrice() {
+        if (discountPrice != null) {
+            this.totalPrice = discountPrice.multiply(BigDecimal.valueOf(count));
+        } else {
+            this.totalPrice = price.multiply(BigDecimal.valueOf(count));
         }
     }
 }

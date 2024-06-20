@@ -32,7 +32,6 @@ import java.math.BigDecimal;
 @SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE orders_id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "orders")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Order extends BaseEntity {
 
     @Id
@@ -42,14 +41,13 @@ public class Order extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Delivery delivery;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -58,17 +56,14 @@ public class Order extends BaseEntity {
     @Column(unique = true, length = 11, nullable = false)
     private String orderNumber;
 
-    @Column(unique = true, length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String receiverName;
 
-    @Column(unique = true, length = 20, nullable = false)
+    @Column(length = 20, nullable = false)
     private String receiverPhone;
 
     @Column(length = 500)
     private String requestMessage;
-
-    @Column(precision = 12, scale = 2)
-    private BigDecimal totalPrice;
 
     //== 주문번호 자동생성 메서드 ==//
     @PrePersist

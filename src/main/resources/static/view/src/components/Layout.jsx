@@ -10,6 +10,7 @@ const Layout = () => {
           <main>
           <Outlet/>
           </main>
+        <Footer style={{ marginTop: 'auto' }} />
       </div>
   );
 };

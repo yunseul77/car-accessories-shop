@@ -37,15 +37,15 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Builder.Default
-    @ManyToMany
-    @JoinTable(name = "category_item",
-        joinColumns = @JoinColumn(name = "item_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column(length = 255, nullable = false)
     private String name;
+
+    @Column(length = 150, nullable = false)
+    private String itemTitle;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
@@ -82,6 +82,11 @@ public class Item extends BaseEntity {
         itemDto.setTitleImageUrl(item.getTitleImageUrl());
         itemDto.setContentImageUrl(item.getContentImageUrl());
         itemDto.setDescription(item.getDescription());
+        itemDto.setItemTitle(item.getItemTitle());
+        itemDto.setCategory(item.getCategory());
+        itemDto.setMemberName(item.getMember().getName());  // Member 이름 설정
+        itemDto.setCategoryName(item.getCategory().getName()); // Category 이름 설정
+        itemDto.setCategoryId(item.getCategory().getId()); // Category Id 설정
 
         return itemDto;
     }

@@ -12,7 +12,7 @@ const SellerLayout = () => {
         <main>
           <Outlet />
         </main>
-        <Footer/>
+        <Footer style={{ marginTop: 'auto' }} />
       </div>
   )
 }

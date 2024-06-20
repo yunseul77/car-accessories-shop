@@ -1,7 +1,11 @@
 package com.team9.carshop.controller;
 
+import com.team9.carshop.dto.ItemDetailResponseDTO;
 import com.team9.carshop.dto.ItemDto;
+import com.team9.carshop.dto.ItemRequestDTO;
 import com.team9.carshop.dto.ReviewDTO;
+import com.team9.carshop.entity.Item;
+import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.ItemService;
 import com.team9.carshop.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +27,7 @@ public class ItemController {
 
     private final ItemService itemService;
     private final ReviewService reviewService;
+    private final JwtUtil jwtUtil;
 
     // 카테고리별 아이템 목록 조회
     @GetMapping("/category/{categoryId}")
@@ -32,19 +38,17 @@ public class ItemController {
         return new ResponseEntity<>(itemPage, HttpStatus.OK);
     }
 
-    // 아이템 세부 조회
-    @GetMapping("/{itemId}")
-    public ResponseEntity<Object> getItemById(@PathVariable Long itemId,
-                                              @RequestParam(name = "page", defaultValue = "0") int page,
-                                              @RequestParam(name = "size", defaultValue = "3") int size) {
-        ItemDto newItem = itemService.getItemById(itemId);
-        Page<ReviewDTO> reviewPage = reviewService.getPagedReview(itemId, PageRequest.of(page, size));
+    // 아이템 상세 페이지 조회
+    @GetMapping("/detail/{itemId}")
+    public ResponseEntity<ItemDetailResponseDTO> getItemById(@PathVariable Long itemId,
+                                                             @RequestParam(name = "page", defaultValue = "0") int page,
+                                                             @RequestParam(name = "size", defaultValue = "3") int size) {
+        ItemDto items = itemService.getItemById(itemId);
+        Page<ReviewDTO> reviews = reviewService.getPagedReview(itemId, PageRequest.of(page, size));
 
-        Map<String, Object> ItemAndReview = new HashMap<>();
-        ItemAndReview.put("item", newItem);
-        ItemAndReview.put("reviews", reviewPage);
+        ItemDetailResponseDTO itemAndReviews = new ItemDetailResponseDTO(items, reviews);
 
-        return ResponseEntity.ok().body(ItemAndReview);
+        return ResponseEntity.ok().body(itemAndReviews);
     }
 
     // 판매자 본인이 올린 아이템 조회
@@ -61,16 +65,25 @@ public class ItemController {
     // 아이템 추가 ( 판매자만 가능 )
     @PostMapping("/addItem")
     @PreAuthorize("hasAuthority('SELLER')")
-    public ResponseEntity<String> addItem(@RequestBody ItemDto itemDto) {
-        itemService.addItem(itemDto);
-        return ResponseEntity.ok("아이템이 성공적으로 추가되었습니다.");
+    public ResponseEntity<String> addItem(
+        @CookieValue(value = "accessToken") String accessToken,
+        @RequestBody ItemRequestDTO itemRequestDto) {
+
+        if (!jwtUtil.validateToken(accessToken)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 요청입니다.");
+        }
+
+        Long sellerId = jwtUtil.getMemberIdFromToken(accessToken);
+
+        Long itemId = itemService.addItem(itemRequestDto, sellerId);
+        return ResponseEntity.ok("아이템이 성공적으로 추가되었습니다. 상품번호 " + itemId);
     }
 
     // 아이템 수정 ( 판매자만 가능 )
     @PatchMapping("/{itemId}/updateItem")
     @PreAuthorize("hasAuthority('SELLER')")
-    public ResponseEntity<String> updateItem(@PathVariable Long itemId, @RequestBody ItemDto itemDto) {
-        itemService.updateItem(itemId, itemDto);
+    public ResponseEntity<String> updateItem(@PathVariable Long itemId, @RequestBody ItemRequestDTO itemRequestDTO) {
+        itemService.updateItem(itemId, itemRequestDTO);
         return ResponseEntity.ok("아이템이 성공적으로 수정되었습니다.");
     }
 

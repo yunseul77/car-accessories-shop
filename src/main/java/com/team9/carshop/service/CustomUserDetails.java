@@ -1,4 +1,4 @@
-package com.team9.carshop.security;
+package com.team9.carshop.service;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

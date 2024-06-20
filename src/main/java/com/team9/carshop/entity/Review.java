@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 
+import java.util.List;
 import java.math.BigDecimal;
 import org.hibernate.annotations.Where;
 
@@ -34,12 +35,10 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonManagedReference
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-    @JsonBackReference
     private Item item;
 
     @Column(length = 500)
@@ -64,6 +63,10 @@ public class Review extends BaseEntity {
         reviewDTO.setDescription(this.description);
         reviewDTO.setImageUrl(this.imageUrl);
         reviewDTO.setRatingValue(this.ratingValue);
+
+        if (this.getMember() != null) {
+            reviewDTO.setMemberName(this.getMember().getName());
+        }
 
         return reviewDTO;
     }

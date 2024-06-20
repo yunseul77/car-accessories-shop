@@ -1,17 +1,27 @@
 package com.team9.carshop.enums;
 
-public enum MemberRole {
-    USER, ADMIN, SELLER;
 
-    // 문자열을 받아서 해당하는 enum 값을 반환하는 메서드
+public enum MemberRole {
+    USER("일반회원"),
+    SELLER("판매자");
+
+    private final String displayName;
+
+    MemberRole(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
     public static MemberRole fromString(String role) {
-        if (role != null) {
-            for (MemberRole memberRole : MemberRole.values()) {
-                if (role.equalsIgnoreCase(memberRole.name())) {
-                    return memberRole;
-                }
+        for (MemberRole memberRole : MemberRole.values()) {
+            if (memberRole.name().equalsIgnoreCase(role)) {
+                return memberRole;
             }
         }
-        throw new IllegalArgumentException("No enum constant " + MemberRole.class.getCanonicalName() + "." + role);
+        throw new IllegalArgumentException("Invalid role: " + role);
     }
 }
+

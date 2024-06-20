@@ -1,167 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 const MemberJoin = () => {
-  // 상태 선언
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [role, setRole] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    username: '',
+    password1: '',
+    password2: '',
+    phone: '',
+    email: '',
+    address: '',
+    role: ''
+  });
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
-  // 회원가입 함수
-  const handleJoin = async (e) => {
-    e.preventDefault();
-
-    // 비밀번호 확인
-    if (password !== confirmPassword) {
-      setError('비밀번호가 일치하지 않습니다.');
-      return;
+  useEffect(() => {
+    if (location.state && location.state.role) {
+      setFormData({ ...formData, role: location.state.role });
     }
+  }, [location.state]);
 
-    // 회원가입 데이터
-    const joinData = {
-      loginId: username,
-      name,
-      password1: password,
-      password2: confirmPassword,
-      phone,
-      email,
-      address,
-      role,
-    };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch('/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(joinData),
-      });
-
-      if (!response.ok) {
-        throw new Error('회원가입 실패');
-      }
-
-      const data = await response.json();
-      console.log('회원가입 성공:', data);
-      setSuccess('회원가입이 완료되었습니다. 이제 로그인해 주세요.');
-      setError(null);
-    } catch (error) {
-      console.error('회원가입 에러:', error);
+      await axios.post('/member/signup', formData);
+      // 가입 완료 후 JoinComplete 컴포넌트로 이동
+      navigate('/auth/join-complete', { state: { role: formData.role } });
+    } catch (err) {
       setError('회원가입에 실패했습니다. 다시 시도해주세요.');
-      setSuccess(null);
     }
   };
 
+  const buttonStyle = {
+    backgroundColor: '#f0f0f0', // 기본 배경색을 연한 회색으로 설정
+    color: '#000',
+    border: '1px solid #ccc', // 테두리 색을 회색으로 설정
+    transition: 'background-color 0.3s, color 0.3s',
+    width: '50%' // 중앙에 배치되도록 설정
+  };
+
+  const handleMouseEnter = (e) => {
+    e.target.style.backgroundColor = '#343a40';
+    e.target.style.color = '#fff';
+  };
+
+  const handleMouseLeave = (e) => {
+    e.target.style.backgroundColor = '#f0f0f0';
+    e.target.style.color = '#000';
+  };
+
   return (
-    <div
-      className="d-flex flex-column align-items-center justify-content-center vh-100"
-      style={{ backgroundColor: '#f8f9fa' }}
-    >
-      <h1 className="mb-5">차량용품</h1>
-      <div className="card p-4" style={{ width: '400px' }}>
+    <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', padding: '20px 0' }}>
+      <h1 className="mb-5">회원가입</h1>
+      <div className="card p-4" style={{ width: '400px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
         <h5 className="text-center mb-4">회원 정보를 입력해 주세요</h5>
         {error && <div className="alert alert-danger">{error}</div>}
-        {success && <div className="alert alert-success">{success}</div>}
-        <form onSubmit={handleJoin}>
+        <form onSubmit={handleSubmit}>
           <div className="form-group mb-3">
             <label htmlFor="name">이름</label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              placeholder="이름"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <input type="text" className="form-control" id="name" placeholder="이름" value={formData.name} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
             <label htmlFor="username">아이디</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              placeholder="아이디"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <input type="text" className="form-control" id="username" placeholder="아이디" value={formData.username} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
-            <label htmlFor="password">비밀번호</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <label htmlFor="password1">비밀번호</label>
+            <input type="password" className="form-control" id="password1" placeholder="비밀번호" value={formData.password1} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
-            <label htmlFor="confirmPassword">비밀번호 확인</label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmPassword"
-              placeholder="비밀번호 확인"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+            <label htmlFor="password2">비밀번호 확인</label>
+            <input type="password" className="form-control" id="password2" placeholder="비밀번호 확인" value={formData.password2} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
             <label htmlFor="phone">휴대폰 번호</label>
-            <input
-              type="text"
-              className="form-control"
-              id="phone"
-              placeholder="휴대폰 번호"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
+            <input type="text" className="form-control" id="phone" placeholder="휴대폰 번호" value={formData.phone} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
             <label htmlFor="email">이메일</label>
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              placeholder="이메일"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <input type="text" className="form-control" id="email" placeholder="이메일" value={formData.email} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
             <label htmlFor="address">주소</label>
-            <input
-              type="text"
-              className="form-control"
-              id="address"
-              placeholder="주소"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
+            <input type="text" className="form-control" id="address" placeholder="주소" value={formData.address} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
-            <label htmlFor="role">역할</label>
-            <input
-              type="text"
-              className="form-control"
-              id="role"
-              placeholder="역할"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            />
+            <label htmlFor="role">회원가입 유형</label>
+            <input type="text" className="form-control" id="role" placeholder="회원가입 유형" value={formData.role} readOnly />
           </div>
-          <button type="submit" className="btn btn-dark btn-block mt-4">
-            가입 완료하기
-          </button>
+          <div className="d-flex justify-content-center">
+            <button
+              type="submit"
+              className="btn"
+              style={buttonStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              가입 완료하기
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -169,3 +114,7 @@ const MemberJoin = () => {
 };
 
 export default MemberJoin;
+
+
+
+

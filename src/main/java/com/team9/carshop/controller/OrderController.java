@@ -2,9 +2,7 @@ package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.OrderRequestDto;
 import com.team9.carshop.dto.OrderResponseDto;
-import com.team9.carshop.entity.Delivery;
 import com.team9.carshop.entity.Order;
-import com.team9.carshop.enums.DeliveryStatus;
 import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.OrderService;
 import java.util.Optional;
