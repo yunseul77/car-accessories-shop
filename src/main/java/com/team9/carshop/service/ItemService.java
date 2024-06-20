@@ -6,8 +6,11 @@ import com.team9.carshop.dto.ItemRequestDTO;
 import com.team9.carshop.dto.ReviewDTO;
 import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Item;
+import com.team9.carshop.entity.Member;
 import com.team9.carshop.exception.*;
 import com.team9.carshop.repository.ItemRepository;
+import com.team9.carshop.repository.MemberRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -24,12 +27,13 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
 
     // 카테고리별 아이템 조회
     public Page<ItemDto> getAllItemByCategory(Long categoryId, Pageable pageable) {
         Category category = itemRepository.findByCategoryId(categoryId);
         if (category != null) {
-            Page<Item> itemPage = itemRepository.findByCategoriesId(categoryId, pageable);
+            Page<Item> itemPage = itemRepository.findByCategoryId(categoryId, pageable);
 
             // Item -> ItemDto 변환
             List<ItemDto> itemDtoList = itemPage.getContent()
@@ -81,10 +85,16 @@ public class ItemService {
 
     // 아이템 추가
     @Transactional
-    public Item addItem(ItemRequestDTO itemRequestDTO) {
+    public Long addItem(ItemDto itemDto, Long sellerId) {
+        Member seller = memberRepository.findById(sellerId)
+            .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
+
+        itemDto.setSeller(seller);
+
         try {
-            Item newItem = itemRequestDTO.toEntity();
-            return itemRepository.save(newItem);
+            Item newItem = itemDto.toEntity();
+
+            return newItem.getId();
         }  catch (DataAccessException e) {
             // 데이터베이스 저장 중에 문제 발생
             throw new DatabaseAccessException("아이템을 추가하는 동안 데이터베이스 액세스 문제가 발생했습니다.", e);

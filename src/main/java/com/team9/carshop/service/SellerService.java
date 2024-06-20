@@ -11,6 +11,7 @@ import com.team9.carshop.entity.Item;
 import com.team9.carshop.entity.Order;
 import com.team9.carshop.entity.OrderItem;
 import com.team9.carshop.enums.DeliveryStatus;
+import com.team9.carshop.exception.InvalidDeliveryStatusException;
 import com.team9.carshop.exception.ItemNotFoundException;
 import com.team9.carshop.exception.OrderNotFoundException;
 import com.team9.carshop.exception.SaleNotFoundException;
@@ -92,12 +93,21 @@ public class SellerService {
      * 고객 배송상태 수정
      */
     @Transactional
-    public void updateDeliveryStatus(UpdateDeliveryStatusDto updateDeliveryStatusDto) {
+    public DeliveryStatus updateDeliveryStatus(UpdateDeliveryStatusDto updateDeliveryStatusDto) {
         Delivery delivery = deliveryRepository.findById(updateDeliveryStatusDto.getDeliveryId())
             .orElseThrow(() -> new OrderNotFoundException("현재 주문이 존재하지 않습니다."));
 
-        delivery.setStatus(DeliveryStatus.valueOf(
-            updateDeliveryStatusDto.getDeliveryStatus()));
+        try {
+            DeliveryStatus updatedStatus = DeliveryStatus.valueOf(
+                updateDeliveryStatusDto.getDeliveryStatus());
+
+            delivery.setStatus(updatedStatus);
+            return delivery.getStatus();
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidDeliveryStatusException("유효하지 않은 변경 요청입니다." +
+                updateDeliveryStatusDto.getDeliveryStatus());
+        }
     }
 
 

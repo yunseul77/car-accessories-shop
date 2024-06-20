@@ -13,7 +13,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("select c from Category c where c.id = :id")
     Category findByCategoryId(@Param("id") Long categoryId);
 
-    Page<Item> findByCategoriesId(Long categoryId, Pageable pageable);
+    Page<Item> findByCategoryId(Long categoryId, Pageable pageable);
 
     Page<Item> findByMemberId(Long id, Pageable pageable);
 }

@@ -35,7 +35,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "join o.member m "
         + "join o.delivery d "
         + "join oi.item i "
-        + "join i.categories c "
+        + "join i.category c "
         + "where i.member.id = :sellerId "
         + "and i.member.role = 'SELLER' "
         + "and o.isDeleted = false "
@@ -61,7 +61,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "join o.member m "
         + "join o.delivery d "
         + "join oi.item i "
-        + "join i.categories c "
+        + "join i.category c "
         + "where i.member.id = :sellerId "
         + "and i.member.role = 'SELLER'"
         + "and d.status = 'DELIVERED'")

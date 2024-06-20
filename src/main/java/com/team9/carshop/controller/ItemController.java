@@ -5,6 +5,7 @@ import com.team9.carshop.dto.ItemDto;
 import com.team9.carshop.dto.ItemRequestDTO;
 import com.team9.carshop.dto.ReviewDTO;
 import com.team9.carshop.entity.Item;
+import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.ItemService;
 import com.team9.carshop.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class ItemController {
 
     private final ItemService itemService;
     private final ReviewService reviewService;
+    private final JwtUtil jwtUtil;
 
     // 카테고리별 아이템 목록 조회
     @GetMapping("/category/{categoryId}")
@@ -62,9 +65,18 @@ public class ItemController {
     // 아이템 추가 ( 판매자만 가능 )
     @PostMapping("/addItem")
     @PreAuthorize("hasAuthority('SELLER')")
-    public ResponseEntity<String> addItem(@RequestBody ItemRequestDTO itemRequestDTO) {
-        itemService.addItem(itemRequestDTO);
-        return ResponseEntity.ok("아이템이 성공적으로 추가되었습니다.");
+    public ResponseEntity<String> addItem(
+        @CookieValue(value = "accessToken") String accessToken,
+        @RequestBody ItemDto itemDto) {
+
+        if (!jwtUtil.validateToken(accessToken)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 요청입니다.");
+        }
+
+        Long sellerId = jwtUtil.getMemberIdFromToken(accessToken);
+
+        Long itemId = itemService.addItem(itemDto, sellerId);
+        return ResponseEntity.ok("아이템이 성공적으로 추가되었습니다." + itemId);
     }
 
     // 아이템 수정 ( 판매자만 가능 )

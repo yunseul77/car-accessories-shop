@@ -37,15 +37,14 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Builder.Default
-    @ManyToMany
-    @JoinTable(name = "category_item",
-        joinColumns = @JoinColumn(name = "item_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
 
     @Column(length = 255, nullable = false)
     private String name;
+
+    @Column(length = 150, nullable = false)
+    private String itemTitle;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;

@@ -1,7 +1,10 @@
 package com.team9.carshop.dto;
 
+import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.entity.Review;
+import com.team9.carshop.entity.Member;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +31,8 @@ public class ItemDto {
     private String memberName;
     private Long categoryId;
     private String categoryName;
+    private Category category;
+    private Member seller;
 
     // Dto -> Entity
     public Item toEntity()
@@ -43,6 +48,8 @@ public class ItemDto {
                 .titleImageUrl(this.titleImageUrl)
                 .contentImageUrl(this.contentImageUrl)
                 .description(this.description)
+                .category(this.category)
+                .member(this.seller)
                 .build();
     }
 }

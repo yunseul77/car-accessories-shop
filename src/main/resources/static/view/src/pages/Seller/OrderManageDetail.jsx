@@ -2,8 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useEffect, useState } from 'react';
 import test from '../../assets/test.png';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+
 import "../../styles/OrderDetail.css";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
