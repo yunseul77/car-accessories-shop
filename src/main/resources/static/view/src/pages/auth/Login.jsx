@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {TokenContext} from "../../tokenContext";
 
 const Login = () => {
+  const { login } = useContext(TokenContext);
+
   return (
       <div
           className="d-flex flex-column align-items-center justify-content-center vh-100"
@@ -26,7 +29,9 @@ const Login = () => {
             </div>
             <div className="d-flex justify-content-between">
               <button type="submit" className="btn btn-dark"
-                      style={{width: '48%'}}>로그인
+                      style={{width: '48%'}} onClick={() => {
+                        //로그인 API 호출 후 토큰을 받아와서 login 함수에 넣어주기
+                        login("임시토큰")}}>로그인
               </button>
               <button type="button" className="btn btn-light"
                       style={{width: '48%'}}>회원가입
