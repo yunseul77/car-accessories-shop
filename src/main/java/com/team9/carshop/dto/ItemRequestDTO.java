@@ -15,33 +15,32 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemRequestDTO {
-    private Long id;
     private String name;
     private String itemTitle;
     private BigDecimal price;
     private BigDecimal discount;
+    private BigDecimal discountPrice;
     private int stockQuantity;
     private String titleImageUrl;
     private String contentImageUrl;
     private String description;
     private Long categoryId;
 
-    public Item toEntity() {
+    public Item toEntity(Category category) {
         Item item = Item.builder()
                 .name(name)
                 .itemTitle(itemTitle)
                 .price(price)
                 .discount(discount)
+                .discountPrice(discountPrice)
                 .stockQuantity(stockQuantity)
                 .titleImageUrl(titleImageUrl)
                 .contentImageUrl(contentImageUrl)
                 .description(description)
                 .build();
 
-        if (categoryId != null) {
-            Category category = new Category();
-            category.setId(categoryId);
-            item.getCategories().add(category);
+        if (category != null) {
+            item.setCategory(category);
         }
 
         return item;

@@ -38,6 +38,7 @@ public class Item extends BaseEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(length = 255, nullable = false)
@@ -58,9 +59,6 @@ public class Item extends BaseEntity {
 
     @Column(nullable = false)
     private int stockQuantity;
-
-    @Column(length = 150)
-    private String itemTitle;
 
     @Column(length = 1000)
     private String titleImageUrl;
@@ -84,17 +82,11 @@ public class Item extends BaseEntity {
         itemDto.setTitleImageUrl(item.getTitleImageUrl());
         itemDto.setContentImageUrl(item.getContentImageUrl());
         itemDto.setDescription(item.getDescription());
-
-        // Member가 존재하면 Member 이름 설정
-        if (item.getMember() != null) {
-            itemDto.setMemberName(item.getMember().getName());
-        }
-
-        // Item의 첫 번째 CategoryName,Id 설정
-        if (!item.getCategories().isEmpty()) {
-            itemDto.setCategoryName(item.getCategories().get(0).getName());
-            itemDto.setCategoryId(item.getCategories().get(0).getId());
-        }
+        itemDto.setItemTitle(item.getItemTitle());
+        itemDto.setCategory(item.getCategory());
+        itemDto.setMemberName(item.getMember().getName());  // Member 이름 설정
+        itemDto.setCategoryName(item.getCategory().getName()); // Category 이름 설정
+        itemDto.setCategoryId(item.getCategory().getId()); // Category Id 설정
 
         return itemDto;
     }

@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RatingAvgAndCountDTO {
 
-    private Long itemId;    private Double avgRating;
+    private Long itemId;
+    private Double avgRating;
     private Long totalCount;
 }

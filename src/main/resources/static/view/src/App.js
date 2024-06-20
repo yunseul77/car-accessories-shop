@@ -14,7 +14,6 @@ import ItemDetail from "./pages/Item/ItemDetail";
 import ItemRegistration from "./pages/Item/ItemRegistration";
 import { TokenProvider } from "./tokenContext";
 import Login from "./pages/auth/Login";
-import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -63,8 +62,8 @@ function App() {
               <Route path={":itemId"} element={<ItemDetail/>}/>
               <Route path={"addItem"} element={<ItemRegistration/>}/>
             </Route>
+          </Route>
           </Routes>
-        <Footer style={{ marginTop: 'auto' }} />
       </div>
     </TokenProvider>
   )

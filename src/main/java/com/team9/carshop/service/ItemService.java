@@ -8,6 +8,7 @@ import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.entity.Member;
 import com.team9.carshop.exception.*;
+import com.team9.carshop.repository.CategoryRepository;
 import com.team9.carshop.repository.ItemRepository;
 import com.team9.carshop.repository.MemberRepository;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
+    private final CategoryRepository categoryRepository;
 
     // 카테고리별 아이템 조회
     public Page<ItemDto> getAllItemByCategory(Long categoryId, Pageable pageable) {
@@ -85,15 +87,18 @@ public class ItemService {
 
     // 아이템 추가
     @Transactional
-    public Long addItem(ItemDto itemDto, Long sellerId) {
+    public Long addItem(ItemRequestDTO itemRequestDTO, Long sellerId) {
         Member seller = memberRepository.findById(sellerId)
             .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
 
-        itemDto.setSeller(seller);
+        Category category = categoryRepository.findById(itemRequestDTO.getCategoryId())
+            .orElseThrow(() -> new CategoryNotFoundException("존재하지 않는 카테고리입니다."));
 
         try {
-            Item newItem = itemDto.toEntity();
+            Item newItem = itemRequestDTO.toEntity(category);
+            newItem.setMember(seller);
 
+            itemRepository.save(newItem);
             return newItem.getId();
         }  catch (DataAccessException e) {
             // 데이터베이스 저장 중에 문제 발생

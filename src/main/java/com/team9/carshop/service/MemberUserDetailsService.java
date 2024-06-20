@@ -2,7 +2,6 @@ package com.team9.carshop.service;
 
 import com.team9.carshop.entity.Member;
 import com.team9.carshop.repository.MemberRepository;
-import com.team9.carshop.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

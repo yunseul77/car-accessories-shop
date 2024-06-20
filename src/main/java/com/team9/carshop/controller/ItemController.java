@@ -67,7 +67,7 @@ public class ItemController {
     @PreAuthorize("hasAuthority('SELLER')")
     public ResponseEntity<String> addItem(
         @CookieValue(value = "accessToken") String accessToken,
-        @RequestBody ItemDto itemDto) {
+        @RequestBody ItemRequestDTO itemRequestDto) {
 
         if (!jwtUtil.validateToken(accessToken)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 요청입니다.");
@@ -75,8 +75,8 @@ public class ItemController {
 
         Long sellerId = jwtUtil.getMemberIdFromToken(accessToken);
 
-        Long itemId = itemService.addItem(itemDto, sellerId);
-        return ResponseEntity.ok("아이템이 성공적으로 추가되었습니다." + itemId);
+        Long itemId = itemService.addItem(itemRequestDto, sellerId);
+        return ResponseEntity.ok("아이템이 성공적으로 추가되었습니다. 상품번호 " + itemId);
     }
 
     // 아이템 수정 ( 판매자만 가능 )

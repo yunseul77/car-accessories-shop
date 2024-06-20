@@ -5,7 +5,6 @@ import com.team9.carshop.dto.OrderManageDto;
 import com.team9.carshop.dto.SaleHistoryDto;
 import com.team9.carshop.dto.UpdateDeliveryStatusDto;
 import com.team9.carshop.enums.DeliveryStatus;
-import com.team9.carshop.repository.OrderRepository;
 import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.SellerService;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -117,7 +115,7 @@ public class SellerController {
 
         // 주문 삭제
         @DeleteMapping("/orders/{orderId}")
-        public ResponseEntity<Void> deleteOrder (
+        public ResponseEntity<String> deleteOrder (
             @CookieValue(value = "accessToken") String accessToken,
             @PathVariable Long orderId){
 
@@ -127,7 +125,7 @@ public class SellerController {
 
             sellerService.softDeleteOrder(orderId);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("주문이 정상적으로 삭제되었습니다.");
 
         }
 }

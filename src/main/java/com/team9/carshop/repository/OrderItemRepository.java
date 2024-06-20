@@ -50,7 +50,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         + "m.name,"
         + "m.loginId,"
         + "m.phone,"
-        + "o.totalPrice,"
+        + "oi.totalPrice,"
         + "i.name,"
         + "c.name,"
         + "d.updatedAt,"

@@ -47,7 +47,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -56,17 +56,14 @@ public class Order extends BaseEntity {
     @Column(unique = true, length = 11, nullable = false)
     private String orderNumber;
 
-    @Column(unique = true, length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String receiverName;
 
-    @Column(unique = true, length = 20, nullable = false)
+    @Column(length = 20, nullable = false)
     private String receiverPhone;
 
     @Column(length = 500)
     private String requestMessage;
-
-    @Column(precision = 12, scale = 2)
-    private BigDecimal totalPrice;
 
     //== 주문번호 자동생성 메서드 ==//
     @PrePersist
