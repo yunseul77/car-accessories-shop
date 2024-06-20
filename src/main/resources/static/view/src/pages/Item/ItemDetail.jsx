@@ -54,7 +54,7 @@ const ItemDetail = () => {
                         </div>
                         <div className="col-md-6">
                             <h1>{itemDetail.itemTitle}</h1>
-                            <StarRating rating={itemDetail.averageRating} /><span>{itemDetail.averageRating.toFixed(1)}점 ({itemDetail.reviewCount}개 리뷰)</span>
+                            <StarRating rating={itemDetail.averageRating} /><span>{itemDetail.averageRating}점 ({itemDetail.reviewCount}개 리뷰)</span>
                             <p><strong>{itemDetail.discount}% <del>{itemDetail.price.toLocaleString()}</del>원</strong></p>
                             <p><strong className="price">{itemDetail.discountPrice.toLocaleString()}원</strong></p>
                             <p>판매자: {itemDetail.memberName}</p>
