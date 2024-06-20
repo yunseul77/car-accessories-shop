@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.security.config.Customizer;
 
 @Configuration // 이 클래스를 Spring 설정 클래스로 지정
 @EnableWebSecurity // Spring Security를 활성화
@@ -46,7 +45,7 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable()) // CSRF 보호를 비활성화
         .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/auth/login", "/signup").permitAll() // /auth/login과 /signup 경로는 인증 없이 접근 가능
+            .requestMatchers("/auth/login", "/member/signup").permitAll() // /auth/login과 /signup 경로는 인증 없이 접근 가능
             .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
         )
         .sessionManagement(session -> session

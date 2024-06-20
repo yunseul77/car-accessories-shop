@@ -9,11 +9,15 @@ import Layout from "./components/Layout";
 import MemberOrder from "./pages/MemberOrder/MemberOrder";
 import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
 import OrderManageDetail from "./pages/Seller/OrderManageDetail";
+import { TokenProvider } from "./tokenContext";
 import Login from "./pages/auth/Login";
+import Footer from "./components/Footer";
 import MemberJoin from "./pages/auth/MemberJoin";
 
 function App() {
   return (
+    <TokenProvider>
+     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />}/>
@@ -40,15 +44,20 @@ function App() {
                 </Route>
               </Route>
 
+              <Route path="orders">
+                <Route path=":memberId" element={<MemberOrder />} />
+                <Route path=":memberId/:orderId" element={<MemberOrderDetail />} />
+              </Route>
 
                 <Route path="sellers" element={<SellerLayout />}>
                   <Route path=":sellerId/orderpages" element={<OrderManage />} />
                   <Route path=":sellerId/salepages" element={<SaleHistory />} />
-                  <Route path="orders/:itemId/:orderId" element={<Main />} />
-                  <Route path="orders/update-delivery" element={<MemberOrderDetail />} />
-                  <Route path="orders/:orderId" element={<MemberOrder />} />
+                  <Route path="orders/:itemId/:orderId" element={<OrderManageDetail />} />
                 </Route>
             </Routes>
+           <Footer style={{ marginTop: 'auto' }} />
+         </div>
+      </TokenProvider>
   )
 }
 
