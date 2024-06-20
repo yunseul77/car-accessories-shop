@@ -5,8 +5,9 @@ import ReactStars from 'react-stars';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const ReviewForm = () => {
+const ReviewUpdate = () => {
   const [itemName, setItemName] = useState('');
   const [summary, setSummary] = useState('');
   const [description, setDescription] = useState('');
@@ -14,15 +15,28 @@ const ReviewForm = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [itemImage, setItemImage] = useState('');
 
+  const { reviewId } = useParams(); // URL에서 reviewId를 가져옵니다.
+
   useEffect(() => {
-    // 임시로 아이템 데이터 설정
-    const itemData = {
-      name: '테스트 상품', // 임시 아이템 이름
-      image: 'https://via.placeholder.com/150', // 임시 이미지 URL
+    const fetchReview = async () => {
+      try {
+        const response = await axios.get(`/review/${reviewId}`);
+        const data = response.data;
+
+        // 리뷰 데이터를 상태로 설정
+        setItemName(data.itemName);
+        setSummary(data.summary);
+        setDescription(data.description);
+        setRatingValue(data.ratingValue);
+        setImageUrl(data.imageUrl);
+        setItemImage(data.itemImage);
+      } catch (error) {
+        console.error('리뷰 데이터를 가져오는 중 오류가 발생했습니다.', error);
+      }
     };
-    setItemName(itemData.name);
-    setItemImage(itemData.image);
-  }, []);
+
+    fetchReview();
+  }, [reviewId]);
 
   const handleImageUpload = (e) => {
     setImageUrl(URL.createObjectURL(e.target.files[0]));
@@ -33,11 +47,21 @@ const ReviewForm = () => {
     const review = { itemName, summary, description, ratingValue, imageUrl };
 
     try {
-      const response = await axios.post('/api/review', review);
-      console.log(response.data);
+      const response = await fetch('/api/review/{memberId}/write', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(review),
+      });
+      if (!response.ok) {
+        throw new Error('리뷰 등록 중 오류 발생!');
+      }
+      const data = await response.json();
+      console.log(data);
       alert('리뷰가 성공적으로 등록되었습니다!');
     } catch (error) {
-      console.error('리뷰 등록 중 오류 발생!', error);
+      console.error(error);
       alert('리뷰 등록 중 오류가 발생했습니다.');
     }
   };
@@ -115,4 +139,4 @@ const ReviewForm = () => {
   );
 };
 
-export default ReviewForm;
+export default ReviewUpdate;

@@ -71,14 +71,14 @@ public class ReviewService {
     }
 
 
-   //리뷰 삭제
-   @Transactional
-   public void deleteReview(Long reviewId) {
-       Review review = reviewRepository.findByIdAndIsDeletedFalse(reviewId);
-       if (review != null) {
-           reviewRepository.deleteById(reviewId);
-       }
-   }
+    //리뷰 삭제
+    @Transactional
+    public void deleteReview(Long reviewId) {
+        Review review = reviewRepository.findByIdAndIsDeletedFalse(reviewId);
+        if (review != null) {
+            reviewRepository.deleteById(reviewId);
+        }
+    }
 
     // 리뷰 페이지네이션
     public Page<ReviewDTO> getPagedReview(Long itemId, Pageable pageable) {

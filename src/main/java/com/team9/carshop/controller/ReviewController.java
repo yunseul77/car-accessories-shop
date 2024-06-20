@@ -26,7 +26,7 @@ public class ReviewController {
     }
 
 
-    @PostMapping("{memberId}/write")
+    @PostMapping("/{memberId}/write")
     public ResponseEntity<ReviewDTO> writeReview(
             @PathVariable Long memberId,
             @RequestBody ReviewDTO reviewDTO) {
@@ -45,7 +45,7 @@ public class ReviewController {
         }
     }
 
-    @DeleteMapping("/delete/{reviewId}")
+    @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.noContent().build();
