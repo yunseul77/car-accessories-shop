@@ -1,16 +1,18 @@
 import React, { createContext, useState } from 'react';
+import Cookies from 'js-cookie'; // js-cookie 라이브러리 가져오기
 
 export const TokenContext = createContext();
 
 export const TokenProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token') || null);  //쿠키에서 가져오기 - 코치님
+  const [token, setToken] = useState(Cookies.get('accessToken') || null); // 쿠키에서 액세스 토큰 가져오기
 
   const login = (newToken) => {
+    Cookies.set('accessToken', newToken); // 쿠키에 액세스 토큰 저장
     setToken(newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');  //쿠키에서 삭제하기 - 코치님
+    Cookies.remove('accessToken'); // 쿠키에서 액세스 토큰 삭제
     setToken(null);
   };
 
@@ -20,6 +22,7 @@ export const TokenProvider = ({ children }) => {
     </TokenContext.Provider>
   );
 };
+
 
 
 

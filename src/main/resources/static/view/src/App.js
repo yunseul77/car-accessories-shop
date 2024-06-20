@@ -14,6 +14,9 @@ import ItemDetail from "./pages/Item/ItemDetail";
 import ItemRegistration from "./pages/Item/ItemRegistration";
 import { TokenProvider } from "./tokenContext";
 import Login from "./pages/auth/Login";
+import Footer from "./components/Footer";
+import MemberJoin from "./pages/auth/MemberJoin";
+import JoinTypeSelection from './pages/auth/JoinTypeSelection';
 
 function App() {
   return (
@@ -23,9 +26,11 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />}/>
 
-            <Route path="auth">
-              <Route path="login" element={<Login />} />
-            </Route>
+                <Route path="auth">
+                  <Route path="login" element={<Login />} />
+                  <Route path="/auth/select" element={<JoinTypeSelection />} />
+                  <Route path="signup" element={<MemberJoin />} />
+                </Route>
 
             <Route path="cart">
               <Route path="create" element={<Main />} />
@@ -35,9 +40,6 @@ function App() {
               <Route path=":cartId/total" element={<Main />} />
             </Route>
 
-            <Route path="member">
-              <Route path="signup" element={<Main />} />
-            </Route>
 
             <Route path="review">
               <Route path=":itemId" element={<Main />} />
