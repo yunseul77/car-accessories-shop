@@ -36,10 +36,10 @@ function App() {
 
 
             <Route path="review">
-              <Route path=":itemId" element={<Main />} />
-              <Route path=":memberId/write" element={<Main />} />
-              <Route path="update/:reviewId" element={<Main />} />
-              <Route path="delete/:reviewId" element={<Main />} />
+              <Route path=":/itemId" element={<ReviewList />}/>
+              <Route path=":/memberId/write" element={<ReviewForm />}/>
+              <Route path="/update/:reviewId" element={<ReviewUpdate />}/>
+              <Route path=":reviewId" element={<ReviewList />} />
             </Route>
 
             <Route path="orders">
