@@ -41,6 +41,10 @@ const ItemDetail = () => {
         setPageNumber(newPage);
     };
 
+    const formatCurrency = (amount) => {
+        return Math.floor(amount).toLocaleString();
+    };
+
     return (
         <>
             {loading && <p>Loading...</p>}
@@ -55,8 +59,8 @@ const ItemDetail = () => {
                         <div className="col-md-6">
                             <h1>{itemDetail.itemTitle}</h1>
                             <StarRating rating={itemDetail.averageRating} /><span>{itemDetail.averageRating}점 ({itemDetail.reviewCount}개 리뷰)</span>
-                            <p><strong>{itemDetail.discount}% <del>{itemDetail.price.toFixed(0).toLocaleString()}</del>원</strong></p>
-                            <p><strong className="price">{itemDetail.discountPrice.toFixed(0).toLocaleString()}원</strong></p>
+                            <p><strong>{itemDetail.discount}% <del>{formatCurrency(itemDetail.price)}</del>원</strong></p>
+                            <p><strong className="price">{formatCurrency(itemDetail.discountPrice)}원</strong></p>
                             <p>판매자: {itemDetail.memberName}</p>
                             <p>남은 상품 개수: {itemDetail.stockQuantity}개</p>
                             <div className="d-flex align-items-center mb-3">
