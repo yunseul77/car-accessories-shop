@@ -3,7 +3,8 @@ package com.team9.carshop.enums;
 
 public enum MemberRole {
     USER("일반회원"),
-    SELLER("판매자");
+    SELLER("판매자"),
+    ADMIN("관리자");
 
     private final String displayName;
 

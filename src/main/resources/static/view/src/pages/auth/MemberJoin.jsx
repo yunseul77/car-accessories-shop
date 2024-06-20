@@ -31,7 +31,7 @@ const MemberJoin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/member/signup', formData);
+      await axios.post('/auth/signup', formData);
       // 가입 완료 후 JoinComplete 컴포넌트로 이동
       navigate('/auth/join-complete', { state: { role: formData.role } });
     } catch (err) {

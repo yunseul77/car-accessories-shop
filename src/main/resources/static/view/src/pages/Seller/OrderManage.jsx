@@ -17,7 +17,7 @@ const OrderManage = () => {
         }
 
         const response = await fetch(
-            `http://localhost:8080/sellers/${sellerId}/orderpages?pageindex=0&pagesize=10&sort=updatedAt`,
+            `http://localhost:8080/sellers/orderpages?pageindex=0&pagesize=10&sort=updatedAt`,
             {
               headers: {
                 'Content-Type': 'application/json',

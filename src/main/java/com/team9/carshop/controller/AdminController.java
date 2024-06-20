@@ -21,7 +21,7 @@ public class AdminController {
     public ResponseEntity<String> addCategory(
         @RequestBody CreateCategoryRequestDto createCategoryRequestDto) {
         String message = adminService.createCategory(createCategoryRequestDto);
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok("카테고리가 생성되었습니다 " + message);
     }
 
 }

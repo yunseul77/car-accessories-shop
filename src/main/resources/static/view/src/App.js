@@ -21,7 +21,6 @@ import JoinTypeSelection from './pages/auth/JoinTypeSelection';
 function App() {
   return (
     <TokenProvider>
-     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />}/>
@@ -53,9 +52,9 @@ function App() {
              <Route path=":memberId/:orderId" element={<MemberOrderDetail />} />
             </Route>
 
-            <Route path="sellers" element={<SellerLayout />}>
-              <Route path=":sellerId/orderpages" element={<OrderManage />} />
-              <Route path=":sellerId/salepages" element={<SaleHistory />} />
+            <Route path="sellers" /*element={<SellerLayout />}*/>
+              <Route path="orderpages" element={<OrderManage />} />
+              <Route path="salepages" element={<SaleHistory />} />
               <Route path="orders/:itemId/:orderId" element={<OrderManageDetail />} />
             </Route>
 
@@ -66,7 +65,6 @@ function App() {
             </Route>
           </Route>
           </Routes>
-      </div>
     </TokenProvider>
   )
 }
