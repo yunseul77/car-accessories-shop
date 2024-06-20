@@ -1,7 +1,9 @@
 package com.team9.carshop.service;
 
+import com.team9.carshop.dto.ItemDetailResponseDTO;
 import com.team9.carshop.dto.ItemDto;
 import com.team9.carshop.dto.ItemRequestDTO;
+import com.team9.carshop.dto.ReviewDTO;
 import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.exception.*;
@@ -42,12 +44,23 @@ public class ItemService {
         }
     }
 
-    // 아이템 상세 조회
+    // 아이템 상세 페이지 조회
+//    public ItemDetailResponseDTO getItemDetail(Long itemId, Pageable pageable) {
+//        Item item = itemRepository.findById(itemId)
+//                .orElseThrow(() -> new ItemNotFoundException("존재하지 않는 게시물입니다. ID: " + itemId));
+//            Page<ReviewDTO> reviews = reviewService.getPagedReview(itemId, pageable);
+//
+//        return new ItemDetailResponseDTO(item, reviews);
+//    }
+
+    // 아이템 조회
     public ItemDto getItemById(Long id) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("존재하지 않는 게시물입니다. ID: " + id));
+
         return Item.toDto(item);
     }
+
 
     // 판매자 본인이 올린 아이템 조회
     public Page<ItemDto> getAllItemBySeller(Long sellerId, Pageable pageable) {
@@ -80,19 +93,19 @@ public class ItemService {
 
     // 아이템 수정
     @Transactional
-    public void updateItem(Long itemId, ItemDto itemDto) {
+    public void updateItem(Long itemId, ItemRequestDTO itemRequestDTO) {
         // 수정할 아이템 가져오기
         Item itemToUpdate = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemNotFoundException("수정할 아이템을 찾을 수 없습니다. ID: " + itemId));
 
-        // ItemDto에서 수정된 정보를 가져와서 엔티티에 반영
-        itemToUpdate.setName(itemDto.getName());
-        itemToUpdate.setPrice(itemDto.getPrice());
-        itemToUpdate.setDiscount(itemDto.getDiscount());
-        itemToUpdate.setStockQuantity(itemDto.getStockQuantity());
-        itemToUpdate.setTitleImageUrl(itemDto.getTitleImageUrl());
-        itemToUpdate.setContentImageUrl(itemDto.getContentImageUrl());
-        itemToUpdate.setDescription(itemDto.getDescription());
+        // ItemRequestDTO에서 수정된 정보를 가져와서 엔티티에 반영
+        itemToUpdate.setName(itemRequestDTO.getName());
+        itemToUpdate.setPrice(itemRequestDTO.getPrice());
+        itemToUpdate.setDiscount(itemRequestDTO.getDiscount());
+        itemToUpdate.setStockQuantity(itemRequestDTO.getStockQuantity());
+        itemToUpdate.setTitleImageUrl(itemRequestDTO.getTitleImageUrl());
+        itemToUpdate.setContentImageUrl(itemRequestDTO.getContentImageUrl());
+        itemToUpdate.setDescription(itemRequestDTO.getDescription());
 
         // 수정된 아이템을 데이터베이스에 저장
         itemRepository.save(itemToUpdate);

@@ -1,15 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import styles from '../../styles/ItemListByCategory.css';
 import BabyItem from '../../components/BabyItem';
 import ListPagination from '../../components/ListPagination';
 
+
 const ItemListByCategory = () => {
     const [pageNumber, setPageNumber] = useState(0);
     const [categoryId, setCategory] = useState('');
+    const [categoryName, setCategoryName] = useState('');
     const [items, setItems] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -58,7 +61,7 @@ const ItemListByCategory = () => {
                 <div className="category-result">
                 <ul>
                     <li>
-                        <a href="/" >
+                        <Link to="/" >
                             홈
                             <svg className="category-arrow-icon" width="12" height="13" viewBox="0 0 12 13" fill="none" xmins="http://www.w3.org/2000/svg">
                             <path d="M3.8859 2.15732C4.0606 1.9717 4.34367 1.94925 4.54434 2.09575L4.59268 2.1359L8.84268 6.1359C9.03746 6.31922 9.05137
@@ -66,12 +69,12 @@ const ItemListByCategory = () => {
                             10.3732 3.86432 10.1817L3.90732 10.1359L7.77 6.50001L3.90732 2.8641C3.7217 2.6894 3.69925 2.40634 3.84575 2.20566L3.8859 2.15732Z" fill="#AAB5C0">
                             </path>
                             </svg>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/카테고리이름">
-                            방향제/공기청정
-                        </a>
+                        <Link to="/item/category/{categoryId}">
+                            {categoryName}
+                        </Link>
                     </li>
                 </ul>
                 </div>
@@ -80,7 +83,7 @@ const ItemListByCategory = () => {
         <form>
             <div className="item-container">
                 <div className="item-body">
-                    <h2 className="item-list-title">방향제/공기청정</h2>
+                    <h2 className="item-list-title">{categoryName}</h2>
                     <div className="item-list-container">
                         <ul className="item-list">
                             {items.map((item) => (
@@ -96,7 +99,6 @@ const ItemListByCategory = () => {
                 </div>
             </div>
         </form>
-
     </ >
     )
 }
