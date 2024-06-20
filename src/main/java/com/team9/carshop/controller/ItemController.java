@@ -1,9 +1,6 @@
 package com.team9.carshop.controller;
 
-import com.team9.carshop.dto.ItemDetailResponseDTO;
-import com.team9.carshop.dto.ItemDto;
-import com.team9.carshop.dto.ItemRequestDTO;
-import com.team9.carshop.dto.ReviewDTO;
+import com.team9.carshop.dto.*;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.ItemService;
@@ -31,10 +28,10 @@ public class ItemController {
 
     // 카테고리별 아이템 목록 조회
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<Page<ItemDto>> getAllItemListByCategory(@PathVariable Long categoryId,
-                                                                  @RequestParam(name = "page", defaultValue = "0") int page,
-                                                                  @RequestParam(name = "size", defaultValue = "16") int size) {
-        Page<ItemDto> itemPage = itemService.getAllItemByCategory(categoryId, PageRequest.of(page, size));
+    public ResponseEntity<Page<ItemListResponseDTO>> getAllItemListByCategory(@PathVariable Long categoryId,
+                                                                              @RequestParam(name = "page", defaultValue = "0") int page,
+                                                                              @RequestParam(name = "size", defaultValue = "16") int size) {
+        Page<ItemListResponseDTO> itemPage = itemService.getAllItemByCategory(categoryId, PageRequest.of(page, size));
         return new ResponseEntity<>(itemPage, HttpStatus.OK);
     }
 

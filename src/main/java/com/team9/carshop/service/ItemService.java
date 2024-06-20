@@ -1,17 +1,17 @@
 package com.team9.carshop.service;
 
-import com.team9.carshop.dto.ItemDetailResponseDTO;
-import com.team9.carshop.dto.ItemDto;
-import com.team9.carshop.dto.ItemRequestDTO;
-import com.team9.carshop.dto.ReviewDTO;
+import com.team9.carshop.dto.*;
 import com.team9.carshop.entity.Category;
 import com.team9.carshop.entity.Item;
 import com.team9.carshop.entity.Member;
+import com.team9.carshop.entity.Review;
 import com.team9.carshop.exception.*;
 import com.team9.carshop.repository.CategoryRepository;
 import com.team9.carshop.repository.ItemRepository;
 import com.team9.carshop.repository.MemberRepository;
 import java.util.Optional;
+
+import com.team9.carshop.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -30,34 +30,30 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
+    private final ReviewRepository reviewRepository;
 
     // 카테고리별 아이템 조회
-    public Page<ItemDto> getAllItemByCategory(Long categoryId, Pageable pageable) {
+    public Page<ItemListResponseDTO> getAllItemByCategory(Long categoryId, Pageable pageable) {
         Category category = itemRepository.findByCategoryId(categoryId);
         if (category != null) {
             Page<Item> itemPage = itemRepository.findByCategoryId(categoryId, pageable);
 
-            // Item -> ItemDto 변환
-            List<ItemDto> itemDtoList = itemPage.getContent()
+            // Item -> ItemDto 변환 후 ItemListResponseDTO로 매핑
+            List<ItemListResponseDTO> itemResponseList = itemPage.getContent()
                     .stream()
-                    .map(Item::toDto)
+                    .map(item -> {
+                        ItemDto itemDto = Item.toDto(item); // ItemDto로 변환
+                        List<Review> reviews = reviewRepository.findByItemId(item.getId()); // 해당 Item의 리뷰 가져오기
+                        return new ItemListResponseDTO(itemDto, reviews); // ItemListResponseDTO로 변환
+                    })
                     .collect(Collectors.toList());
 
-            return new PageImpl<>(itemDtoList, pageable, itemPage.getTotalElements());
+            return new PageImpl<>(itemResponseList, pageable, itemPage.getTotalElements());
 
         } else {
             throw new CategoryNotFoundException("해당 카테고리를 찾을 수 없습니다: " + categoryId);
         }
     }
-
-    // 아이템 상세 페이지 조회
-//    public ItemDetailResponseDTO getItemDetail(Long itemId, Pageable pageable) {
-//        Item item = itemRepository.findById(itemId)
-//                .orElseThrow(() -> new ItemNotFoundException("존재하지 않는 게시물입니다. ID: " + itemId));
-//            Page<ReviewDTO> reviews = reviewService.getPagedReview(itemId, pageable);
-//
-//        return new ItemDetailResponseDTO(item, reviews);
-//    }
 
     // 아이템 조회
     public ItemDto getItemById(Long id) {

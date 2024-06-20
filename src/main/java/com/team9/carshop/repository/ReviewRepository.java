@@ -15,4 +15,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Review findByIdAndIsDeletedFalse(Long id);
 
     Page<Review> getByItemId(Long itemId, Pageable pageable);
+
+    List<Review> findByItemId(Long itemId);
 }

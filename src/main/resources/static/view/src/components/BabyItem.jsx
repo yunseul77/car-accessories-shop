@@ -14,10 +14,10 @@ const BabyItem = ({ item }) => {
                     <dd className="descriptions">
                         <div className="name">{item.itemTitle}</div>
                         <div className="price-area">
-                            <del className="base-price">{item.price.toLocaleString()}원</del>
+                            <del className="base-price">{item.price.toFixed(0).toLocaleString()}원</del>
                             <span className="discount-percentage">{item.discount}%</span>
                         </div>
-                        <div className="discount-price">{item.discountPrice.toLocaleString()}원</div>
+                        <div className="discount-price"><strong>{item.discountPrice.toFixed(0).toLocaleString()}원</strong></div>
                         <div className="rating-value">
                             <StarRating rating={item.ratingValue} />
                         </div>
