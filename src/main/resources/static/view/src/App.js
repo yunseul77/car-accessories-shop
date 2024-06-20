@@ -39,7 +39,7 @@ function App() {
               <Route path=":/itemId" element={<ReviewList />}/>
               <Route path=":/memberId/write" element={<ReviewForm />}/>
               <Route path="/update/:reviewId" element={<ReviewUpdate />}/>
-              <Route path=":reviewId" element={<ReviewList />} />
+              <Route path=":reviewId" element={<Main />} />
             </Route>
 
             <Route path="orders">
