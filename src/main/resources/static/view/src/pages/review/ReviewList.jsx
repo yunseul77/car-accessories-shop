@@ -14,6 +14,18 @@ function ReviewList() {
   const reviewSummary = "리뷰 한줄 요약";
   const reviewDetail = "리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 ";
 
+  // 리뷰 삭제를 처리하는 함수
+  const handleDelete = async (reviewId) => {
+    try {
+      await axios.delete(`/review/${reviewId}`);
+      alert('리뷰가 삭제되었습니다.');
+      // 필요한 경우 리뷰 목록을 새로고침하거나 삭제된 리뷰를 상태에서 제거
+    } catch (error) {
+      console.error('리뷰 삭제 중 오류가 발생했습니다.', error);
+      alert('리뷰 삭제 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
       <>
         <Header />
@@ -50,8 +62,8 @@ function ReviewList() {
                     </div>
                   </div>
                   <div>
-                    <button className="btn btn-primary" style={{ marginRight: "3px", border: "none", background: "none", color: "black"}}>수정</button>
-                    <button className="btn btn-danger"style={{ border: "none", background: "none", color: "black"}}>삭제</button>
+                    <button className="btn btn-primary" style={{ marginRight: "3px", border: "none", background: "none", color: "black"}} onClick={() => window.location.href = `/review/update`}>수정</button>
+                    <button className="btn btn-danger"style={{ border: "none", background: "none", color: "black"}} onClick={() => handleDelete(1)}>삭제</button> {/* 적절한 리뷰 ID를 전달 */}
                   </div>
                 </div>
                 <hr style={{ color: "#bbbbbb", backgroundColor: "#bbbbbb", border: "0.5px solid #bbbbbb", width: "100%" }}/>
@@ -71,4 +83,4 @@ function ReviewList() {
   );
 }
 
-export default ReviewList
+export default ReviewList;

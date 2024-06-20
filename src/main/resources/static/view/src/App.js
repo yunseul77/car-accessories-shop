@@ -17,6 +17,9 @@ import Login from "./pages/auth/Login";
 import Footer from "./components/Footer";
 import MemberJoin from "./pages/auth/MemberJoin";
 import JoinTypeSelection from './pages/auth/JoinTypeSelection';
+import ReviewForm from "./pages/review/ReviewForm";
+import ReviewList from "./pages/review/ReviewList";
+import ReviewUpdate from "./pages/review/ReviewUpdate";
 
 function App() {
   return (
@@ -41,10 +44,10 @@ function App() {
 
 
             <Route path="review">
-              <Route path=":itemId" element={<Main />} />
-              <Route path=":memberId/write" element={<Main />} />
-              <Route path="update/:reviewId" element={<Main />} />
-              <Route path="delete/:reviewId" element={<Main />} />
+              <Route path=":itemId" element={<ReviewList />} />
+              <Route path=":memberId/write" element={<ReviewForm />} />
+              <Route path="update/:reviewId" element={<ReviewUpdate />} />
+              <Route path="delete/:reviewId" element={<ReviewList />} />
             </Route>
 
             <Route path="orders">
@@ -67,6 +70,7 @@ function App() {
           </Routes>
     </TokenProvider>
   )
+
 }
 
 export default App;
