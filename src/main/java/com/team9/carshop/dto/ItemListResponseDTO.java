@@ -40,11 +40,7 @@ public class ItemListResponseDTO {
         this.averageRating = itemDto.getAverageRating();
         this.reviewCount = itemDto.getReviewCount();
 
-
-        // 리뷰 평균 평점 계산
         this.averageRating = calculateAverageRating(reviews);
-
-        // 리뷰 개수 계산
         this.reviewCount = reviews.size();
 
         this.reviews = reviews;

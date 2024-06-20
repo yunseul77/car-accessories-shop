@@ -25,7 +25,7 @@ public class ItemDto {
     private String titleImageUrl;
     private String contentImageUrl;
     private String description;
-    private List<ReviewDTO> reviews;
+    private List<Review> reviews;
     private double averageRating;
     private long reviewCount;
     private String memberName;

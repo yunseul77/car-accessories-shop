@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import BabyItem from '../../components/BabyItem';
 import ListPagination from '../../components/ListPagination';
+import styles from '../../styles/ItemListByCategory.css';
 
 const ItemListByCategory = () => {
     const [pageNumber, setPageNumber] = useState(0);
@@ -41,7 +42,11 @@ const ItemListByCategory = () => {
             setTotalPages(response.data.page.totalPages);
 
             // 카테고리 이름 설정 (초기 데이터에서 가져옴)
-            setCategoryName(response.data.content[0].categoryName);
+            if (response.data.content.length > 0) {
+                setCategoryName(response.data.content[0].categoryName);
+            } else {
+                setCategoryName(''); // 데이터가 없을 경우 빈 문자열로 설정
+            }
         } catch (error) {
             console.error('데이터를 가져오는 중에 오류가 발생했습니다.:', error);
             setError('데이터를 가져오는 중에 오류가 발생했습니다.');
@@ -55,6 +60,10 @@ const ItemListByCategory = () => {
         setPageNumber(newPage);
         fetchItems(newPage); // 페이지 번호가 변경될 때마다 데이터 다시 가져오기
     };
+
+    const formatCurrency = (amount) => {
+            return Math.floor(amount).toLocaleString();
+        };
 
     return (
         <>

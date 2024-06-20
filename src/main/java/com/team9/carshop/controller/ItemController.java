@@ -1,7 +1,6 @@
 package com.team9.carshop.controller;
 
 import com.team9.carshop.dto.*;
-import com.team9.carshop.entity.Item;
 import com.team9.carshop.security.JwtUtil;
 import com.team9.carshop.service.ItemService;
 import com.team9.carshop.service.ReviewService;
@@ -13,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -51,9 +48,15 @@ public class ItemController {
     // 판매자 본인이 올린 아이템 조회
     @GetMapping("/{sellerId}/itemList")
     @PreAuthorize("hasAuthority('SELLER')")
-    public ResponseEntity<Page<ItemDto>> getItemListBySeller(@PathVariable Long sellerId,
+    public ResponseEntity<Page<ItemDto>> getItemListBySeller(@CookieValue(value = "accessToken") String accessToken,
                                                              @RequestParam(name = "page", defaultValue = "0") int page,
                                                              @RequestParam(name = "size", defaultValue = "10") int size) {
+        if (!jwtUtil.validateToken(accessToken)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 요청입니다.");
+        }
+
+        Long sellerId = jwtUtil.getMemberIdFromToken(accessToken);
+
         Page<ItemDto> sellerItemPage = itemService.getAllItemBySeller(sellerId, PageRequest.of(page, size));
         return new ResponseEntity<>(sellerItemPage, HttpStatus.OK);
     }
@@ -79,7 +82,13 @@ public class ItemController {
     // 아이템 수정 ( 판매자만 가능 )
     @PatchMapping("/{itemId}/updateItem")
     @PreAuthorize("hasAuthority('SELLER')")
-    public ResponseEntity<String> updateItem(@PathVariable Long itemId, @RequestBody ItemRequestDTO itemRequestDTO) {
+    public ResponseEntity<String> updateItem(@CookieValue(value = "accessToken") String accessToken,
+                                             @PathVariable Long itemId,
+                                             @RequestBody ItemRequestDTO itemRequestDTO) {
+        if (!jwtUtil.validateToken(accessToken)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 요청입니다.");
+        }
+
         itemService.updateItem(itemId, itemRequestDTO);
         return ResponseEntity.ok("아이템이 성공적으로 수정되었습니다.");
     }
@@ -87,7 +96,12 @@ public class ItemController {
     // 아이템 삭제 ( 판매자만 가능 )
     @DeleteMapping("/{itemId}/deleteItem")
     @PreAuthorize("hasAuthority('SELLER')")
-    public ResponseEntity<String> deleteItem(@PathVariable Long itemId) {
+    public ResponseEntity<String> deleteItem(@CookieValue(value = "accessToken") String accessToken,
+                                             @PathVariable Long itemId) {
+        if (!jwtUtil.validateToken(accessToken)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 요청입니다.");
+        }
+
         itemService.deleteItem(itemId);
         return ResponseEntity.ok("아이템이 성공적으로 삭제되었습니다.");
     }
