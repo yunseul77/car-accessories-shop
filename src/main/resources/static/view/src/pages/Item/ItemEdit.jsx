@@ -5,14 +5,14 @@ import Footer from '../../components/Footer';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const ItemEdit = () => {
-  const { id } = useParams();
+  const { itemId } = useParams();
   const navigate = useNavigate();
   const [itemInfo, setItemInfo] = useState({
-    itemName: '',
-    itemPrice: '',
-    discountRate: '',
+    name: '',
+    price: '',
+    discount: '',
     stockQuantity: '',
-    category: '',
+    categoryId: '',
     saleTitle: '',
     description: '',
   });

@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 public class ItemRequestDTO {
     private Long id;
     private String name;
+    private String itemTitle;
     private BigDecimal price;
     private BigDecimal discount;
     private int stockQuantity;
@@ -28,6 +29,7 @@ public class ItemRequestDTO {
     public Item toEntity() {
         Item item = Item.builder()
                 .name(name)
+                .itemTitle(itemTitle)
                 .price(price)
                 .discount(discount)
                 .stockQuantity(stockQuantity)

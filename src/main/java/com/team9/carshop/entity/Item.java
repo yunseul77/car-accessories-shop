@@ -60,6 +60,9 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private int stockQuantity;
 
+    @Column(length = 150)
+    private String itemTitle;
+
     @Column(length = 1000)
     private String titleImageUrl;
 
@@ -83,6 +86,17 @@ public class Item extends BaseEntity {
         itemDto.setContentImageUrl(item.getContentImageUrl());
         itemDto.setDescription(item.getDescription());
 
+        // Member가 존재하면 Member 이름 설정
+        if (item.getMember() != null) {
+            itemDto.setMemberName(item.getMember().getName());
+        }
+
+        // Item의 첫 번째 CategoryName,Id 설정
+        if (!item.getCategories().isEmpty()) {
+            itemDto.setCategoryName(item.getCategories().get(0).getName());
+            itemDto.setCategoryId(item.getCategories().get(0).getId());
+        }
+
         return itemDto;
     }
 
@@ -96,9 +110,5 @@ public class Item extends BaseEntity {
         } else {
             this.discountPrice = price;
         }
-    }
-
-    public void addCategory(Category category) {
-        this.categories.add(category);
     }
 }

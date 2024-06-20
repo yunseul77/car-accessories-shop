@@ -50,11 +50,12 @@ function App() {
               <Route path="orders/:orderId" element={<MemberOrder />} />
             </Route>
 
-            <Route path={"/item"} element={<Layout />}>
+            <Route path="item">
               <Route path={"category/:categoryId"} element={<ItemListByCategory/>}/>
               <Route path={":itemId"} element={<ItemDetail/>}/>
               <Route path={"addItem"} element={<ItemRegistration/>}/>
             </Route>
+          </Route>
       </Routes>
   )
 }

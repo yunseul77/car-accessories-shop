@@ -6,12 +6,12 @@ import Footer from '../../components/Footer';
 import '../../styles/ItemRegistration.css';
 
 const ItemRegistration = () => {
-  const [itemName, setItemName] = useState('');
-  const [itemPrice, setItemPrice] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
   const [discount, setDiscount] = useState('');
   const [stockQuantity, setStockQuantity] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [saleTitle, setSaleTitle] = useState('');
+  const [itemTitle, setItemTitle] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
 
@@ -24,12 +24,12 @@ const ItemRegistration = () => {
 
     // FormData 객체 생성
     const formData = new FormData();
-    formData.append('itemName', itemName);
-    formData.append('itemPrice', itemPrice);
+    formData.append('name', name);
+    formData.append('price', price);
     formData.append('discount', discount);
     formData.append('stockQuantity', stockQuantity);
     formData.append('categoryId', categoryId);
-    formData.append('saleTitle', saleTitle);
+    formData.append('itemTitle', itemTitle);
     formData.append('description', description);
     formData.append('file', file);
 
@@ -62,8 +62,8 @@ const ItemRegistration = () => {
                 <Form.Control
                   type="text"
                   placeholder="상품명을 입력하세요"
-                  value={itemName}
-                  onChange={(e) => setItemName(e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
 
@@ -73,8 +73,8 @@ const ItemRegistration = () => {
                   type="number"
                   className="no-arrow"
                   placeholder="상품 가격을 입력하세요"
-                  value={itemPrice}
-                  onChange={(e) => setItemPrice(e.target.value)}
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
               </Form.Group>
 
@@ -132,8 +132,8 @@ const ItemRegistration = () => {
                   type="text"
                   maxLength="50"
                   placeholder="판매글 제목을 입력하세요 (최대 50자)"
-                  value={saleTitle}
-                  onChange={(e) => setSaleTitle(e.target.value)}
+                  value={itemTitle}
+                  onChange={(e) => setItemTitle(e.target.value)}
                 />
               </Form.Group>
 
