@@ -34,7 +34,7 @@ public class AuthController {
   public AuthResponseDTO login(@RequestBody AuthRequestDTO authRequest, HttpServletResponse response) throws AuthenticationException, IOException {
     // 사용자의 인증 정보를 확인
     Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+        new UsernamePasswordAuthenticationToken(authRequest.getLoginId(), authRequest.getPassword()));
 
     // 인증된 사용자 정보를 가져옴
     CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
