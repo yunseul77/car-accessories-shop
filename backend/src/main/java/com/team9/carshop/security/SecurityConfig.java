@@ -1,15 +1,12 @@
 package com.team9.carshop.security;
 
-import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,33 +15,24 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-@Configuration // 이 클래스를 Spring 설정 클래스로 지정
-@EnableWebSecurity // Spring Security를 활성화
+import java.util.Arrays;
+
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
   private final JwtFilter jwtFilter;
-  private final UserDetailsService userDetailsService;
 
-  // JwtFilter와 UserDetailsService를 생성자를 통해 주입받음
-  public SecurityConfig(JwtFilter jwtFilter, @Lazy UserDetailsService userDetailsService) {
+  public SecurityConfig(JwtFilter jwtFilter) {
     this.jwtFilter = jwtFilter;
-    this.userDetailsService = userDetailsService;
   }
 
-  @Bean // 비밀번호를 암호화하는 인코더를 빈으로 등록
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  @Bean // 인증 관리자를 빈으로 등록
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
-  }
-
-  @Bean // 보안 필터 체인을 설정하는 메서드
+  @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable()) // CSRF 보호를 비활성화
         .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
+        .headers(headers -> headers.contentTypeOptions(contentTypeOptionsConfig -> contentTypeOptionsConfig.disable()))
+        .addFilterBefore(new CustomMimeTypeFilter(), UsernamePasswordAuthenticationFilter.class)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/", "/index.html", "/static/**", "/auth/login", "/auth/signup").permitAll() // /auth/login과 auth/signup 경로는 인증 없이 접근 가능
             .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
@@ -67,5 +55,16 @@ public class SecurityConfig {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(
+      AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 }

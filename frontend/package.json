@@ -19,9 +19,9 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "react-stars": "^2.2.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "http-proxy-middleware": "^3.0.0"
   },
-  "proxy": "http://localhost:8080",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
