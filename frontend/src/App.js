@@ -20,6 +20,8 @@ import ReviewForm from "./pages/review/ReviewForm";
 import ReviewList from "./pages/review/ReviewList";
 import ReviewUpdate from "./pages/review/ReviewUpdate";
 import JoinComplete from './pages/auth/JoinComplete';
+import Cart from './pages/cart/Cart'
+
 function App() {
   return (
     <TokenProvider>
@@ -35,11 +37,12 @@ function App() {
                 </Route>
 
             <Route path="cart">
-              <Route path="create" element={<Main />} />
+              <Route path="" element={<Cart />} />
+              {/* <Route path="create" element={<Main />} />
               <Route path=":cartId/add" element={<Main />} />
               <Route path=":cartId/items/:itemId" element={<Main />} />
               <Route path=":cartId/items" element={<Main />} />
-              <Route path=":cartId/total" element={<Main />} />
+              <Route path=":cartId/total" element={<Main />} /> */}
             </Route>
 
 
