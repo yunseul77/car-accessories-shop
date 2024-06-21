@@ -1,7 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useState } from 'react';
-import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import test from '../../assets/test.png';
@@ -12,12 +9,19 @@ function ReviewList() {
   const totalCount = 4;
   const createdAt = "2024.06.14";
   const reviewSummary = "리뷰 한줄 요약";
-  const reviewDetail = "리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 ";
+  const reviewDetail = "리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 리뷰 상세 내용 ";
 
   // 리뷰 삭제를 처리하는 함수
   const handleDelete = async (reviewId) => {
     try {
-      await axios.delete(`/review/${reviewId}`);
+      const response = await fetch(`/review/${reviewId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('리뷰 삭제 중 오류 발생!');
+      }
+
       alert('리뷰가 삭제되었습니다.');
       // 필요한 경우 리뷰 목록을 새로고침하거나 삭제된 리뷰를 상태에서 제거
     } catch (error) {
@@ -28,7 +32,6 @@ function ReviewList() {
 
   return (
       <>
-        <Header />
         <main style={{ marginBottom: "5%" }}>
           <div className="b-example-divider"></div>
           <div className="row">
@@ -78,7 +81,6 @@ function ReviewList() {
             </div>
           </div>
         </main>
-        <Footer />
       </>
   );
 }

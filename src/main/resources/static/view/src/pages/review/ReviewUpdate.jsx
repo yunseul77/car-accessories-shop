@@ -4,7 +4,6 @@ import { Form, Button } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const ReviewUpdate = () => {
@@ -20,8 +19,11 @@ const ReviewUpdate = () => {
   useEffect(() => {
     const fetchReview = async () => {
       try {
-        const response = await axios.get(`/review/${reviewId}`);
-        const data = response.data;
+        const response = await fetch(`/api/review/${reviewId}`);
+        if (!response.ok) {
+          throw new Error('리뷰 데이터를 가져오는 데 실패했습니다.');
+        }
+        const data = await response.json();
 
         // 리뷰 데이터를 상태로 설정
         setItemName(data.itemName);
@@ -38,37 +40,38 @@ const ReviewUpdate = () => {
     fetchReview();
   }, [reviewId]);
 
+  // 이미지 업로드 처리
   const handleImageUpload = (e) => {
     setImageUrl(URL.createObjectURL(e.target.files[0]));
   };
 
+  // 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
     const review = { itemName, summary, description, ratingValue, imageUrl };
 
     try {
-      const response = await fetch('/api/review/{memberId}/write', {
-        method: 'POST',
+      const response = await fetch(`/api/review/${reviewId}/update`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(review),
       });
+
       if (!response.ok) {
-        throw new Error('리뷰 등록 중 오류 발생!');
+        throw new Error('리뷰 수정 중 오류 발생!');
       }
-      const data = await response.json();
-      console.log(data);
-      alert('리뷰가 성공적으로 등록되었습니다!');
+
+      alert('리뷰가 성공적으로 수정되었습니다!');
     } catch (error) {
       console.error(error);
-      alert('리뷰 등록 중 오류가 발생했습니다.');
+      alert('리뷰 수정 중 오류가 발생했습니다.');
     }
   };
 
   return (
     <>
-      <Header />
       <main style={{ marginBottom: "5%" }}>
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px", width: "100%" }}>
           <div className="p-5" style={{ width: "90%", maxWidth: "900px", backgroundColor: "white", borderRadius: "10px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
@@ -134,7 +137,6 @@ const ReviewUpdate = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 };
