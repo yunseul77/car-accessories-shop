@@ -18,8 +18,13 @@ public enum MemberRole {
 
     public static MemberRole fromString(String role) {
         for (MemberRole memberRole : MemberRole.values()) {
-            if (memberRole.name().equalsIgnoreCase(role)) {
+            if (memberRole.displayName.equalsIgnoreCase(role) || memberRole.name().equalsIgnoreCase(role)) {
                 return memberRole;
+
+//    public static MemberRole fromString(String role) {
+//        for (MemberRole memberRole : MemberRole.values()) {
+//            if (memberRole.name().equalsIgnoreCase(role)) {
+//                return memberRole;
             }
         }
         throw new IllegalArgumentException("Invalid role: " + role);

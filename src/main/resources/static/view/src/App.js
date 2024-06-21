@@ -20,7 +20,7 @@ import JoinTypeSelection from './pages/auth/JoinTypeSelection';
 import ReviewForm from "./pages/review/ReviewForm";
 import ReviewList from "./pages/review/ReviewList";
 import ReviewUpdate from "./pages/review/ReviewUpdate";
-
+import JoinComplete from './pages/auth/JoinComplete';
 function App() {
   return (
     <TokenProvider>
@@ -30,8 +30,9 @@ function App() {
 
                 <Route path="auth">
                   <Route path="login" element={<Login />} />
-                  <Route path="/auth/select" element={<JoinTypeSelection />} />
+                  <Route path="select" element={<JoinTypeSelection />} />
                   <Route path="signup" element={<MemberJoin />} />
+                  <Route path="joincomplete" element={<JoinComplete />} />
                 </Route>
 
             <Route path="cart">

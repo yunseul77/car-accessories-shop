@@ -30,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
     String token = null; // 요청에서 추출한 JWT 토큰을 저장할 변수
-    String username = null; // JWT 토큰에서 추출한 사용자 이름을 저장할 변수
+    String loginId = null; // JWT 토큰에서 추출한 사용자 이름을 저장할 변수
     Long memberId = null; // JWT 토큰에서 추출한 사용자 ID를 저장할 변수
 
     // 요청에 포함된 쿠키들을 검사하여, 이름이 "accessToken"인 쿠키를 찾습니다.
@@ -38,22 +38,22 @@ public class JwtFilter extends OncePerRequestFilter {
       for (Cookie cookie : request.getCookies()) {
         if (cookie.getName().equals("accessToken")) {
           token = cookie.getValue(); // JWT 토큰 값을 가져옵니다.
-          username = jwtUtil.getUsernameFromToken(token); // JWT 토큰에서 사용자 이름을 추출합니다.
+          loginId = jwtUtil.getUsernameFromToken(token); // JWT 토큰에서 사용자 이름을 추출합니다.
           memberId = jwtUtil.getMemberIdFromToken(token); // JWT 토큰에서 사용자 ID를 추출합니다.
         }
       }
     }
 
     // 토큰이 유효하지 않거나, 사용자 이름이 없으면 필터 체인 중단
-    if (token == null || !jwtUtil.validateToken(token) || username == null) {
+    if (token == null || !jwtUtil.validateToken(token) || loginId == null) {
       chain.doFilter(request, response);
       return;
     }
 
     // 사용자 이름이 존재하고, 현재 SecurityContext에 인증 정보가 없는 경우에만 인증을 수행합니다.
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+    if (loginId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       // 사용자 이름으로 사용자 세부 정보를 로드합니다.
-      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+      UserDetails userDetails = userDetailsService.loadUserByUsername(loginId);
 
       // JWT 토큰이 유효한 경우, Spring Security 컨텍스트에 인증 정보를 설정합니다.
       if (jwtUtil.validateToken(token)) {
@@ -73,3 +73,4 @@ public class JwtFilter extends OncePerRequestFilter {
     chain.doFilter(request, response);
   }
 }
+
