@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button } from 'react-bootstrap';
 import ReactStars from 'react-stars';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import { useParams } from 'react-router-dom';
 
 const ReviewUpdate = () => {

@@ -2,8 +2,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import StarRating from '../components/StarRating';
 import '../styles/Main.css';
 import category1 from '../assets/category1.jpg';

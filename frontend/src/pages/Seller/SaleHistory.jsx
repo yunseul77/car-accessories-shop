@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Header from '../../components/Header';
-import Footer from "../../components/Footer";
 import '../../styles/SaleHistory.css'; // 새로운 CSS 파일을 임포트합니다.
 
 const SaleHistory = () => {

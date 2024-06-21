@@ -1,30 +1,51 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useState, useEffect } from 'react';
-import test from '../../assets/test.png';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import axios from 'axios';
 import MyPageNav from '../../components/MyPageNav';
-import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function MemberOrder() {
-  const { memberId } = useParams();
   const [orders, setOrders] = useState([]);
+  const [memberId, setMemberId] = useState(null); // useState 훅을 사용하여 memberId와 setMemberId 상태를 정의
 
-    useEffect(() => {
-      axios.get(`/orders/${memberId}`)
-        .then(response => {
-          setOrders(response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
+  useEffect(() => {
+    const fetchMemberIdAndOrders = async () => {
+      try {
+        const accessToken = Cookies.get('accessToken');
+        console.log("Access Token:", accessToken);
+        if (!accessToken) {
+          throw new Error("접근 권한이 없습니다.");
+        }
+
+        // 토큰에서 ID를 추출하는 로직
+        const response = await axios.get('http://localhost:8080/auth/parse-token', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
         });
-    }, [memberId]);
+
+        const id = response.data.id;
+        setMemberId(id);
+
+        // memberId가 설정된 후에 주문을 가져옵니다.
+        const orderResponse = await axios.get(`http://localhost:8080/orders/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+
+        setOrders(orderResponse.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchMemberIdAndOrders();
+  }, []);
 
   return (
     <>
-    <Header/>
       <main style={{ marginBottom: "5%" }}>
         <div className="b-example-divider"></div>
         <div className="row" style={{width:"100%"}}>

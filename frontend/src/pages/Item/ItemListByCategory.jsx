@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import BabyItem from '../../components/BabyItem';
 import ListPagination from '../../components/ListPagination';
-import styles from '../../styles/ItemListByCategory.css';
 
 const ItemListByCategory = () => {
     const [pageNumber, setPageNumber] = useState(0);

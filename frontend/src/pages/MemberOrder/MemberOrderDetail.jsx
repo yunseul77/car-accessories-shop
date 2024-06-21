@@ -1,9 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useState } from 'react';
-import axios from 'axios';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import test from '../../assets/test.png';
 
 function MemberOrderDetail() {
@@ -111,7 +108,6 @@ function MemberOrderDetail() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

@@ -29,7 +29,6 @@ public class MemberJoinController {
 
   private final MemberService memberService;
 
-  @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/signup")
   public ResponseEntity<MemberJoinResponseDTO> signup(@Valid @RequestBody MemberJoinRequestDTO memberJoinRequestDTO) {
     if (!memberJoinRequestDTO.getPassword1().equals(memberJoinRequestDTO.getPassword2())) {

@@ -78,13 +78,13 @@ const Header = () => {
         </div>
         <div className="category-list d-flex justify-content-center align-items-center" style={{ marginTop:"0%", marginBottom:"0%" }}>
           {[
-            { name: "방향제/공기청정", link: "/category/air-fresheners" },
-            { name: "바닥/트렁크 매트", link: "/category/floor-mats" },
-            { name: "시트/쿠션", link: "/category/seat-cushions" },
-            { name: "커버/몰딩", link: "/category/covers-moldings" },
-            { name: "수납/정리용품", link: "/category/storage-organizers" },
-            { name: "편의용품/액세사리", link: "/category/convenience-accessories" },
-            { name: "햇빛가리개/썬팅", link: "/category/sunshades-tinting" },
+            { name: "방향제/공기청정", link: "/item/category/1" },
+            { name: "바닥/트렁크 매트", link: "/item/category/2" },
+            { name: "시트/쿠션", link: "/item/category/3" },
+            { name: "커버/몰딩", link: "/item/category/4" },
+            { name: "수납/정리용품", link: "/item/category/5" },
+            { name: "편의용품/액세사리", link: "/item/category/6" },
+            { name: "햇빛가리개/썬팅", link: "/item/category/7" },
           ].map((category) => (
             <a key={category.link} href={category.link} className="text-decoration-none" style={{ color: 'black', margin: '0 2%' }}>
               {category.name}

@@ -46,7 +46,7 @@ public class ItemController {
     }
 
     // 판매자 본인이 올린 아이템 조회
-    @GetMapping("/{sellerId}/itemList")
+    @GetMapping("/itemList")
     @PreAuthorize("hasAuthority('SELLER')")
     public ResponseEntity<Page<ItemDto>> getItemListBySeller(@CookieValue(value = "accessToken") String accessToken,
                                                              @RequestParam(name = "page", defaultValue = "0") int page,

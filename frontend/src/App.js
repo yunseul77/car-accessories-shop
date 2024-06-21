@@ -20,6 +20,7 @@ import ReviewForm from "./pages/review/ReviewForm";
 import ReviewList from "./pages/review/ReviewList";
 import ReviewUpdate from "./pages/review/ReviewUpdate";
 import JoinComplete from './pages/auth/JoinComplete';
+import ItemManage from "./pages/Item/ItemManage";
 import Cart from './pages/cart/Cart'
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
               <Route path={"category/:categoryId"} element={<ItemListByCategory/>}/>
               <Route path={":itemId"} element={<ItemDetail/>}/>
               <Route path={"addItem"} element={<ItemRegistration/>}/>
+              <Route path={"itemList"} element={<ItemManage />}/>
             </Route>
           </Route>
           </Routes>

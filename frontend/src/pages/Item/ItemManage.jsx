@@ -1,38 +1,51 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Header from '../../components/Header';
+import axios from 'axios';
+import Cookies from 'js-cookie'; // Add this import if you use js-cookie to manage cookies
 import '../../styles/ItemManage.css';
-import Footer from "../../components/Footer"; // 새로운 CSS 파일을 임포트합니다.
 
 const ItemManage = () => {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const fetchProducts = async (page = 0, size = 10) => {
+    try {
+      const accessToken = Cookies.get('accessToken');
+      if (!accessToken) {
+        throw new Error("접근 권한이 없습니다.");
+      }
+
+      const response = await axios.get(`http://localhost:8080/item/itemList`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        },
+        params: {
+          page: page,
+          size: size
+        }
+      });
+
+      const { content, totalPages } = response.data;
+      setProducts(content);
+      setTotalPages(totalPages);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   useEffect(() => {
-    // 여기에 API 호출을 통해 데이터를 가져오는 로직을 추가할 수 있습니다.
-    // 현재는 예시 데이터를 사용합니다.
-    const fetchProducts = async () => {
-      const exampleProducts = [
-        {
-          image: '../assets/test.png',
-          name: '차량용 침입 모기장',
-          id: '123121',
-          price: '12345원',
-          discount: '253%',
-          page: '판매중 페이지',
-          date: '2024.05.25',
-        },
-        // 여기에 더 많은 예시 데이터를 추가하세요
-      ];
-      setProducts(exampleProducts);
-    };
-
     fetchProducts();
   }, []);
 
+  const handlePageChange = (page) => {
+    fetchProducts(page);
+  };
+
   return (
       <>
-        <Header/>
         <div className="main-container">
           <div className="container content-container">
             <h3 className="fs-4" style={{fontWeight: 'bold'}}>상품 관리</h3>
@@ -56,8 +69,7 @@ const ItemManage = () => {
                     <tr key={index}>
                       <td>
                         <div className="product-info">
-                          <img src={product.image} alt="상품 이미지"
-                               className="product-image"/>
+                          <img src={product.titleImageUrl} alt="상품 이미지" className="product-image"/>
                           <span>{product.name}</span>
                         </div>
                       </td>
@@ -66,13 +78,11 @@ const ItemManage = () => {
                         {product.price}<br/>
                         {product.discount}
                       </td>
-                      <td>{product.page}</td>
+                      <td>{product.categoryName}</td>
                       <td>{product.date}</td>
                       <td>
-                        <button className="btn btn-secondary btn-sm mx-1">수정
-                        </button>
-                        <button className="btn btn-danger btn-sm mx-1">삭제
-                        </button>
+                        <button className="btn btn-secondary btn-sm mx-1">수정</button>
+                        <button className="btn btn-danger btn-sm mx-1">삭제</button>
                       </td>
                     </tr>
                 ))}
@@ -81,22 +91,21 @@ const ItemManage = () => {
             </div>
             <nav aria-label="Page navigation example">
               <ul className="pagination justify-content-center">
-                <li className="page-item disabled">
-                  <a className="page-link" href="#" tabIndex="-1">Previous</a>
+                <li className={`page-item ${currentPage === 0 ? 'disabled' : ''}`}>
+                  <a className="page-link" href="#" tabIndex="-1" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
                 </li>
-                {[...Array(10).keys()].map(num => (
-                    <li className="page-item" key={num}>
-                      <a className="page-link" href="#">{num + 1}</a>
+                {[...Array(totalPages).keys()].map(num => (
+                    <li className={`page-item ${currentPage === num ? 'active' : ''}`} key={num}>
+                      <a className="page-link" href="#" onClick={() => handlePageChange(num)}>{num + 1}</a>
                     </li>
                 ))}
-                <li className="page-item">
-                  <a className="page-link" href="#">Next</a>
+                <li className={`page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}`}>
+                  <a className="page-link" href="#" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
-        <Footer/>
       </>
   );
 };

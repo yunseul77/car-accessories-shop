@@ -20,7 +20,7 @@ public class CustomMimeTypeFilter extends OncePerRequestFilter {
             response.setHeader("Content-Type", "text/css");
         } else if (uri.endsWith(".js")) {
             response.setHeader("Content-Type", "application/javascript");
-        } else if (uri.endsWith(".media")) {
+        } else if (uri.endsWith(".jpg")) {
             response.setHeader("Content-Type", "image/jpeg");
         } else if (uri.endsWith(".png")) {
             response.setHeader("Content-Type", "image/png");

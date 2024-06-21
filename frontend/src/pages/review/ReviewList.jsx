@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import test from '../../assets/test.png';
 import StarRating from '../../components/StarRating';
 
