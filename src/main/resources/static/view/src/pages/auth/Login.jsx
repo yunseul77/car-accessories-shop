@@ -4,7 +4,7 @@ import { TokenContext } from '../../tokenContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Login = () => {
-  const [loginId, setLoginId] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -15,12 +15,12 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8080/auth/login', {
+      const response = await fetch('/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ loginId, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       if (!response.ok) {
@@ -37,11 +37,11 @@ const Login = () => {
   };
 
   const buttonStyle = {
-    backgroundColor: '#f0f0f0', // 기본 배경색을 연한 회색으로 설정
+    backgroundColor: '#fff',
     color: '#000',
     border: '1px solid #ccc', // 테두리 색을 회색으로 설정
     transition: 'background-color 0.3s, color 0.3s',
-    width: '48%' // 중앙에 배치되도록 설정
+    width: '48%'
   };
 
   const handleMouseEnter = (e) => {
@@ -50,7 +50,7 @@ const Login = () => {
   };
 
   const handleMouseLeave = (e) => {
-    e.target.style.backgroundColor = '#f0f0f0';
+    e.target.style.backgroundColor = '#fff';
     e.target.style.color = '#000';
   };
 
@@ -65,8 +65,8 @@ const Login = () => {
         {error && <div className="alert alert-danger">{error}</div>} {/* 에러 메시지 표시 */}
         <form onSubmit={handleLogin}> {/* 폼 제출 이벤트 처리 */}
           <div className="form-group mb-3">
-            <label htmlFor="loginId">아이디</label>
-            <input type="text" className="form-control" id="loginId" placeholder="아이디" value={loginId} onChange={(e) => setLoginId(e.target.value)} />
+            <label htmlFor="username">아이디</label>
+            <input type="text" className="form-control" id="username" placeholder="아이디" value={username} onChange={(e) => setUsername(e.target.value)} />
           </div>
           <div className="form-group mb-4">
             <label htmlFor="password">비밀번호</label>

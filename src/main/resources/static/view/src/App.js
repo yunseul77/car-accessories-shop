@@ -1,26 +1,36 @@
 import { Route, Routes } from "react-router-dom";
-import Main from "./pages/Main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import OrderManage from "./pages/Seller/OrderManage";
-import SaleHistory from "./pages/Seller/SaleHistory";
-import SellerLayout from "./components/SellerLayout";
+
+import Footer from "./components/Footer";
 import Layout from "./components/Layout";
-import MemberOrder from "./pages/MemberOrder/MemberOrder";
-import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
-import OrderManageDetail from "./pages/Seller/OrderManageDetail";
+import Main from "./pages/Main";
+import { TokenProvider } from "./tokenContext";
+
+import Login from "./pages/auth/Login";
+import MemberJoin from "./pages/auth/MemberJoin";
+import JoinTypeSelection from './pages/auth/JoinTypeSelection';
+import JoinComplete from './pages/auth/JoinComplete';
+
 import ItemListByCategory from "./pages/Item/ItemListByCategory";
 import ItemDetail from "./pages/Item/ItemDetail";
 import ItemRegistration from "./pages/Item/ItemRegistration";
-import { TokenProvider } from "./tokenContext";
-import Login from "./pages/auth/Login";
-import Footer from "./components/Footer";
-import MemberJoin from "./pages/auth/MemberJoin";
-import JoinTypeSelection from './pages/auth/JoinTypeSelection';
+
+import MemberOrder from "./pages/MemberOrder/MemberOrder";
+import MemberOrderDetail from "./pages/MemberOrder/MemberOrderDetail";
+
 import ReviewForm from "./pages/review/ReviewForm";
 import ReviewList from "./pages/review/ReviewList";
 import ReviewUpdate from "./pages/review/ReviewUpdate";
-import JoinComplete from './pages/auth/JoinComplete';
+
+import OrderManage from "./pages/Seller/OrderManage";
+import SaleHistory from "./pages/Seller/SaleHistory";
+import SellerLayout from "./components/SellerLayout";
+import OrderManageDetail from "./pages/Seller/OrderManageDetail";
+
+
+
+
 function App() {
   return (
     <TokenProvider>

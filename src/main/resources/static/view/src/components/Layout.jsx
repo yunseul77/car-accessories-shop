@@ -5,16 +5,12 @@ import {Outlet} from "react-router-dom";
 
 const Layout = () => {
   return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
-      }}>
+      <div>
         <Header/>
-        <main>
+          <main>
           <Outlet/>
-        </main>
-        <Footer style={{marginTop: 'auto'}}/>
+          </main>
+        <Footer style={{ marginTop: 'auto' }} />
       </div>
   );
 };
