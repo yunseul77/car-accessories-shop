@@ -1,1 +1,3 @@
 rootProject.name = 'carshop'
+include 'backend'
+include 'frontend'
