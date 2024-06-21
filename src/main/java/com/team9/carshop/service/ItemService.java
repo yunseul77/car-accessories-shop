@@ -9,7 +9,6 @@ import com.team9.carshop.exception.*;
 import com.team9.carshop.repository.CategoryRepository;
 import com.team9.carshop.repository.ItemRepository;
 import com.team9.carshop.repository.MemberRepository;
-import java.util.Optional;
 
 import com.team9.carshop.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +42,20 @@ public class ItemService {
                     .stream()
                     .map(item -> {
                         ItemDto itemDto = Item.toDto(item); // ItemDto로 변환
-                        List<Review> reviews = reviewRepository.findByItemId(item.getId()); // 해당 Item의 리뷰 가져오기
-                        return new ItemListResponseDTO(itemDto, reviews); // ItemListResponseDTO로 변환
+
+                        // 해당 Item의 리뷰 가져오기
+                        List<Review> reviews = reviewRepository.findByItemId(item.getId());
+
+                        // 리뷰가 없는 경우 기본값
+                        double averageRating = 0.0;
+                        long reviewCount = 0;
+
+                        if (!reviews.isEmpty()) {
+                            averageRating = calculateAverageRating(reviews);
+                            reviewCount = reviews.size();
+                        }
+
+                        return new ItemListResponseDTO(itemDto, averageRating, reviewCount); // ItemListResponseDTO로 변환
                     })
                     .collect(Collectors.toList());
 
@@ -129,5 +140,14 @@ public class ItemService {
                 .orElseThrow(() -> new ItemNotFoundException("삭제할 아이템을 찾을 수 없습니다. ID: " + itemId));
 
         itemRepository.delete(item);
+    }
+
+    // 평균 평점 계산 메서드
+    public double calculateAverageRating(List<Review> reviews) {
+        double sum = 0.0;
+        for (Review review : reviews) {
+            sum += review.getRatingValue().doubleValue();
+        }
+        return Math.round((sum / reviews.size()) * 10.0) / 10.0; // 소수점 첫째자리까지 반올림
     }
 }
