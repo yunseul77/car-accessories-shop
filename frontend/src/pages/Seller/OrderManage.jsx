@@ -50,7 +50,6 @@ const OrderManage = () => {
             order.orderId === orderId ? { ...order, deliveryStatus: newStatus } : order
         )
     );
-    // 여기서 서버에 상태 업데이트를 요청하는 코드도 추가할 수 있습니다.
   };
 
   return (<div className="container">

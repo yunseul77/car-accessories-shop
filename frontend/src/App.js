@@ -14,7 +14,6 @@ import ItemDetail from "./pages/Item/ItemDetail";
 import ItemRegistration from "./pages/Item/ItemRegistration";
 import { TokenProvider } from "./tokenContext";
 import Login from "./pages/auth/Login";
-import Footer from "./components/Footer";
 import MemberJoin from "./pages/auth/MemberJoin";
 import JoinTypeSelection from './pages/auth/JoinTypeSelection';
 import ReviewForm from "./pages/review/ReviewForm";
@@ -30,7 +29,7 @@ function App() {
 
                 <Route path="auth">
                   <Route path="login" element={<Login />} />
-                  <Route path="/auth/select" element={<JoinTypeSelection />} />
+                  <Route path="select" element={<JoinTypeSelection />} />
                   <Route path="signup" element={<MemberJoin />} />
                 </Route>
 

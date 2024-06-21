@@ -6,7 +6,7 @@ const JoinTypeSelection = () => {
 const navigate = useNavigate();
 
 const handleSelect = (role) => {
-navigate('/auth/signup', { state: { role } });
+navigate('auth/signup', { state: { role } });
 };
 
 const buttonStyle = {

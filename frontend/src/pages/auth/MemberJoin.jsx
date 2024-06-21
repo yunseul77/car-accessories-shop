@@ -8,7 +8,7 @@ const MemberJoin = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    username: '',
+    loginId: '',
     password1: '',
     password2: '',
     phone: '',
@@ -31,7 +31,7 @@ const MemberJoin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/auth/signup', formData);
+      await axios.post('http://localhost:8080/auth/signup', formData);
       // 가입 완료 후 JoinComplete 컴포넌트로 이동
       navigate('/auth/join-complete', { state: { role: formData.role } });
     } catch (err) {
@@ -69,8 +69,8 @@ const MemberJoin = () => {
             <input type="text" className="form-control" id="name" placeholder="이름" value={formData.name} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
-            <label htmlFor="username">아이디</label>
-            <input type="text" className="form-control" id="username" placeholder="아이디" value={formData.username} onChange={handleChange} />
+            <label htmlFor="loginId">아이디</label>
+            <input type="text" className="form-control" id="loginId" placeholder="아이디" value={formData.loginId} onChange={handleChange} />
           </div>
           <div className="form-group mb-3">
             <label htmlFor="password1">비밀번호</label>
