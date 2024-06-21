@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ public class MemberJoinController {
 
   private final MemberService memberService;
 
+  @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/signup")
   public ResponseEntity<MemberJoinResponseDTO> signup(@Valid @RequestBody MemberJoinRequestDTO memberJoinRequestDTO) {
     if (!memberJoinRequestDTO.getPassword1().equals(memberJoinRequestDTO.getPassword2())) {
@@ -37,3 +39,4 @@ public class MemberJoinController {
     return ResponseEntity.ok(responseDTO);
   }
 }
+

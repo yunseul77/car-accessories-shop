@@ -32,9 +32,9 @@ public class JwtUtil {
   }
 
   // Access Token을 생성하는 메서드
-  public String generateAccessToken(String username, Long memberId) {
+  public String generateAccessToken(String loginId, Long memberId) {
     return Jwts.builder()
-        .setSubject(username) // 토큰의 주제(여기서는 사용자 이름)를 설정
+        .setSubject(loginId) // 토큰의 주제(여기서는 사용자 이름)를 설정
         .claim("memberId", memberId) // 토큰에 memberId 클레임 추가
         .setIssuedAt(new Date()) // 토큰 발행 시간을 현재 시간으로 설정
         .setExpiration(new Date(System.currentTimeMillis() + accessExpiration)) // 토큰 만료 시간을 설정
@@ -43,9 +43,9 @@ public class JwtUtil {
   }
 
   // Refresh Token을 생성하는 메서드
-  public String generateRefreshToken(String username, Long memberId) {
+  public String generateRefreshToken(String loginId, Long memberId) {
     return Jwts.builder()
-        .setSubject(username) // 토큰의 주제(여기서는 사용자 이름)를 설정
+        .setSubject(loginId) // 토큰의 주제(여기서는 사용자 이름)를 설정
         .claim("memberId", memberId) // 토큰에 memberId 클레임 추가
         .setIssuedAt(new Date()) // 토큰 발행 시간을 현재 시간으로 설정
         .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration)) // 토큰 만료 시간을 설정

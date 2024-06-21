@@ -1,16 +1,16 @@
 package com.team9.carshop.dto;
 
 public class AuthRequestDTO {
-  private String username;
+  private String loginId;
   private String password;
 
   // Getter와 Setter 메서드
-  public String getUsername() {
-    return username;
+  public String getLoginId() {
+    return loginId;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setLoginId(String loginId) {
+    this.loginId = loginId;
   }
 
   public String getPassword() {
