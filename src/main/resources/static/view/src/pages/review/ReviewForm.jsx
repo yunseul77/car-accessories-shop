@@ -4,7 +4,6 @@ import { Form, Button } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import axios from 'axios';
 
 const ReviewForm = () => {
   const [itemName, setItemName] = useState('');
@@ -32,10 +31,22 @@ const ReviewForm = () => {
     e.preventDefault();
     const review = { itemName, summary, description, ratingValue, imageUrl };
 
-    try {
-      const response = await axios.post('/api/review', review);
-      console.log(response.data);
-      alert('리뷰가 성공적으로 등록되었습니다!');
+  try {
+      const response = await fetch('http://localhost:8080/review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(review)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        alert('리뷰가 성공적으로 등록되었습니다!');
+      } else {
+        throw new Error('리뷰 등록 중 오류 발생!');
+      }
     } catch (error) {
       console.error('리뷰 등록 중 오류 발생!', error);
       alert('리뷰 등록 중 오류가 발생했습니다.');
@@ -44,7 +55,6 @@ const ReviewForm = () => {
 
   return (
     <>
-      <Header />
       <main style={{ marginBottom: "5%" }}>
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px", width: "100%" }}>
           <div className="p-5" style={{ width: "90%", maxWidth: "900px", backgroundColor: "white", borderRadius: "10px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
@@ -110,7 +120,6 @@ const ReviewForm = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 };
