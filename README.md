@@ -4,4 +4,9 @@
 
 ### 기술 스택
 - Backend
-    - 
+    - Java
+    - Spring
+- Frontend
+    - React
+    - node.js 
+      
